@@ -120,6 +120,26 @@ make sure they work also.
 If rebasing broke anything, fix it, then repeat the above process until
 you get here again and nothing is broken and all the tests pass.
 
+This is the general process:
+
+$ git pull --rebase upstream master #We're in master right now
+
+$ git checkout -b myBranch #we're in myBranch right now
+
+$ git add myFile.txt
+
+$ git commit -m "Committed something"
+
+$ git checkout master
+
+ $ git pull --rebase upstream master #We're in master right now
+
+ $ git checkout yourBranch
+
+ $ git rebase master #we're in the branch
+
+$ git push origin myBranch
+
 ### Make a pull request
 
 Make a clear pull request from your fork and branch to the upstream master
