@@ -1,12 +1,3 @@
-var React = require('react');
-
-var App = require('./components/hello.react');
-
-React.render(
-  <App />,
-  document.getElementById('app')
-);
-
 import { createStore } from 'redux';  //ES6-style createStore = require('redux').createStore
 
 import messages from './reducers/reducers.js';
