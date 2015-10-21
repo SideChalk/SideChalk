@@ -2,6 +2,7 @@
 # Codename Filibustering Panda
 [![Build Status](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA.svg?branch=master)](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
 [![Dependencies Status](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA.svg)](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
+[![Dev Dependencies Status](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA/dev-status.svg)](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
 > Pithy project description
 
 ## Team
