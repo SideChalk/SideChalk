@@ -1,5 +1,5 @@
 import Firebase from 'firebase';
-import GeoFire from 'geoFire';
+import GeoFire from 'geofire';
 
 import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
 import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY } from 'constants/ActionTypes.js';
