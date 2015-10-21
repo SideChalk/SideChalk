@@ -9,7 +9,8 @@ class ModalExample extends React.Component {
 
         this.render = this.render.bind(this);
         this.state = {
-          showModal: true
+          showModal: false,
+          buttonLabel: "Show The Modal"
         };
     }
 
@@ -25,7 +26,7 @@ class ModalExample extends React.Component {
 
     return (
       <div>
-      <Button bsStyle="primary" bsSize="large">Show the modal!</Button>
+      <Button bsStyle="primary" bsSize="medium" onClick={this.open}>{this.state.buttonLabel}</Button>
       <Modal show={this.state.showModal} onHide={this.close}>
              <Modal.Header closeButton>
                <Modal.Title>Modal heading</Modal.Title>
