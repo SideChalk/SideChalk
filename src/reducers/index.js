@@ -4,5 +4,5 @@ import location from './location';
 
 export default combineReducers({
   memories,
-  location,
+  location
 });
