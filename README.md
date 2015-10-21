@@ -1,5 +1,6 @@
-# Codename Filibustering Panda
 
+# Codename Filibustering Panda
+[![Build Status](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA.svg?branch=master)](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
 > Pithy project description
 
 ## Team
