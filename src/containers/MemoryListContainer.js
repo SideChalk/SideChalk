@@ -14,6 +14,7 @@ export class MemoryListContainer extends React.Component {
 
   componentDidMount() {
     this.props.actions.syncData();
+    this.props.actions.updateLocationListener();
   }
 
   handleClick() {
