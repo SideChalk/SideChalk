@@ -2,12 +2,14 @@ import React from 'react';
 import { Button, Modal} from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login } from 'actions/actions.js';
+import { login, openLoginModal } from 'actions/actions.js';
+
 
  class ModalExample extends React.Component {
     static propTypes = {
-      loggingIn: React.propTypes.bool,
-      login: React.propTypes.func
+      loggingIn: React.PropTypes.bool,
+      login: React.PropTypes.func,
+      openLoginModal: React.PropTypes.func
     }
     // constructor() {
     //     super();
@@ -21,25 +23,23 @@ import { login } from 'actions/actions.js';
     //       buttonLabel: "Show The Modal"
     //     };
     // }
-    componentDidMount(){
-      this.state = {
-        showModal: false,
-        buttonLabel: "Show The Modal"
-      };
-    }
-    close() {
-      this.setState({ showModal: false });
-    }
+
+    // close() {
+    //   this.setState({ showModal: false });
+    // }
 
     open() {
-      this.setState({ showModal: true });
+      this.props.openLoginModal();
+    }
+    close(){
+      this.props.closeLoginModal();
     }
   render() {
 
     return (
       <div>
       <Button bsStyle="primary" bsSize="medium" onClick={() => this.open()}>Open Modal</Button>
-      <Modal show={this.state.showModal} onHide={this.close}>
+      <Modal show={this.props.loggingIn} onHide={() => true }>
              <Modal.Header closeButton>
                <Modal.Title>Please Login</Modal.Title>
              </Modal.Header>
@@ -74,10 +74,11 @@ import { login } from 'actions/actions.js';
 }
 
 const mapStateToProps = (state) => ({
-  loggingIn : state.loggingIn
+  loggingIn : state.auth.get("loggingIn")
 });
 const mapDispatchToProps = (dispatch) => ({
-  login : bindActionCreators(login, dispatch)
+  login : bindActionCreators(login, dispatch),
+  openLoginModal: bindActionCreators(openLoginModal, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalExample);

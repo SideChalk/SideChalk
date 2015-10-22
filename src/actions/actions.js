@@ -85,6 +85,11 @@ export function openLoginModal() {
     type: LOGIN
   };
 }
+export function closeLoginModal() {
+  return {
+    type: LOGIN
+  };
+}
 
 export function login(provider) {
   return (dispatch) => {

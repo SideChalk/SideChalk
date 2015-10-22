@@ -8,6 +8,7 @@ import { DevTools, LogMonitor, DebugPanel } from 'redux-devtools/lib/react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { syncData, checkAuth } from 'actions/actions.js';
+import ModalExample from 'components/modalExample.js';
 
 export class Root extends React.Component {
   static propTypes = {
@@ -48,6 +49,7 @@ export class Root extends React.Component {
         <Provider store={this.props.store}>
           <Router history={this.props.history}>
             {routes}
+            <ModalExample />
           </Router>
         </Provider>
       </div>
