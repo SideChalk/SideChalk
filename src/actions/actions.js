@@ -70,12 +70,19 @@ function _removeMemory(key) {
 }
 
 export function checkAuth() {
+  // baseRef.unauth();
   return (dispatch) => {
     const authData = baseRef.getAuth();
     if (authData) {
       const displayName = authData[authData.provider].displayName;
       dispatch(_loginSuccess(authData.uid, displayName));
     }
+  };
+}
+
+export function openLoginModal() {
+  return {
+    type: LOGIN
   };
 }
 
