@@ -13,7 +13,9 @@ function receiveMemory(memories, memory) {
 }
 
 function removeMemory(memories, key) {
-  memories.filter(memory => memory.get('key') !== key );
+  return memories.filter(memory => {
+    memory.key !== key;
+  });
 }
 
 function _sortByDistance(collection) {
