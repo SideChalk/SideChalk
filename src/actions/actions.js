@@ -2,7 +2,7 @@ import Firebase from 'firebase';
 import GeoFire from 'geofire';
 
 import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
-import { RECEIVE_MEMORY, REMOVE_MEMORY, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN } from 'constants/ActionTypes.js';
+import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN } from 'constants/ActionTypes.js';
 
 const baseRef = new Firebase(FIREBASE_ROOT);
 const memoriesRef = baseRef.child(MEMORY_PATH);
@@ -26,7 +26,8 @@ export function sendMemory(data, loc) {
   const newMem = memoriesRef.push({...sampleContent, data});
   geoFire.set(newMem.key(), loc);
   return {
-    payload: newMem
+    type: SEND_MEMORY,
+    payload: {...sampleContent, data}
   };
 }
 
@@ -65,6 +66,16 @@ function _removeMemory(key) {
   return {
     type: REMOVE_MEMORY,
     payload: key
+  };
+}
+
+export function checkAuth() {
+  return (dispatch) => {
+    const authData = baseRef.getAuth();
+    if (authData) {
+      const displayName = authData[authData.provider].displayName;
+      dispatch(_loginSuccess(authData.uid, displayName));
+    }
   };
 }
 
@@ -116,8 +127,9 @@ function _loginSuccess(uid, displayName) {
 }
 
 function _loginFailure(error) {
+  console.log(error);
   return {
     type: LOGIN_FAIL,
-    payload: { error }
+    payload: {...error }
   };
 }

@@ -7,6 +7,8 @@ export default createConstants(
 
   'SET_USER_LOCATION',
 
+  'CHECK_AUTH',
+
   'LOGIN',
   'LOGIN_SUCCESS',
   'LOGIN_FAIL',
