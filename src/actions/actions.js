@@ -1,6 +1,6 @@
 import Firebase from 'firebase';
 import GeoFire from 'geofire';
-
+// import thunk from 'redux-thunk';
 import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
 import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY } from 'constants/ActionTypes.js';
 
@@ -9,6 +9,15 @@ const memoriesRef = baseRef.child(MEMORY_PATH);
 const geoRef = baseRef.child(LOCATION_PATH);
 
 const geoFire = new GeoFire(geoRef);
+
+const defaultRadius = 5000;
+const defaultCenter = [25, 25];
+
+const geoQuery = geoFire.query({
+  center: defaultCenter,
+  radius: defaultRadius
+});
+
 const sampleContent = {
   title:'hello',
   data: 'world',
@@ -46,15 +55,42 @@ export function sendMemory(data, loc) {
 //   };
 // }
 
+// function setLocation () {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((position) => {
+//       console.log('Coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
+//       updateLocationListener();
+//     });
+//   }
+// }
+
+export function updateLocationListener () {
+  return (dispatch) => {
+    navigator.geolocation.watchPosition((position) => {
+      console.log('Updated coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
+      geoQuery.updateCriteria({
+        center: [position.coords.latitude, position.coords.longitude],
+        radius: defaultRadius
+      });
+    });
+  };
+}
+
 export function syncData() {
   // TODO: set up user location handler
+  // if (navigator.geolocation) {
+  //   // navigator.geolocation.getCurrentPosition((position) => {
+  //   //   console.log('Coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
+  //   // });
+  //   navigator.geolocation.watchPosition((position) => {
+  //     console.log('Updated coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
+  //     geoQuery.updateCriteria({
+  //       center: [position.coords.latitude, position.coords.longitude]
+  //     });
+  //   });
+  // }
   console.log('syncing');
   return (dispatch) => {
-    const geoQuery = geoFire.query({
-      center: [25, 25],
-      radius: 5000
-    });
-
     geoQuery.on('key_entered', (key, location, distance) => {
       memoriesRef
       .child(key)
