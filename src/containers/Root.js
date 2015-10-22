@@ -7,7 +7,7 @@ import { DevTools, LogMonitor, DebugPanel } from 'redux-devtools/lib/react';
 
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { syncData } from 'actions/actions.js';
+import { syncData, checkAuth } from 'actions/actions.js';
 
 export class Root extends React.Component {
   static propTypes = {
@@ -15,11 +15,13 @@ export class Root extends React.Component {
     history       : React.PropTypes.object.isRequired,
     debug         : React.PropTypes.bool,
     debugExternal : React.PropTypes.bool,
-    syncData : React.PropTypes.func
+    syncData      : React.PropTypes.func,
+    checkAuth     : React.PropTypes.func
   }
 
   componentDidMount() {
     this.props.syncData();
+    this.props.checkAuth();
   }
 
   renderDevTools () {
@@ -54,7 +56,8 @@ export class Root extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  syncData : bindActionCreators(syncData, dispatch)
+  syncData : bindActionCreators(syncData, dispatch),
+  checkAuth : bindActionCreators(checkAuth, dispatch)
 });
 
 export default connect(null, mapDispatchToProps)(Root);
