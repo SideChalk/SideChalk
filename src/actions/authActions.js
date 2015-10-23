@@ -23,7 +23,14 @@ export function login(provider) {
 
     baseRef.authWithOAuthPopup(provider, (error, authData) => {
       if (error) {
-        dispatch(_loginFailure(error));
+        if (error.code === 'TRANSPORT_UNAVAILABLE') {
+          // Fallback to redirect: We redirect then come back to page where we started with session
+          ref.authWithOAuthRedirect(provider, function(redirectError) {
+            dispatch(_loginFailure(redirectError));
+          });
+        } else {
+          dispatch(_loginFailure(error));
+        }
       } else {
         _loginOrSignupUser(authData, dispatch);
       }
