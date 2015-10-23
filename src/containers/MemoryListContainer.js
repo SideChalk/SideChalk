@@ -26,6 +26,11 @@ export class MemoryListContainer extends React.Component {
     this.props.login('github');
   }
 
+  logout() {
+    this.props.logout();
+  }
+
+
   render() {
     const {memories} = this.props;
 
