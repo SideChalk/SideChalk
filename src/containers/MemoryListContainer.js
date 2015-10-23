@@ -13,8 +13,8 @@ export class MemoryListContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.syncData();
-    this.props.actions.updateLocationListener();
+    this.props.actions.setLocation();
+    // this.props.actions.syncData();
   }
 
   handleClick() {
