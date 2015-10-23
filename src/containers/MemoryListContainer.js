@@ -9,8 +9,13 @@ export class MemoryListContainer extends React.Component {
 
   static propTypes = {
     memories: React.PropTypes.object,
-    sendMemory: React.PropTypes.func
+    sendMemory: React.PropTypes.func,
+    // actions: React.PropTypes.object
   }
+
+  // componentDidMount() {
+  //   this.props.actions.setLocation();
+  // }
 
   handleClick() {
     const node = this.refs.input;
