@@ -15,7 +15,7 @@ export class Root extends React.Component {
     history       : React.PropTypes.object.isRequired,
     debug         : React.PropTypes.bool,
     debugExternal : React.PropTypes.bool,
-    setLocation      : React.PropTypes.func,
+    setLocation   : React.PropTypes.func,
     checkAuth     : React.PropTypes.func
   }
 
@@ -56,7 +56,7 @@ export class Root extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setLocationy : bindActionCreators(setLocationy, dispatch),
+  setLocation : bindActionCreators(setLocation, dispatch),
   checkAuth : bindActionCreators(checkAuth, dispatch)
 });
 

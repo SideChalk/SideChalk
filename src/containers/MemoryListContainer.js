@@ -3,31 +3,35 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 
 import MemoryList from 'components/MemoryList.js';
-import { sendMemory } from 'actions/actions.js';
+import { sendMemory, login } from 'actions/actions.js';
 
 export class MemoryListContainer extends React.Component {
 
   static propTypes = {
     memories: React.PropTypes.object,
     sendMemory: React.PropTypes.func,
-    // actions: React.PropTypes.object
+    login: React.PropTypes.func
   }
-
-  // componentDidMount() {
-  //   this.props.actions.setLocation();
-  // }
 
   handleClick() {
     const node = this.refs.input;
     const text = node.value.trim();
-    this.props.sendMemory(text, [45, 65]);
+    this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
     node.value = '';
+  }
+
+  login() {
+    this.props.login('github');
   }
 
   render() {
     const {memories} = this.props;
     return (
       <div>
+        <button
+          onClick={() => this.login()}>
+          Login
+        </button>
         <input type='text' ref='input' />
         <button
           onClick={() => this.handleClick()}>
@@ -43,7 +47,8 @@ const mapStateToProps = (state) => ({
   memories : state.memories
 });
 const mapDispatchToProps = (dispatch) => ({
-  sendMemory : bindActionCreators(sendMemory, dispatch)
+  sendMemory : bindActionCreators(sendMemory, dispatch),
+  login : bindActionCreators(login, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemoryListContainer);
