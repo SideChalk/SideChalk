@@ -4,14 +4,15 @@ import { connect }            from 'react-redux';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
-import { login } from 'actions/authActions.js';
+import { login, logout } from 'actions/authActions.js';
 
 export class MemoryListContainer extends React.Component {
 
   static propTypes = {
     memories: React.PropTypes.object,
     sendMemory: React.PropTypes.func,
-    login: React.PropTypes.func
+    login: React.PropTypes.func,
+    logout: React.PropTypes.func
   }
 
   handleClick() {
@@ -27,11 +28,16 @@ export class MemoryListContainer extends React.Component {
 
   render() {
     const {memories} = this.props;
+
     return (
       <div>
         <button
           onClick={() => this.login()}>
           Login
+        </button>
+        <button
+          onClick={() => this.props.logout()}>
+          Logout
         </button>
         <input type='text' ref='input' />
         <button
@@ -49,7 +55,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   sendMemory : bindActionCreators(sendMemory, dispatch),
-  login : bindActionCreators(login, dispatch)
+  login : bindActionCreators(login, dispatch),
+  logout : bindActionCreators(logout, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemoryListContainer);
