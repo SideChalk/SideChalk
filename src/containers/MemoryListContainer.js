@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 
 import MemoryList from 'components/MemoryList.js';
-import { sendMemory, login } from 'actions/actions.js';
+import { sendMemory } from 'actions/memoryActions.js';
+import { login } from 'actions/authActions.js';
 
 export class MemoryListContainer extends React.Component {
 
