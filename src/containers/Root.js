@@ -5,12 +5,23 @@ import routes       from '../routes';
 import { createDevToolsWindow } from '../utils';
 import { DevTools, LogMonitor, DebugPanel } from 'redux-devtools/lib/react';
 
-export default class Root extends React.Component {
+import { bindActionCreators } from 'redux';
+import { connect }            from 'react-redux';
+import { setLocation, checkAuth } from 'actions/actions.js';
+
+export class Root extends React.Component {
   static propTypes = {
     store         : React.PropTypes.object.isRequired,
     history       : React.PropTypes.object.isRequired,
     debug         : React.PropTypes.bool,
-    debugExternal : React.PropTypes.bool
+    debugExternal : React.PropTypes.bool,
+    setLocation      : React.PropTypes.func,
+    checkAuth     : React.PropTypes.func
+  }
+
+  componentDidMount() {
+    this.props.setLocation();
+    this.props.checkAuth();
   }
 
   renderDevTools () {
@@ -43,3 +54,11 @@ export default class Root extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setLocationy : bindActionCreators(setLocationy, dispatch),
+  checkAuth : bindActionCreators(checkAuth, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(Root);
+
