@@ -6,6 +6,7 @@ export default createConstants(
   'SEND_MEMORY',
 
   'SET_USER_LOCATION',
+  'UPDATE_USER_LOCATION',
 
   'CHECK_AUTH',
 
