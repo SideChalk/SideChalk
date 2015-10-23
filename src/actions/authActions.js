@@ -38,6 +38,13 @@ export function login(provider) {
   };
 }
 
+export function logout() {
+  baseRef.unauth();
+  return {
+    type: LOGOUT_SUCCESS
+  };
+}
+
 function _loginOrSignupUser(authData, dispatch) {
   baseRef.child('users').child(authData.uid).once('value', (snapshot) => {
     const displayName = authData[authData.provider].displayName;
