@@ -1,9 +1,8 @@
 import Firebase from 'firebase';
 import GeoFire from 'geofire';
-// import thunk from 'redux-thunk';
-import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
 
-import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, SET_USER_LOCATION, UPDATE_USER_LOCATION, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN } from 'constants/ActionTypes.js';
+import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
+import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, SET_USER_LOCATION, UPDATE_USER_LOCATION, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN, TOGGLE_LOGIN_MODAL } from 'constants/ActionTypes.js';
 
 const baseRef = new Firebase(FIREBASE_ROOT);
 const memoriesRef = baseRef.child(MEMORY_PATH);
@@ -18,30 +17,7 @@ const defaultRadius = 5000;
 // const defaultCenter = [37.783530, -122.402482];
 const defaultCenter = [25, 25];
 
-const geoQuery = geoFire.query({
-  center: defaultCenter,
-  radius: defaultRadius
-});
-
-const sampleContent = {
-  title:'hello',
-  data: 'world',
-  type: 'text'
-};
-
-function _receiveMemory(memory) {
-  return {
-    type: RECEIVE_MEMORY,
-    payload: memory
-  };
-}
-
-function _removeMemory(key) {
-  return {
-    type: REMOVE_MEMORY,
-    payload: key
-  };
-}
+let geoQuery;
 
 function _setLocation(location) {
   return {
@@ -57,21 +33,6 @@ function _updateLocation(location) {
   };
 }
 
-export function sendMemory(data, loc) {
-  // TODO: Validate input before sending, then take out sampleContent
-  const newMem = memoriesRef.push({...sampleContent, data});
-  geoFire.set(newMem.key(), loc);
-  return {
-    type: SEND_MEMORY,
-    payload: {...sampleContent, data}
-  };
-}
-
-// export function sendMemory(data, loc) {
-//   const newMem = memoriesRef.push( data );
-//   geoFire.set(newMem.key(), loc);
-// }
-
 export function setLocation () {
   return (dispatch) => {
     if (navigator.geolocation) {
@@ -80,7 +41,7 @@ export function setLocation () {
         const longitude = position.coords.longitude;
         // set geoQuery center
         dispatch(_setLocation([latitude, longitude]));
-        syncData(dispatch);
+        syncData(dispatch, [latitude, longitude]);
       });
 
       navigator.geolocation.watchPosition((position) => {
@@ -96,12 +57,18 @@ export function setLocation () {
     } else {
       // Set location with default
       dispatch(_setLocation(defaultCenter));
-      syncData(dispatch);
+      syncData(dispatch, defaultCenter);
     }
   };
 }
 
-function syncData(dispatch) {
+function syncData(dispatch, center) {
+  const query = {
+    center,
+    radius: defaultRadius
+  };
+  geoQuery = geoFire.query(query);
+
   geoQuery.on('key_entered', (key, location, distance) => {
     memoriesRef
     .child(key)
@@ -116,8 +83,51 @@ function syncData(dispatch) {
   });
 }
 
+function _receiveMemory(memory) {
+  return {
+    type: RECEIVE_MEMORY,
+    payload: memory
+  };
+}
+
+function _removeMemory(key) {
+  return {
+    type: REMOVE_MEMORY,
+    payload: key
+  };
+}
+
+export function sendMemory(content, loc) {
+  return (dispatch, getState) => {
+  // TODO: Validate input before sending, then take out sampleContent
+    const memoryTemplate = {
+    // TODO: Convert root state to immutable. Need an npm module to do so
+      ownerId: getState().auth.get('uid'),
+      private: false,
+      createdAt: Firebase.ServerValue.TIMESTAMP,
+      content: {
+        title:'hello',
+        data: 'world',
+        type: 'text',
+      }
+    };
+    memoryTemplate.content = content;
+    const newMem = memoriesRef.push(memoryTemplate);
+    console.log(loc);
+    geoFire.set(newMem.key(), [37, -123]).then( () =>
+      dispatch(_sendMemory(memoryTemplate))
+    );
+  };
+}
+
+function _sendMemory(memory) {
+  return {
+    type: SEND_MEMORY,
+    payload: memory
+  };
+}
+
 export function checkAuth() {
-  // baseRef.unauth();
   return (dispatch) => {
     const authData = baseRef.getAuth();
     if (authData) {
@@ -127,9 +137,9 @@ export function checkAuth() {
   };
 }
 
-export function openLoginModal() {
+export function toggleLoginModal() {
   return {
-    type: LOGIN
+    type: TOGGLE_LOGIN_MODAL
   };
 }
 

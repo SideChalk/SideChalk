@@ -13,6 +13,7 @@ export default createConstants(
   'LOGIN',
   'LOGIN_SUCCESS',
   'LOGIN_FAIL',
+  'TOGGLE_LOGIN_MODAL',
 
   'LOGOUT',
   'LOGOUT_SUCCESS',
