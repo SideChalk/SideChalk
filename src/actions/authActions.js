@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGIN, TOGGLE_LOGIN_MODAL } from 'constants/ActionTypes.js';
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGIN, LOGOUT_SUCCESS, TOGGLE_LOGIN_MODAL } from 'constants/ActionTypes.js';
 import { baseRef, FIREBASE_TIMESTAMP } from 'actions/firebaseVars.js';
 
 export function checkAuth() {
