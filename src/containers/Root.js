@@ -7,7 +7,9 @@ import { DevTools, LogMonitor, DebugPanel } from 'redux-devtools/lib/react';
 
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { setLocation, checkAuth } from 'actions/actions.js';
+
+import { checkAuth } from 'actions/authActions.js';
+import { setLocation } from 'actions/locationActions.js';
 
 export class Root extends React.Component {
   static propTypes = {
