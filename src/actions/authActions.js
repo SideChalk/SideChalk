@@ -25,7 +25,7 @@ export function login(provider) {
       if (error) {
         if (error.code === 'TRANSPORT_UNAVAILABLE') {
           // Fallback to redirect: We redirect then come back to page where we started with session
-          ref.authWithOAuthRedirect(provider, function(redirectError) {
+          ref.authWithOAuthRedirect(provider, (redirectError) => {
             dispatch(_loginFailure(redirectError));
           });
         } else {
