@@ -37,6 +37,7 @@ import { login, toggleLoginModal } from '../actions/authActions.js';
     oAuthLoginButton(input){
       if (input){
         console.log("LOGIN WITH", input);
+        this.props.login(input);
         //send that action somehow      
       }
 
