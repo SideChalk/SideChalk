@@ -18,8 +18,8 @@ body {
 
 .btn {
   margin-bottom: 15px;
-  background-color: #2793C7;
-  color: #222;
+  background-color: #BF4E30;
+  color: #C6CCB2;
 }
 
 .memory-list-item {
@@ -52,7 +52,8 @@ body {
   color: #eee;
 }
 .memory-modal-body,
-.memory-modal-footer {
-  background-color: #444;
-  color: #b4b4b4;
+.memory-modal-footer,
+.memory-modal-title {
+  background-color: #202C39;
+  color: #F4A938;
 }
