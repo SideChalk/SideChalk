@@ -14,7 +14,7 @@ export default class MemoryModal extends Component {
              onHide={dismissMemoryDetails}
              style={{opacity: 1 - (memory.distance / 3000)}}>
         <div className="memory-modal">
-          <Modal.Header closeButton className="memory-modal-title">
+          <Modal.Header className="memory-modal-title">
             <Modal.Title>{memory.content.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="memory-modal-body">{memory.content.data}</Modal.Body>
