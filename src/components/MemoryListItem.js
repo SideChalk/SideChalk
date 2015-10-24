@@ -1,10 +1,14 @@
 import React, { PropTypes } from 'react';
+import { ListGroupItem } from 'react-bootstrap';
 
 // TODO: Remove this when we validate memories.
 // Using this so app doesnt crash when content isnt fully defined
 const sampleMemory = {
   content: {title:'hello', data: 'world', type: 'text'}
 };
+
+//TEMP - TODO: set dynamically?
+const VISIBILITY_LIMIT = 150;
 
 class MemoryListItem extends React.Component {
 
@@ -16,13 +20,12 @@ class MemoryListItem extends React.Component {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
     return (
-      <li className="memory-list-item">
-        <h5 className="memory-list-item-title">{memory.content.title}</h5>
-        <p className="memory-list-item-data">{memory.content.data}</p>
-        <footer className="memory-footer">
-          {memory.distance}
-        </footer>
-      </li>
+      <ListGroupItem className="memory-list-item"
+                     style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
+        <span className="memory-list-item-title">{memory.content.title}</span>
+        <span className="memory-list-item-data">{memory.content.data}</span>
+        <span className="memory-list-item-distance">{memory.distance}</span>
+      </ListGroupItem>
     );
   }
 }
