@@ -27,8 +27,8 @@ class MemoryList extends React.Component {
     const memoryModal = memoryModalState.showMemoryModal ? (
       <MemoryModal
         memoryModalState={memoryModalState}
-        memoryModalActions={memoryModalActions}>
-      </MemoryModal>)
+        memoryModalActions={memoryModalActions} />
+      )
       : null;
 
     return (
