@@ -58,13 +58,19 @@ import { login, toggleLoginModal } from '../actions/authActions.js';
                   <div className="col-md-12 text-center">
                     
                   <div onClick={() => this.oAuthLoginButton("facebook")}>
-                    <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=FACEBOOK&w=205&h=35" />
+                    <a className="btn btn-block btn-social btn-facebook">
+                      <i className="fa fa-facebook"></i> Sign in with Facebook
+                    </a>
                   </div>
                   <div onClick={() => this.oAuthLoginButton("twitter")}>
-                    <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=TWITTER&w=205&h=35" />
+                    <a className="btn btn-block btn-social btn-twitter">
+                      <i className="fa fa-twitter"></i> Sign in with Twitter
+                    </a>
                   </div>
                   <div onClick={() => this.oAuthLoginButton("google")}>
-                    <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=GOOGLe&w=205&h=35" />
+                    <a className="btn btn-block btn-social btn-google">
+                     <i className="fa fa-google"></i> Sign in with Google
+                    </a>
                   </div>
                     
                   </div>
