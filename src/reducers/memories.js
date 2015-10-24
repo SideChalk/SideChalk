@@ -17,7 +17,7 @@ function receiveMemory(memories, memory) {
 
 function removeMemory(memories, key) {
   return memories.filter(memory => {
-    memory.key !== key;
+    return memory.key !== key;
   });
 }
 
