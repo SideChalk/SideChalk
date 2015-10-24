@@ -25,7 +25,6 @@ class ModalExample extends React.Component {
   render() {
     return (
       <div>
-    <Button bsStyle="primary" bsSize="medium" onClick={() => this.open()}>Open Modal</Button>
       <Modal show={this.props.showLoginModal} onHide={() => true }>
              <Modal.Header closeButton>
                <Modal.Title>Please Login</Modal.Title>

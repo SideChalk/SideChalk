@@ -5,7 +5,7 @@ import { Button, Input, Grid, Row, Col } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
-import { login, logout } from 'actions/authActions.js';
+import { login, logout, toggleLoginModal } from 'actions/authActions.js';
 import { showMemoryDetails, dismissMemoryDetails } from 'actions/memoryModalActions.js';
 
 export class MemoryListContainer extends React.Component {
@@ -17,21 +17,27 @@ export class MemoryListContainer extends React.Component {
     logout: React.PropTypes.func,
     showMemoryDetails: React.PropTypes.func,
     dismissMemoryDetails: React.PropTypes.func,
+    toggleLoginModal: React.PropTypes.func,
     memoryModalState: React.PropTypes.shape({
       memoryInFocus: React.PropTypes.object,
       showMemoryModal: React.PropTypes.boolean
-    })
+    }),
+    userUID: React.PropTypes.string
   }
 
   handleClick() {
-    const node = this.refs.input.refs.input;
-    const text = node.value.trim();
-    this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
-    node.value = '';
+    if (this.props.userUID === null) {
+      this.props.toggleLoginModal();
+    } else {
+      const node = this.refs.input.refs.input;
+      const text = node.value.trim();
+      this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
+      node.value = '';
+    }
   }
 
   login() {
-    this.props.login('github');
+    this.props.toggleLoginModal();
   }
 
   render() {
@@ -89,9 +95,11 @@ export class MemoryListContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   memories : state.memories,
-  memoryModalState : state.memoryModals.toJS()
+  memoryModalState : state.memoryModals.toJS(),
+  userUID: state.auth.get('uid')
 });
 const mapDispatchToProps = (dispatch) => ({
+  toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
   sendMemory : bindActionCreators(sendMemory, dispatch),
   login : bindActionCreators(login, dispatch),
   logout : bindActionCreators(logout, dispatch),
