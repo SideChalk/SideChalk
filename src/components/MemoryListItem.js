@@ -7,25 +7,26 @@ const sampleMemory = {
   content: {title:'hello', data: 'world', type: 'text'}
 };
 
-//TEMP - TODO: set dynamically?
+// TEMP - TODO: set dynamically?
 const VISIBILITY_LIMIT = 150;
 
 class MemoryListItem extends React.Component {
 
   static propTypes = {
-    memory: PropTypes.object
+    memory: PropTypes.object,
+    onClick: PropTypes.func
   }
 
   render() {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
     return (
-      <ListGroupItem className="memory-list-item"
-                     style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
-        <span className="memory-list-item-title">{memory.content.title}</span>
-        <span className="memory-list-item-data">{memory.content.data}</span>
-        <span className="memory-list-item-distance">{memory.distance}</span>
-      </ListGroupItem>
+        <ListGroupItem className="memory-list-item"
+                       style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
+          <span className="memory-list-item-title">{memory.content.title}</span>
+          <span className="memory-list-item-data">{memory.content.data}</span>
+          <span className="memory-list-item-distance">{memory.distance.toPrecision(6)}</span>
+        </ListGroupItem>
     );
   }
 }
