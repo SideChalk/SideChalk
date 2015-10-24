@@ -1,0 +1,58 @@
+body {
+  background-color: #333;
+  /*font-family: futura;*/
+  font-family: futura;
+}
+
+.title {
+  background-color: #222;
+  color: #eee;
+  /*text-transform: uppercase;*/
+  font-family: Oswald;
+}
+
+.message-input {
+  background-color: #222;
+  color: #b4b4b4;
+}
+
+.btn {
+  margin-bottom: 15px;
+  background-color: #2793C7;
+  color: #222;
+}
+
+.memory-list-item {
+  background-color: #222;
+}
+.memory-list-item span {
+  display: inline-block;
+  padding: 5px;
+}
+
+.memory-list-item-title {
+  color: #eee;
+}
+
+.memory-list-item-data {
+  color: #b4b4b4;
+}
+
+.memory-list-item-distance {
+  color: #2793C7;
+}
+
+.memory-modal {
+  border: 1px solid white;
+  border-radius: 2px;
+}
+
+.memory-modal-title {
+  background-color: #333;
+  color: #eee;
+}
+.memory-modal-body,
+.memory-modal-footer {
+  background-color: #444;
+  color: #b4b4b4;
+}
