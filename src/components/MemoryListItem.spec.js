@@ -27,7 +27,7 @@ describe('(Component) MemoryListItem', () => {
   beforeEach(() => {
     _props = {
       memory: {
-        content: {title:'hello', data: 'world', type: 'text'},
+        content: {title:'My Title', data: 'List Data', type: 'text'},
         distance: 1000,
         key: 123,
         location: [50, 50]
@@ -51,19 +51,24 @@ describe('(Component) MemoryListItem', () => {
     expect(rendered.children.length).to.equal(3);
   });  
   
-  it('First element should be a <span> child element', () => {
+  it('First element should be a <span> child element with title info', () => {
     let rendered =ReactDOM.findDOMNode(component)
     expect(rendered.children[0].nodeName).to.equal('SPAN');
+    expect(rendered.children[0].textContent).to.equal('My Title');
+    expect(rendered.children[0].className).to.equal('memory-list-item-title');
   });  
   
-  it('Second element should be a <span> child element', () => {
+  it('Second element should be a <span> child element with data info', () => {
     let rendered =ReactDOM.findDOMNode(component)
     expect(rendered.children[1].nodeName).to.equal('SPAN');
+    expect(rendered.children[1].textContent).to.equal('List Data');
+    expect(rendered.children[1].className).to.equal('memory-list-item-data');
   }); 
   
-  it('Third element should be a <span> child element', () => {
+  it('Third element should be a <span> child element distance info', () => {
     let rendered =ReactDOM.findDOMNode(component)
     expect(rendered.children[2].nodeName).to.equal('SPAN');
+    expect(rendered.children[2].className).to.equal('memory-list-item-distance');
   }); 
 
   xit('Should open a modal when clicked', () => {
