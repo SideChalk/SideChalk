@@ -2,6 +2,7 @@ import React                  from 'react';
 import TestUtils              from 'react-addons-test-utils';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
+import ReactDOM from 'react-dom';
 
 import { MemoryListItem } from './MemoryListItem.js';
 
@@ -16,6 +17,10 @@ function shallowRenderWithProps (props = {}) {
   return shallowRender(<MemoryListItem {...props} />);
 }
 
+function renderWithProps (props = {}) {
+  return TestUtils.renderIntoDocument(<MemoryListItem {...props} />);
+}
+
 describe('(Component) MemoryListItem', () => {
   let component, _props;
 
@@ -26,33 +31,39 @@ describe('(Component) MemoryListItem', () => {
         distance: 1000,
         key: 123,
         location: [50, 50]
-      },
-      onClick: () => {}
+      }
     };
-    component = shallowRenderWithProps(_props);
+    component = renderWithProps(_props);
   })
   it('(Meta) Should have a test that works with Chai expectations.', () => {
     expect(true).to.be.true;
+    expect(component).to.be.ok;
   });
 
   it('Should render an <ListGroupItem> element', () => {
-    expect(component.type).to.equal('ListGroupItem');
+    expect(TestUtils.findRenderedDOMComponentWithClass(component, 'list-group-item')).to.be.ok;
+    expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
+    expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
   });
 
   it('Should contain 3 child elements', () => {
-    expect(component.props.children.length).to.equal(3);
+    let rendered = ReactDOM.findDOMNode(component);
+    expect(rendered.children.length).to.equal(3);
   });  
   
   it('First element should be a <span> child element', () => {
-    expect(component.props.children[0].type).to.equal('span');
+    let rendered =ReactDOM.findDOMNode(component)
+    expect(rendered.children[0].nodeName).to.equal('SPAN');
   });  
   
   it('Second element should be a <span> child element', () => {
-    expect(component.props.children[1].type).to.equal('span');
+    let rendered =ReactDOM.findDOMNode(component)
+    expect(rendered.children[1].nodeName).to.equal('SPAN');
   }); 
   
   it('Third element should be a <span> child element', () => {
-    expect(component.props.children[2].type).to.equal('span');
+    let rendered =ReactDOM.findDOMNode(component)
+    expect(rendered.children[2].nodeName).to.equal('SPAN');
   }); 
 
   xit('Should open a modal when clicked', () => {
