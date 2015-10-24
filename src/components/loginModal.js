@@ -31,8 +31,18 @@ import { login, toggleLoginModal } from '../actions/authActions.js';
       this.props.toggleLoginModal();
     }
     close(){
+      console.log("wackah")
       this.props.toggleLoginModal();
     }
+    oAuthLoginButton(input){
+      if (input){
+        console.log("LOGIN WITH", input);
+        //send that action somehow      
+      }
+
+      //send that action somehow
+    }
+
   render() {
 
     return (
@@ -47,14 +57,14 @@ import { login, toggleLoginModal } from '../actions/authActions.js';
                 <div className="row">
                   <div className="col-md-12 text-center">
                     
-                  <div>
+                  <div onClick={() => this.oAuthLoginButton("facebook")}>
                     <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=FACEBOOK&w=205&h=35" />
                   </div>
-                  <div>
+                  <div onClick={() => this.oAuthLoginButton("twitter")}>
                     <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=TWITTER&w=205&h=35" />
                   </div>
-                  <div>
-                    <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=FACEBOOK&w=205&h=35" />
+                  <div onClick={() => this.oAuthLoginButton("google")}>
+                    <img alt="Bootstrap Image Preview" src="https://placeholdit.imgix.net/~text?txtsize=9&txt=GOOGLe&w=205&h=35" />
                   </div>
                     
                   </div>
