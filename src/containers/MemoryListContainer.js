@@ -21,14 +21,19 @@ export class MemoryListContainer extends React.Component {
     memoryModalState: React.PropTypes.shape({
       memoryInFocus: React.PropTypes.object,
       showMemoryModal: React.PropTypes.boolean
-    })
+    }),
+    userUID: React.PropTypes.string
   }
 
   handleClick() {
-    const node = this.refs.input.refs.input;
-    const text = node.value.trim();
-    this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
-    node.value = '';
+    if (this.props.userUID === null){
+      this.props.toggleLoginModal();
+    } else {      
+      const node = this.refs.input.refs.input;
+      const text = node.value.trim();
+      this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
+      node.value = '';
+    }
   }
 
   login() {
@@ -90,7 +95,8 @@ export class MemoryListContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   memories : state.memories,
-  memoryModalState : state.memoryModals.toJS()
+  memoryModalState : state.memoryModals.toJS(),
+  userUID: state.auth.get("uid")
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
