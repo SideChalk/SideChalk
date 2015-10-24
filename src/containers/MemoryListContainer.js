@@ -1,6 +1,7 @@
 import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import { Button, Input, Grid, Row, Col } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
@@ -16,8 +17,9 @@ export class MemoryListContainer extends React.Component {
   }
 
   handleClick() {
-    const node = this.refs.input;
+    const node = this.refs.input.refs.input;
     const text = node.value.trim();
+    debugger;
     this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
     node.value = '';
   }
@@ -30,22 +32,44 @@ export class MemoryListContainer extends React.Component {
     const {memories} = this.props;
 
     return (
-      <div>
-        <button
-          onClick={() => this.login()}>
-          Login
-        </button>
-        <button
-          onClick={() => this.props.logout()}>
-          Logout
-        </button>
-        <input type='text' ref='input' />
-        <button
-          onClick={() => this.handleClick()}>
-          Add
-        </button>
-        <MemoryList memories={memories.toJS()} />
-      </div>
+      <Grid>
+        <Row>
+          <Col md={1}>
+            <Button
+              className='btn'
+              onClick={() => this.login()}>
+              Login
+            </Button>
+          </Col>
+          <Col md={1}>
+            <Button
+              className='btn'
+              onClick={() => this.props.logout()}>
+              Logout
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <MemoryList memories={memories.toJS()} />
+          </Col>
+          <form>
+            <Col md={3}>
+              <Input
+                className='message-input'
+                type='text'
+                ref='input' />
+            </Col>
+            <Col md={1}>
+              <Button
+                className='btn'
+                onClick={() => this.handleClick()}>
+                Add
+              </Button>
+            </Col>
+          </form>
+        </Row>
+      </Grid>
     );
   }
 }
