@@ -26,9 +26,9 @@ export class MemoryListContainer extends React.Component {
   }
 
   handleClick() {
-    if (this.props.userUID === null){
+    if (this.props.userUID === null) {
       this.props.toggleLoginModal();
-    } else {      
+    } else {
       const node = this.refs.input.refs.input;
       const text = node.value.trim();
       this.props.sendMemory({data: text, title: 'title', type: 'text'}, [45, 65]);
@@ -96,7 +96,7 @@ export class MemoryListContainer extends React.Component {
 const mapStateToProps = (state) => ({
   memories : state.memories,
   memoryModalState : state.memoryModals.toJS(),
-  userUID: state.auth.get("uid")
+  userUID: state.auth.get('uid')
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
