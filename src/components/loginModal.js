@@ -31,7 +31,6 @@ import { login, toggleLoginModal } from '../actions/authActions.js';
       this.props.toggleLoginModal();
     }
     close(){
-      console.log("wackah")
       this.props.toggleLoginModal();
     }
     oAuthLoginButton(input){
