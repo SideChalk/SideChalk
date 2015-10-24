@@ -24,7 +24,7 @@ function renderWithProps (props = {}) {
 describe('(Component) MemoryListItem', () => {
   let component, _props;
 
-  beforeEach(() => {
+  before(() => {
     _props = {
       memory: {
         content: {title:'My Title', data: 'List Data', type: 'text'},
@@ -43,7 +43,6 @@ describe('(Component) MemoryListItem', () => {
   it('Should render an <ListGroupItem> element', () => {
     expect(TestUtils.findRenderedDOMComponentWithClass(component, 'list-group-item')).to.be.ok;
     expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
-    expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
   });
 
   it('Should contain 3 child elements', () => {
@@ -52,21 +51,21 @@ describe('(Component) MemoryListItem', () => {
   });  
   
   it('First element should be a <span> child element with title info', () => {
-    let rendered =ReactDOM.findDOMNode(component)
+    let rendered = ReactDOM.findDOMNode(component)
     expect(rendered.children[0].nodeName).to.equal('SPAN');
     expect(rendered.children[0].textContent).to.equal('My Title');
     expect(rendered.children[0].className).to.equal('memory-list-item-title');
   });  
   
   it('Second element should be a <span> child element with data info', () => {
-    let rendered =ReactDOM.findDOMNode(component)
+    let rendered = ReactDOM.findDOMNode(component)
     expect(rendered.children[1].nodeName).to.equal('SPAN');
     expect(rendered.children[1].textContent).to.equal('List Data');
     expect(rendered.children[1].className).to.equal('memory-list-item-data');
   }); 
   
   it('Third element should be a <span> child element distance info', () => {
-    let rendered =ReactDOM.findDOMNode(component)
+    let rendered = ReactDOM.findDOMNode(component)
     expect(rendered.children[2].nodeName).to.equal('SPAN');
     expect(rendered.children[2].className).to.equal('memory-list-item-distance');
   }); 
