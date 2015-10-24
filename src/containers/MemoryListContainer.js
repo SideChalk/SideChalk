@@ -93,7 +93,7 @@ const mapStateToProps = (state) => ({
   memoryModalState : state.memoryModals.toJS()
 });
 const mapDispatchToProps = (dispatch) => ({
-  toggleLoginModal : bindActionCreators(sendMemory, dispatch), 
+  toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch), 
   sendMemory : bindActionCreators(sendMemory, dispatch),
   login : bindActionCreators(login, dispatch),
   logout : bindActionCreators(logout, dispatch),
