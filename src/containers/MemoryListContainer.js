@@ -5,7 +5,7 @@ import { Button, Input, Grid, Row, Col } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
-import { login, logout } from 'actions/authActions.js';
+import { login, logout, toggleLoginModal } from 'actions/authActions.js';
 import { showMemoryDetails, dismissMemoryDetails } from 'actions/memoryModalActions.js';
 
 export class MemoryListContainer extends React.Component {
@@ -17,6 +17,7 @@ export class MemoryListContainer extends React.Component {
     logout: React.PropTypes.func,
     showMemoryDetails: React.PropTypes.func,
     dismissMemoryDetails: React.PropTypes.func,
+    toggleLoginModal: React.PropTypes.func,
     memoryModalState: React.PropTypes.shape({
       memoryInFocus: React.PropTypes.object,
       showMemoryModal: React.PropTypes.boolean
@@ -31,7 +32,7 @@ export class MemoryListContainer extends React.Component {
   }
 
   login() {
-    this.props.login('github');
+    this.props.toggleLoginModal();
   }
 
   render() {
@@ -92,6 +93,7 @@ const mapStateToProps = (state) => ({
   memoryModalState : state.memoryModals.toJS()
 });
 const mapDispatchToProps = (dispatch) => ({
+  toggleLoginModal : bindActionCreators(sendMemory, dispatch), 
   sendMemory : bindActionCreators(sendMemory, dispatch),
   login : bindActionCreators(login, dispatch),
   logout : bindActionCreators(logout, dispatch),
