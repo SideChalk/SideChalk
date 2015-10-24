@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { ListGroup } from 'react-bootstrap';
+
 import MemoryListItem from 'components/MemoryListItem.js';
 
 class MemoryList extends React.Component {
@@ -10,11 +12,11 @@ class MemoryList extends React.Component {
   render() {
     const {memories} = this.props;
     return (
-      <ul className="memory-list">
+      <ListGroup className="memory-list">
         {memories.map( (memory) => (
           <MemoryListItem key={memory.key} memory={memory} />
         ))}
-      </ul>
+      </ListGroup>
     );
   }
 }
