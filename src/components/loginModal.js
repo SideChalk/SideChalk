@@ -26,7 +26,7 @@ class ModalExample extends React.Component {
     return (
       <div>
       <Modal show={this.props.showLoginModal} onHide={() => true }>
-             <Modal.Header closeButton>
+             <Modal.Header>
                <Modal.Title>Please Login</Modal.Title>
              </Modal.Header>
              <Modal.Body>
