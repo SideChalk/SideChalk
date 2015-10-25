@@ -31,7 +31,7 @@ function generateMemory () {
         data: 'world',
         type: 'text'
       },
-      key: 'KEY123',
+      key: 'KEY' + Math.floor(Math.random() * 1000000),
       location: [0,0],
       distance: 100
     }
@@ -65,15 +65,15 @@ describe('(Component) MemoryList', () => {
     expect(component).to.be.ok;
   });
 
-  it('Should render an <div> element', () => {
+  it('Should render a ListGroup <div> element', () => {
     let rendered = ReactDOM.findDOMNode(component)
     expect(TestUtils.findRenderedDOMComponentWithClass(component, 'memory-list')).to.exist;
-    expect(rendered.to.equal('DIV');
-    expect(rendered.className).to.equal('memory-list');
+    expect(rendered.nodeName).to.equal('DIV');
+    expect(rendered.className.split(' ')[0]).to.equal('memory-list');
   });
 
-  it('Should contain ListGroup child elements', () => {
+  it('Should render a list item for each memory', () => {
     let rendered = ReactDOM.findDOMNode(component);
-    expect(rendered.children.length).to.equal(3);
+    expect(rendered.children.length).to.equal(2);
   });  
 });
