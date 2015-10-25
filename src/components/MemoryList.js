@@ -32,7 +32,7 @@ export class MemoryList extends React.Component {
       : null;
 
     return (
-      <div>
+      // <div>
         <ListGroup className="memory-list">
           {memories.map( (memory) => {
             return (
@@ -40,9 +40,9 @@ export class MemoryList extends React.Component {
                 <MemoryListItem memory={memory} />
               </div>);
           })}
-        </ListGroup>
         {memoryModal}
-      </div>
+        </ListGroup>
+      // </div>
     );
   }
 
