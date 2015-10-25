@@ -10,11 +10,11 @@ const sampleMemory = {
 // TEMP - TODO: set dynamically?
 const VISIBILITY_LIMIT = 150;
 
-class MemoryListItem extends React.Component {
+export class MemoryListItem extends React.Component {
 
   static propTypes = {
-    memory: PropTypes.object,
-    onClick: PropTypes.func
+    memory: PropTypes.object
+    // onClick: PropTypes.func
   }
 
   render() {

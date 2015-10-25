@@ -4,7 +4,7 @@ import { ListGroup } from 'react-bootstrap';
 import MemoryListItem from 'components/MemoryListItem.js';
 import MemoryModal from 'components/MemoryModal';
 
-class MemoryList extends React.Component {
+export class MemoryList extends React.Component {
 
   static propTypes = {
     memories: PropTypes.array,
@@ -32,7 +32,7 @@ class MemoryList extends React.Component {
       : null;
 
     return (
-      <div>
+      // <div>
         <ListGroup className="memory-list">
           {memories.map( (memory) => {
             return (
@@ -40,9 +40,9 @@ class MemoryList extends React.Component {
                 <MemoryListItem memory={memory} />
               </div>);
           })}
-        </ListGroup>
         {memoryModal}
-      </div>
+        </ListGroup>
+      // </div>
     );
   }
 
