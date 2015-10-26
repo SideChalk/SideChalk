@@ -5,10 +5,14 @@ import * as moment from 'moment';
 export default class MemoryModal extends Component {
 
   cleanDate (input) {
-    return moment.default(input).format()
+    var rootDate = moment.default(input);
+      var formatted = rootDate.format("MM/DD/YYYY");
+      var fromNow = rootDate.fromNow();
+
+    return fromNow + " (" + formatted + ")";
   }
 
-  render() {
+  render () {
     const { memoryModalState, memoryModalActions } = this.props;
     const memory = memoryModalState.memoryInFocus;
     const dismissMemoryDetails = memoryModalActions.dismissMemoryDetails;
@@ -24,7 +28,7 @@ export default class MemoryModal extends Component {
           <Modal.Body className="memory-modal-body">{memory.content.data}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
            <div className="text-left">
-            Posted on {this.cleanDate(memory.createdAt)}
+            Posted on {memory.createdAt} : {this.cleanDate(memory.createdAt)}
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
           </Modal.Footer>
