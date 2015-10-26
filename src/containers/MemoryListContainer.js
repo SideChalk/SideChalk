@@ -18,10 +18,7 @@ export class MemoryListContainer extends React.Component {
     showMemoryDetails: React.PropTypes.func,
     dismissMemoryDetails: React.PropTypes.func,
     toggleLoginModal: React.PropTypes.func,
-    memoryModalState: React.PropTypes.shape({
-      memoryInFocus: React.PropTypes.object,
-      showMemoryModal: React.PropTypes.boolean
-    }),
+    memoryModalState: React.PropTypes.object,
     userUID: React.PropTypes.string
   }
 
@@ -69,7 +66,7 @@ export class MemoryListContainer extends React.Component {
           <Col md={6}>
             <MemoryList
               memories={memories.toJS()}
-              memoryModalState={memoryModalState}
+              memoryModalState={memoryModalState.toJS()}
               memoryModalActions={memoryModalActions} />
           </Col>
           <form>
@@ -94,9 +91,9 @@ export class MemoryListContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  memories : state.memories,
-  memoryModalState : state.memoryModals.toJS(),
-  userUID: state.auth.get('uid')
+  memories : state.get('memories'),
+  memoryModalState : state.get('memoryModals'),
+  userUID: state.getIn(['auth', 'uid'])
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
