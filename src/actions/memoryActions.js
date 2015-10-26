@@ -35,7 +35,7 @@ export function sendMemory(content) {
   // TODO: Validate input before sending, then take out sampleContent
     const memoryTemplate = {
     // TODO: Convert root state to immutable. Need an npm module to do so
-      ownerId: getState().auth.get('uid'),
+      ownerId: getState().getIn(['auth', 'uid']),
       private: false,
       createdAt: FIREBASE_TIMESTAMP,
       content: {
@@ -46,7 +46,7 @@ export function sendMemory(content) {
     };
     memoryTemplate.content = content;
     const newMem = memoriesRef.push(memoryTemplate);
-    const location = getState().location.toJS();
+    const location = getState().get('location').toJS();
     geoFire.set(newMem.key(), location).then( () =>
       dispatch(_sendMemory(memoryTemplate))
     );
