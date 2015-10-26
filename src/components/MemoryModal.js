@@ -5,11 +5,14 @@ import * as moment from 'moment';
 export default class MemoryModal extends Component {
 
   cleanDate (input) {
-    var rootDate = moment.default(input);
-      var formatted = rootDate.format("MM/DD/YYYY");
-      var fromNow = rootDate.fromNow();
+    const rootDate = moment.default(input).fromNow();
+    return rootDate;
+  }
 
-    return fromNow + " (" + formatted + ")";
+  cleanDistance (input){
+    var units = "km";
+    var distanceString = input.toFixed(2) + " " + units + " away";
+    return distanceString;
   }
 
   render () {
@@ -28,8 +31,19 @@ export default class MemoryModal extends Component {
           <Modal.Body className="memory-modal-body">{memory.content.data}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
            <div className="text-left">
-            Posted on {memory.createdAt} : {this.cleanDate(memory.createdAt)}
+            <div>
+              { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
+            </div>
+            <div>Reactions:</div>
+              <div>
+                <i className="fa fa-smile-o fa-2x fa-border">2</i>
+                <i className="fa fa-frown-o fa-2x fa-border">3</i>
+                <i className="fa fa-heart fa-2x fa-border"></i>
+              </div>
            </div>
+
+
+
             <Button onClick={dismissMemoryDetails}>Close</Button>
           </Modal.Footer>
         </div>
