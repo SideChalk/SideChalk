@@ -63,7 +63,7 @@ class ModalExample extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  showLoginModal : state.auth.get('showLoginModal')
+  showLoginModal : state.getIn(['auth', 'showLoginModal'])
 });
 const mapDispatchToProps = (dispatch) => ({
   login: bindActionCreators(login, dispatch),
