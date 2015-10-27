@@ -1,20 +1,18 @@
 import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { Button, Input, Grid, Row, Col } from 'react-bootstrap';
+import { Button, Grid, Row, ButtonToolbar } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
-import { login, logout, toggleLoginModal } from 'actions/authActions.js';
 import { showMemoryDetails, dismissMemoryDetails } from 'actions/memoryModalActions.js';
+import { toggleLoginModal } from 'actions/authActions.js';
 
 export class MemoryListContainer extends React.Component {
 
   static propTypes = {
     memories: React.PropTypes.object,
     sendMemory: React.PropTypes.func,
-    login: React.PropTypes.func,
-    logout: React.PropTypes.func,
     showMemoryDetails: React.PropTypes.func,
     dismissMemoryDetails: React.PropTypes.func,
     toggleLoginModal: React.PropTypes.func,
@@ -33,10 +31,6 @@ export class MemoryListContainer extends React.Component {
     }
   }
 
-  login() {
-    this.props.toggleLoginModal();
-  }
-
   render() {
     const {memories, memoryModalState} = this.props;
     const memoryModalActions = {
@@ -46,44 +40,21 @@ export class MemoryListContainer extends React.Component {
 
     return (
       <Grid>
-        <Row>
-          <Col md={1}>
-            <Button
-              className='btn'
-              onClick={() => this.login()}>
-              Login
-            </Button>
-          </Col>
-          <Col md={1}>
-            <Button
-              className='btn'
-              onClick={() => this.props.logout()}>
-              Logout
-            </Button>
-          </Col>
+        <Row className="show-grid">
+            <ButtonToolbar>
+              <Button style={{float:'none'}}
+                className='btn'
+                onClick={() => this.handleClick()}>
+                Add Memory
+              </Button>
+            </ButtonToolbar>
         </Row>
-        <Row>
-          <Col md={6}>
+        <br />
+        <Row className="show-grid">
             <MemoryList
               memories={memories.toJS()}
               memoryModalState={memoryModalState.toJS()}
               memoryModalActions={memoryModalActions} />
-          </Col>
-          <form>
-            <Col md={3}>
-              <Input
-                className='message-input'
-                type='text'
-                ref='input' />
-            </Col>
-            <Col md={1}>
-              <Button
-                className='btn'
-                onClick={() => this.handleClick()}>
-                Add
-              </Button>
-            </Col>
-          </form>
         </Row>
       </Grid>
     );
@@ -98,8 +69,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
   sendMemory : bindActionCreators(sendMemory, dispatch),
-  login : bindActionCreators(login, dispatch),
-  logout : bindActionCreators(logout, dispatch),
   showMemoryDetails : bindActionCreators(showMemoryDetails, dispatch),
   dismissMemoryDetails : bindActionCreators(dismissMemoryDetails, dispatch)
 });

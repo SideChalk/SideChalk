@@ -68,7 +68,7 @@ describe('(Component) MemoryList', () => {
   it('Should render a ListGroup <div> element', () => {
     let rendered = ReactDOM.findDOMNode(component)
     expect(TestUtils.findRenderedDOMComponentWithClass(component, 'memory-list')).to.exist;
-    expect(rendered.nodeName).to.equal('DIV');
+    expect(rendered.nodeName).to.equal('UL');
     expect(rendered.className.split(' ')[0]).to.equal('memory-list');
   });
 
