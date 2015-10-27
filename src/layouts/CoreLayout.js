@@ -46,8 +46,8 @@ export class CoreLayout extends React.Component {
   renderError() {
     if (this.props.locationError) {
       return (
-        <Alert bsStyle="danger">
-          <h4>Oh snap! You got an error!</h4>
+        <Alert className="text-center" bsStyle="warning">
+          <h4>{"Wheres's the chalk at?!"}</h4>
           <p>{this.props.locationError}</p>
         </Alert>
       );
