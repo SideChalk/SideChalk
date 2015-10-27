@@ -9,9 +9,9 @@ export default class MemoryModal extends Component {
     return rootDate;
   }
 
-  cleanDistance (input){
-    var units = "km";
-    var distanceString = input.toFixed(2) + " " + units + " away";
+  cleanDistance (input) {
+    const units = 'km';
+    const distanceString = input.toFixed(2) + ' ' + units + ' away';
     return distanceString;
   }
 
@@ -41,9 +41,6 @@ export default class MemoryModal extends Component {
                 <i className="fa fa-heart fa-2x fa-border"></i>
               </div>
            </div>
-
-
-
             <Button onClick={dismissMemoryDetails}>Close</Button>
           </Modal.Footer>
         </div>
