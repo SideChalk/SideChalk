@@ -1,4 +1,4 @@
-import Immutable from 'immutable';
+import Immutable, { fromJS } from 'immutable';
 import { createReducer } from 'utils';
 import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES } from 'constants/ActionTypes.js';
 
@@ -13,20 +13,20 @@ export default createReducer(initialState, {
 });
 
 function receiveMemory(memories, memory) {
-  return _sortByDistance(memories.push(memory));
+  return _sortByDistance(memories.push(fromJS(memory)));
 }
 
 function removeMemory(memories, key) {
   return memories.filter(memory => {
-    return memory.key !== key;
+    return memory.get('key') !== key;
   });
 }
 
 function initializeMemories(state, memories) {
   const sortedMemories = memories.sort((a, b)=> a.distance - b.distance);
-  return Immutable.List.of(sortedMemories);
+  return state.merge(sortedMemories);
 }
 
 function _sortByDistance(collection) {
-  return collection.sort((a, b) => a.distance - b.distance);
+  return collection.sort((a, b) => a.get('distance') - b.get('distance'));
 }
