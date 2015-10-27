@@ -33,12 +33,11 @@ export class MemoryList extends React.Component {
 
     return (
       // <div>
-        <ListGroup className="memory-list">
+        <ListGroup componentClass="ul" className="memory-list">
           {memories.map( (memory) => {
             return (
-              <div key={memory.key} onClick={()=>this.handleClick(memory)} >
-                <MemoryListItem memory={memory} />
-              </div>);
+                <MemoryListItem memory={memory} key={memory.key} onClick={()=>this.handleClick(memory)} />
+            );
           })}
         {memoryModal}
         </ListGroup>
