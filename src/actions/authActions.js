@@ -32,7 +32,7 @@ export function login(provider) {
           dispatch(_loginFailure(error));
         }
       } else {
-        _loginOrSignupUser(authData, dispatch);
+        _loginOrSignupUser(authData);
       }
     });
   };
@@ -40,12 +40,13 @@ export function login(provider) {
 
 export function logout() {
   baseRef.unauth();
+  window.location.reload();
   return {
     type: LOGOUT_SUCCESS
   };
 }
 
-function _loginOrSignupUser(authData, dispatch) {
+function _loginOrSignupUser(authData) {
   baseRef.child('users').child(authData.uid).once('value', (snapshot) => {
     const displayName = authData[authData.provider].displayName;
 
@@ -61,7 +62,7 @@ function _loginOrSignupUser(authData, dispatch) {
         updatedAt: FIREBASE_TIMESTAMP
       });
     }
-    dispatch(_loginSuccess(authData.uid, displayName));
+    window.location.reload();
   });
 }
 

@@ -25,7 +25,7 @@ class ModalExample extends React.Component {
   render() {
     return (
       <div>
-      <Modal show={this.props.showLoginModal} onHide={() => true }>
+      <Modal show={this.props.showLoginModal} onHide={()=>true}>
              <Modal.Header>
                <Modal.Title>Please Login</Modal.Title>
              </Modal.Header>
@@ -35,17 +35,22 @@ class ModalExample extends React.Component {
                   <div className="col-md-12 text-center">
                   <div onClick={() => this.oAuthLoginButton('facebook')}>
                     <a className="btn btn-block btn-social btn-facebook">
-                      <i className="fa fa-facebook"></i> Sign in with Facebook
+                      <i className="fa fa-facebook"></i>Facebook
                     </a>
                   </div>
                   <div onClick={() => this.oAuthLoginButton('twitter')}>
                     <a className="btn btn-block btn-social btn-twitter">
-                      <i className="fa fa-twitter"></i> Sign in with Twitter
+                      <i className="fa fa-twitter"></i>Twitter
                     </a>
                   </div>
                   <div onClick={() => this.oAuthLoginButton('google')}>
                     <a className="btn btn-block btn-social btn-google">
-                     <i className="fa fa-google"></i> Sign in with Google
+                     <i className="fa fa-google"></i>Google
+                    </a>
+                  </div>
+                  <div onClick={() => this.oAuthLoginButton('github')}>
+                    <a className="btn btn-block btn-social btn-github">
+                     <i className="fa fa-github"></i>GitHub
                     </a>
                   </div>
                   </div>

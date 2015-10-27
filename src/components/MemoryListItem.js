@@ -13,19 +13,17 @@ const VISIBILITY_LIMIT = 150;
 export class MemoryListItem extends React.Component {
 
   static propTypes = {
-    memory: PropTypes.object
-    // onClick: PropTypes.func
+    memory: PropTypes.object,
+    onClick: PropTypes.func
   }
 
   render() {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
     return (
-        <ListGroupItem className="memory-list-item"
+        <ListGroupItem header={memory.content.title} bsSize="lg" onClick={this.props.onClick}
                        style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
-          <span className="memory-list-item-title">{memory.content.title}</span>
-          <span className="memory-list-item-data">{memory.content.data}</span>
-          <span className="memory-list-item-distance">{memory.distance.toPrecision(6)}</span>
+          REACTIONS
         </ListGroupItem>
     );
   }
