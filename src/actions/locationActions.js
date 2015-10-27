@@ -35,8 +35,6 @@ export function setLocation () {
       }, (error) => {
         const PERMISSION_DENIED = 1;
         if (error.code === PERMISSION_DENIED) {
-          alert('SideChalk does not have permission to use your location\n' +
-                'Please grant access to allow full functionality');
           dispatch({
             type: LOCATION_ERROR,
             payload: 'SideChalk does not have permission to use your location'
