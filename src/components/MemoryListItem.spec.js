@@ -45,31 +45,37 @@ describe('(Component) MemoryListItem', () => {
     expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
   });
 
-  it('Should contain 2 child elements', () => {
+  it('Should contain 3 child elements', () => {
     let rendered = ReactDOM.findDOMNode(component);
-    expect(rendered.children.length).to.equal(2);
-  });  
-  
-  it('First element should be a <h4> child element with title info', () => {
-    let rendered = ReactDOM.findDOMNode(component)
-    expect(rendered.children[0].nodeName).to.equal('H4');
-    expect(rendered.children[0].textContent).to.equal('My Title');
-    expect(rendered.children[0].className).to.equal('list-group-item-heading');
+    expect(rendered.children.length).to.equal(3);
   });
-  
+
+  it('First element should be a <i> child element with type icon', () => {
+    let rendered = ReactDOM.findDOMNode(component)
+    expect(rendered.children[0].nodeName).to.equal('I');
+    expect(rendered.children[0].className).to.equal('fa fa-comment-o pull-right fa-2x');
+  });
+
+  it('Second element should be a <h4> child element with title info', () => {
+    let rendered = ReactDOM.findDOMNode(component)
+    expect(rendered.children[1].nodeName).to.equal('H4');
+    expect(rendered.children[1].textContent).to.equal('My Title');
+    expect(rendered.children[1].className).to.equal('list-group-item-heading');
+  });
+
   // TODO: create test for reactions
   // it('Second element should be a <p> child element with reactions info', () => {
   //   let rendered = ReactDOM.findDOMNode(component)
   //   expect(rendered.children[1].nodeName).to.equal('P');
   //   expect(rendered.children[1].textContent).to.equal('List Data');
   //   expect(rendered.children[1].className).to.equal('memory-list-item-data');
-  // }); 
-  
+  // });
+
   // it('Third element should be a <span> child element distance info', () => {
   //   let rendered = ReactDOM.findDOMNode(component)
   //   expect(rendered.children[2].nodeName).to.equal('SPAN');
   //   expect(rendered.children[2].className).to.equal('memory-list-item-distance');
-  // }); 
+  // });
 
   xit('Should open a modal when clicked', () => {
 
