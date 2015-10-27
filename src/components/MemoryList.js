@@ -30,8 +30,8 @@ export class MemoryList extends React.Component {
       return <i className="fa fa-spinner fa-spin fa-2x"></i>;
     } else if (memories.length === 0) {
       return (
-        <Alert bsStyle="warning">
-          There are no memories in your location
+        <Alert bsStyle="info">
+          There are no memories near you
         </Alert>
       );
     } else {
