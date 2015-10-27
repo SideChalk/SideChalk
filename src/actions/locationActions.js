@@ -1,6 +1,6 @@
 import { SET_USER_LOCATION, UPDATE_USER_LOCATION } from 'constants/ActionTypes.js';
 import { geoFire, defaultCenter, defaultRadius } from 'actions/firebaseVars.js';
-import { syncData } from 'actions/memoryActions.js';
+import { initializeMemories } from 'actions/memoryActions.js';
 
 let geoQuery;
 
@@ -31,7 +31,7 @@ export function setLocation () {
           center: [latitude, longitude],
           radius: defaultRadius
         });
-        syncData(dispatch, geoQuery);
+        dispatch( initializeMemories(geoQuery) );
       });
 
       navigator.geolocation.watchPosition((position) => {
@@ -52,7 +52,7 @@ export function setLocation () {
         center: defaultCenter,
         radius: defaultRadius
       });
-      syncData(dispatch, geoQuery);
+      dispatch( initializeMemories(geoQuery) );
     }
   };
 }
