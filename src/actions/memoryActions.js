@@ -1,6 +1,33 @@
-import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY } from 'constants/ActionTypes.js';
+import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES } from 'constants/ActionTypes.js';
 import { memoriesRef, geoFire, FIREBASE_TIMESTAMP } from 'actions/firebaseVars.js';
 
+export function initializeMemories(geoQuery) {
+  return (dispatch) => {
+    const memories = [];
+
+    const onKeyMovedRegistration =
+      geoQuery.on('key_entered', (key, location, distance) => {
+        memoriesRef
+        .child(key)
+        .once('value', (snapshot) => {
+          memories.push({...snapshot.val(), key, location, distance});
+        });
+      });
+
+    geoQuery.on('ready', () => {
+      //onKeyMovedRegistration.cancel();
+      dispatch(_initializeMemories(memories));
+      //syncData(dispatch, geoQuery);
+    });
+  };
+}
+
+function _initializeMemories(memories) {
+  return {
+    type: INITIALIZE_MEMORIES,
+    payload: memories
+  };
+}
 export function syncData(dispatch, geoQuery) {
   geoQuery.on('key_entered', (key, location, distance) => {
     memoriesRef
