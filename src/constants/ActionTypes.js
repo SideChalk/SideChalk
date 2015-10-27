@@ -5,9 +5,11 @@ export default createConstants(
   'REMOVE_MEMORY',
   'SEND_MEMORY',
   'INITIALIZE_MEMORIES',
+  'LOADED_MEMORIES',
 
   'SET_USER_LOCATION',
   'UPDATE_USER_LOCATION',
+  'LOCATION_ERROR',
 
   'CHECK_AUTH',
 

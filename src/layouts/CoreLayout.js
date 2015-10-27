@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { Navbar, CollapsibleNav, Nav, NavBrand, NavItem } from 'react-bootstrap';
+import { Navbar, CollapsibleNav, Nav, NavBrand, NavItem, Alert } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
@@ -16,7 +16,8 @@ export class CoreLayout extends React.Component {
     children : PropTypes.element,
     loggedIn: PropTypes.bool,
     toggleLoginModal: PropTypes.func,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    locationError: PropTypes.string
   }
 
   handleSelect(selectedKey) {
@@ -42,10 +43,21 @@ export class CoreLayout extends React.Component {
       </Navbar>
     );
   }
+  renderError() {
+    if (this.props.locationError) {
+      return (
+        <Alert bsStyle="danger">
+          <h4>Oh snap! You got an error!</h4>
+          <p>{this.props.locationError}</p>
+        </Alert>
+      );
+    }
+  }
   render () {
     return (
       <div className='page-container'>
         {this.renderNavbar()}
+        {this.renderError()}
         <div className='view-container'>
           {this.props.children}
         </div>
@@ -56,7 +68,8 @@ export class CoreLayout extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loggedIn : !!state.getIn(['auth', 'uid'])
+  loggedIn: !!state.getIn(['auth', 'uid']),
+  locationError: state.get('locationError')
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,23 +1,33 @@
-import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES } from 'constants/ActionTypes.js';
+import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES, LOADED_MEMORIES } from 'constants/ActionTypes.js';
 import { memoriesRef, geoFire, FIREBASE_TIMESTAMP } from 'actions/firebaseVars.js';
+import { syncLocation } from 'actions/locationActions.js';
 
 export function initializeMemories(geoQuery) {
   return (dispatch) => {
     const memories = [];
 
-    const onKeyMovedRegistration =
+    const onKeyEnterRegistration =
       geoQuery.on('key_entered', (key, location, distance) => {
-        memoriesRef
-        .child(key)
-        .once('value', (snapshot) => {
-          memories.push({...snapshot.val(), key, location, distance});
-        });
+        memories.push(new Promise((resolve) => {
+          memoriesRef
+          .child(key)
+          .once('value', (snapshot) => {
+            resolve({...snapshot.val(), key, location, distance});
+          });
+        }));
       });
 
-    geoQuery.on('ready', () => {
-      //onKeyMovedRegistration.cancel();
-      dispatch(_initializeMemories(memories));
-      //syncData(dispatch, geoQuery);
+    const onReadyRegistration = geoQuery.on('ready', () => {
+      onKeyEnterRegistration.cancel();
+      onReadyRegistration.cancel();
+
+      Promise.all(memories).then((values) => {
+        dispatch(_initializeMemories(values));
+        dispatch({type: LOADED_MEMORIES});
+
+        dispatch(syncData(geoQuery));
+        dispatch(syncLocation());
+      });
     });
   };
 }
@@ -28,19 +38,26 @@ function _initializeMemories(memories) {
     payload: memories
   };
 }
-export function syncData(dispatch, geoQuery) {
-  geoQuery.on('key_entered', (key, location, distance) => {
-    memoriesRef
-    .child(key)
-    .once('value', (snapshot) => {
-      const memory = {...snapshot.val(), key, location, distance};
-      dispatch(_receiveMemory(memory));
+export function syncData(geoQuery) {
+  let initialized = false;
+  return (dispatch) => {
+    geoQuery.on('key_entered', (key, location, distance) => {
+      if (!initialized) { return; }
+      memoriesRef
+      .child(key)
+      .once('value', (snapshot) => {
+        const memory = {...snapshot.val(), key, location, distance};
+        dispatch(_receiveMemory(memory));
+      });
     });
-  });
 
-  geoQuery.on('key_exited', (key) => {
-    dispatch(_removeMemory(key));
-  });
+    geoQuery.on('key_exited', (key) => {
+      dispatch(_removeMemory(key));
+    });
+    geoQuery.on('ready', () => {
+      initialized = true;
+    });
+  };
 }
 
 function _receiveMemory(memory) {

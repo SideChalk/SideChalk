@@ -1,4 +1,4 @@
-import { SET_USER_LOCATION, UPDATE_USER_LOCATION } from 'constants/ActionTypes.js';
+import { SET_USER_LOCATION, UPDATE_USER_LOCATION, LOCATION_ERROR } from 'constants/ActionTypes.js';
 import { geoFire, defaultCenter, defaultRadius } from 'actions/firebaseVars.js';
 import { initializeMemories } from 'actions/memoryActions.js';
 
@@ -32,20 +32,34 @@ export function setLocation () {
           radius: defaultRadius
         });
         dispatch( initializeMemories(geoQuery) );
-      });
-
-      navigator.geolocation.watchPosition((position) => {
-        // console.log('Updated coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        geoQuery.updateCriteria({
-          center: [latitude, longitude],
+      }, (error) => {
+        const PERMISSION_DENIED = 1;
+        if (error.code === PERMISSION_DENIED) {
+          alert('SideChalk does not have permission to use your location\n' +
+                'Please grant access to allow full functionality');
+          dispatch({
+            type: LOCATION_ERROR,
+            payload: 'SideChalk does not have permission to use your location'
+          });
+        } else {
+          dispatch({
+            type: LOCATION_ERROR,
+            payload: 'SideChalk was unable to find your location'
+          });
+        }
+        dispatch(_setLocation(defaultCenter));
+        geoQuery = geoFire.query({
+          center: defaultCenter,
           radius: defaultRadius
         });
-        dispatch(_updateLocation([latitude, longitude]));
+        dispatch( initializeMemories(geoQuery) );
       });
     } else {
       // Set location with default
+      dispatch({
+        type: LOCATION_ERROR,
+        payload: 'Your browser does not support geolocation'
+      });
       dispatch(_setLocation(defaultCenter));
 
       geoQuery = geoFire.query({
@@ -54,5 +68,19 @@ export function setLocation () {
       });
       dispatch( initializeMemories(geoQuery) );
     }
+  };
+}
+export function syncLocation () {
+  return (dispatch) => {
+    navigator.geolocation.watchPosition((position) => {
+      // console.log('Updated coordinates long:' + position.coords.longitude + ' lat:' + position.coords.latitude);
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      geoQuery.updateCriteria({
+        center: [latitude, longitude],
+        radius: defaultRadius
+      });
+      dispatch(_updateLocation([latitude, longitude]));
+    });
   };
 }
