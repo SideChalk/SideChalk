@@ -1,3 +1,6 @@
+// contains various color/font options for future implementation
+
+
 // ================= resources: colors ================ //
 
 const colors = {
@@ -36,7 +39,7 @@ const materialColors = {
   }
 };
 
-const cssTricksColors = {
+const CTColors = {
   nearBlack: '#111',
   darkShadow: '#222',
   darkSmoothGrey: '#333',
@@ -51,49 +54,21 @@ const victorColors = {
   snazzyOrange: '#BF4E30'
 };
 
-const palette = {
-  brightText: cssTricksColors.white,
-  softText: cssTricksColors.lightCloudyGrey,
-  highlightTextCool: cssTricksColors.snazzyBlue,
-  highlightTextWarm: victorColors.snazzyOrange,
-  button: cssTricksColors.snazzyBlue,
-  darkBackground: cssTricksColors.darkShadow,
-  midBackground: cssTricksColors.darkSmoothGrey,
-  lightBackground: cssTricksColors.mediumSmoothGrey
-  // primary1Color: Colors.cyan500,
-  // primary2Color: Colors.cyan700,
-  // primary3Color: Colors.lightBlack,
-  // accent1Color: Colors.pinkA200,
-  // accent2Color: Colors.grey100,
-  // accent3Color: Colors.grey500,
-  // textColor: Colors.darkBlack,
-  // alternateTextColor: Colors.white,
-  // canvasColor: Colors.white,
-  // borderColor: Colors.grey300,
-  // disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
-};
+const RDTColors = {
+  pinkGrey: '#D381C3',
+  limeGreen: '#A1C659',
+  softGreyBlue: '#6FB3D2',
+  cloudGrey: '#BEBEBE',
+  burntOrange: '#FC6D24',
+  backgroundGrey: '#2A2F3A',
+  plainGrey: '#4F5A65',
+}
+
 
 // ================= resources: fonts ================ //
 
 const fonts = {
   serifChoice: 'Oswald',
-  sansSerifChoice: 'Futura'
-};
-
-// ================= resources: spacing ================ //
-
-const spacing = {
-  smallMargin: '5px',
-  bigMargin: '10px',
-  smallPadding: '5px',
-  bigPadding: '10px',
-  rounding: '2px'
-};
-
-
-// ================= specific sets ================ //
-
-export const rootStyle = {
-  backgroundColor: palette.darkBackground,
-  color: palette.softText
+  sansSerifChoice: 'Futura',
+  neatSansSerifChoice: 'Monaco'
 };
