@@ -53,7 +53,7 @@ describe('(Component) MemoryListItem', () => {
   it('First element should be a <i> child element with type icon', () => {
     let rendered = ReactDOM.findDOMNode(component)
     expect(rendered.children[0].nodeName).to.equal('I');
-    expect(rendered.children[0].className).to.equal('fa fa-comment-o pull-right fa-2x');
+    expect(rendered.children[0].className).to.equal('fa fa-comment-o pull-right fa-2x type-icon');
   });
 
   it('Second element should be a <h4> child element with title info', () => {
