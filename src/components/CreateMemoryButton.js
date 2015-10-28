@@ -19,6 +19,12 @@ export class CreateMemoryButton extends React.Component {
       if (this.props.memType === 'text') {
         this.props.createMemory('text');
       }
+      if (this.props.memType === 'music') {
+        this.props.createMemory('music');
+      }
+      if (this.props.memType === 'drawing') {
+        this.props.createMemory('drawing');
+      }
     }
   }
 
