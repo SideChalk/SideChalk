@@ -8,20 +8,25 @@ import { connect }            from 'react-redux';
 import LoginModal from 'components/loginModal.js';
 import { toggleLoginModal, logout } from 'actions/authActions.js';
 
+import MemoryModal from 'components/MemoryModal';
+import { showMemoryDetails, dismissMemoryDetails } from 'actions/memoryModalActions.js';
+
 import 'styles/core.scss';
 
 
 export class CoreLayout extends React.Component {
   static propTypes = {
     children : PropTypes.element,
+
     loggedIn: PropTypes.bool,
     toggleLoginModal: PropTypes.func,
     logout: PropTypes.func,
-    locationError: PropTypes.string
-  }
 
-  handleSelect(selectedKey) {
-    console.log(selectedKey);
+    locationError: PropTypes.string,
+
+    memoryModalState: PropTypes.object,
+    showMemoryDetails: PropTypes.func,
+    dismissMemoryDetails: PropTypes.func
   }
 
   renderNavbar() {
@@ -43,6 +48,7 @@ export class CoreLayout extends React.Component {
       </Navbar>
     );
   }
+
   renderError() {
     if (this.props.locationError) {
       return (
@@ -53,6 +59,22 @@ export class CoreLayout extends React.Component {
       );
     }
   }
+
+  renderMemoryModal() {
+    const { memoryModalState } = this.props;
+    const memoryModalActions = {
+      showMemoryDetails: this.props.showMemoryDetails,
+      dismissMemoryDetails: this.props.dismissMemoryDetails
+    };
+    if (memoryModalState.get('showMemoryModal')) {
+      return (
+        <MemoryModal
+          memoryModalState={memoryModalState.toJS()}
+          memoryModalActions={memoryModalActions} />
+      );
+    }
+  }
+
   render () {
     return (
       <div className='page-container'>
@@ -60,6 +82,7 @@ export class CoreLayout extends React.Component {
         {this.renderError()}
         <div className='view-container'>
           {this.props.children}
+          {this.renderMemoryModal()}
         </div>
         <LoginModal />
       </div>
@@ -69,12 +92,17 @@ export class CoreLayout extends React.Component {
 
 const mapStateToProps = (state) => ({
   loggedIn: !!state.getIn(['auth', 'uid']),
-  locationError: state.get('locationError')
+  locationError: state.get('locationError'),
+
+  memoryModalState : state.get('memoryModals')
 });
 
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
-  logout : bindActionCreators(logout, dispatch)
+  logout : bindActionCreators(logout, dispatch),
+
+  showMemoryDetails : bindActionCreators(showMemoryDetails, dispatch),
+  dismissMemoryDetails : bindActionCreators(dismissMemoryDetails, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout);

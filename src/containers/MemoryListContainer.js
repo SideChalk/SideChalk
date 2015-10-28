@@ -5,7 +5,7 @@ import { Grid, Row } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
-import { showMemoryDetails, dismissMemoryDetails } from 'actions/memoryModalActions.js';
+import { showMemoryDetails } from 'actions/memoryModalActions.js';
 import { toggleLoginModal } from 'actions/authActions.js';
 
 export class MemoryListContainer extends React.Component {
@@ -14,9 +14,7 @@ export class MemoryListContainer extends React.Component {
     memories: React.PropTypes.object,
     sendMemory: React.PropTypes.func,
     showMemoryDetails: React.PropTypes.func,
-    dismissMemoryDetails: React.PropTypes.func,
     toggleLoginModal: React.PropTypes.func,
-    memoryModalState: React.PropTypes.object,
     userUID: React.PropTypes.string,
     loading: React.PropTypes.bool
   }
@@ -33,11 +31,7 @@ export class MemoryListContainer extends React.Component {
   }
 
   render() {
-    const {memories, memoryModalState, loading} = this.props;
-    const memoryModalActions = {
-      showMemoryDetails: this.props.showMemoryDetails,
-      dismissMemoryDetails: this.props.dismissMemoryDetails
-    };
+    const {memories, loading} = this.props;
 
     return (
       <Grid>
@@ -45,8 +39,7 @@ export class MemoryListContainer extends React.Component {
         <Row className="show-grid">
             <MemoryList
               memories={memories.toJS()}
-              memoryModalState={memoryModalState.toJS()}
-              memoryModalActions={memoryModalActions}
+              showMemoryDetails={this.props.showMemoryDetails}
               loading={loading} />
         </Row>
       </Grid>
@@ -56,15 +49,13 @@ export class MemoryListContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   memories : state.get('memories'),
-  memoryModalState : state.get('memoryModals'),
   userUID: state.getIn(['auth', 'uid']),
   loading: state.get('loadingMemories')
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),
   sendMemory : bindActionCreators(sendMemory, dispatch),
-  showMemoryDetails : bindActionCreators(showMemoryDetails, dispatch),
-  dismissMemoryDetails : bindActionCreators(dismissMemoryDetails, dispatch)
+  showMemoryDetails : bindActionCreators(showMemoryDetails, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemoryListContainer);
