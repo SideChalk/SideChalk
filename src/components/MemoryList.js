@@ -2,25 +2,17 @@ import React, { PropTypes } from 'react';
 import { ListGroup, Alert } from 'react-bootstrap';
 
 import MemoryListItem from 'components/MemoryListItem.js';
-import MemoryModal from 'components/MemoryModal';
 
 export class MemoryList extends React.Component {
 
   static propTypes = {
     memories: PropTypes.array,
-    memoryModalState: PropTypes.shape({
-      memoryInFocus: PropTypes.object,
-      showMemoryModal: PropTypes.boolean
-    }),
-    memoryModalActions: PropTypes.shape({
-      showMemoryDetails: PropTypes.func,
-      dismissMemoryDetails: PropTypes.func
-    }),
+    showMemoryDetails: PropTypes.func,
     loading: PropTypes.bool
   }
 
   handleClick(memory) {
-    this.props.memoryModalActions.showMemoryDetails(memory);
+    this.props.showMemoryDetails(memory);
   }
 
   renderListItems() {
@@ -42,21 +34,10 @@ export class MemoryList extends React.Component {
   }
 
   render() {
-    const { memoryModalState, memoryModalActions } = this.props;
-    const memoryModal = memoryModalState.showMemoryModal ? (
-      <MemoryModal
-        memoryModalState={memoryModalState}
-        memoryModalActions={memoryModalActions} />
-      )
-      : null;
-
     return (
-      // <div>
-        <ListGroup componentClass="ul" className="memory-list">
-          {this.renderListItems()}
-          {memoryModal}
-        </ListGroup>
-      // </div>
+      <ListGroup componentClass="ul" className="memory-list">
+        {this.renderListItems()}
+      </ListGroup>
     );
   }
 
