@@ -1,28 +1,82 @@
-import React, { Component, PropTypes } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React from 'react';
+import { Modal, Button, Input } from 'react-bootstrap';
 
-export default class MemoryModal extends React.Component {
-  const memoryTypes = {
+export default class CreateMemoryModal extends React.Component {
+  static propTypes = {
+    modalType: React.PropTypes.string,
+    modalState: React.PropTypes.string,
+    dismissCreateMemory: React.PropTypes.func,
+    sendMemory: React.PropTypes.func
+  };
+
+  memoryTypes = {
     text: 'Text',
     music: 'Music',
     drawing: 'Drawing'
   };
 
-  propTypes = {
-
-  };
+  handleClick() {
+    const title = this.refs.title.refs.input;
+    const data = this.refs.data.refs.input;
+    this.props.sendMemory({data: data.value, title: title.value, type: 'text'}, [45, 65]);
+    // alert(data.value + ':' + title.value)
+    title.value = '';
+    data.value = '';
+  }
 
   render () {
+    let showModal = false;
+    if (this.props.modalType) {
+      showModal = true;
+      if (this.props.modalType === 'hide') {
+        showModal = false;
+      }
+    }
+
+    /* TODO: render correct memory fields based on memory type */
+
     return (
-      <Modal >
+      <Modal show={ showModal }
+             onHide={this.props.dismissCreateMemory}>
         <div className="memory-modal">
-          <Modal.Header>
-            <Modal.Title className="memory-modal-title">New {memoryTypes.text} Memory</Modal.Title>
+          <Modal.Header className="memory-modal-title">
+            <Modal.Title>New {this.memoryTypes.text} Memory</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="memory-modal-body"></Modal.Body>
-          <Modal.Footer className="memory-modal-footer"></Modal.Footer>
+          <Modal.Body className="memory-modal-body">
+            <Input
+              className='message-title'
+              type='text'
+              ref='title'
+              placeholder='Title' />
+            <Input
+              className='message-data'
+              type='text'
+              ref='data'
+              placeholder='Memory..'/>
+          </Modal.Body>
+          <Modal.Footer className="memory-modal-footer">
+            <Button
+              className='add-memory-btn'
+              onClick={() => this.handleClick()}>
+              Add
+            </Button>
+            <Button
+              className='close-modal-btn'
+              onClick={this.props.dismissCreateMemory}>
+              Close
+            </Button>
+          </Modal.Footer>
         </div>
       </Modal>
-    )
+    );
   }
 }
+// const mapStateToProps = (state) => ({
+//   userUID: state.getIn(['auth', 'uid'])
+// });
+// const mapDispatchToProps = (dispatch) => ({
+//   sendMemory : bindActionCreators(sendMemory, dispatch)
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(CreateMemoryModal);
+
