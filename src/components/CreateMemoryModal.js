@@ -18,10 +18,12 @@ export default class CreateMemoryModal extends React.Component {
   handleClick() {
     const title = this.refs.title.refs.input;
     const data = this.refs.data.refs.input;
-    this.props.sendMemory({data: data.value, title: title.value, type: 'text'}, [45, 65]);
-    // alert(data.value + ':' + title.value)
+    const priv = this.refs.priv.refs.input;
+    // alert(priv.checked);
+    this.props.sendMemory({data: data.value, title: title.value, type: 'text'}, priv.checked);
     title.value = '';
     data.value = '';
+    priv.checked = false;
   }
 
   render () {
@@ -52,6 +54,12 @@ export default class CreateMemoryModal extends React.Component {
               className='message-data'
               type='text'
               ref='data'
+              placeholder='Memory..'/>
+            Private:
+            <Input
+              className='message-private'
+              type='checkbox'
+              ref='priv'
               placeholder='Memory..'/>
           </Modal.Body>
           <Modal.Footer className="memory-modal-footer">
