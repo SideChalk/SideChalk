@@ -15,6 +15,58 @@ export default class MemoryModal extends Component {
     return distanceString;
   }
 
+  reactionHandler (payload) {
+    const key = payload.key;
+    const reactionType = payload.reactionType;
+
+    console.log(key, reactionType);
+  }
+
+  fetchReactions (input){
+    //Here we could probably query Firebase DB?
+    if (!input) return;
+ 
+    console.log("\n\n\n\n\n\n THIS IS INPUT:", input);
+    
+    return input.map((count, reaction) => {
+      if (reaction === 'smile'){
+        return (
+          <i className="fa fa-smile-o pull-right fa-border fa-2x" 
+            onClick={() => 
+              this.reactionHandler({
+                key:memory.key, 
+                reactionType: reaction, 
+                context:this})}> 
+                {count}
+            </i>);
+      }else if( reaction === 'frown'){
+        return (
+          <i className="fa fa-frown-o pull-right fa-border fa-2x" 
+            onClick={() => 
+              this.reactionHandler({
+                key:memory.key, 
+                reactionType: reaction, 
+                context:this})}> 
+                {count}
+            </i>);
+      }else if( reaction === 'frown'){
+        return (
+          <i className="fa fa-frown-o pull-right fa-border fa-2x" 
+            onClick={() => 
+              this.reactionHandler({
+                key:memory.key, 
+                reactionType: reaction, 
+                context:this})}> 
+                {count}
+            </i>);
+      }
+
+    });
+    
+
+  }
+
+
   render () {
     const { memoryModalState, memoryModalActions } = this.props;
     const memory = memoryModalState.memoryInFocus;
@@ -41,7 +93,9 @@ export default class MemoryModal extends Component {
              style={{opacity: 1 - (memory.distance / 3000)}}>
         <div className="memory-modal">
           <Modal.Header className="memory-modal-title">
-            <Modal.Title>{memory.content.title}</Modal.Title>
+            <Modal.Title>{memory.content.title}
+
+            {memory.key}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="memory-modal-body">{memoryBody}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
@@ -51,9 +105,15 @@ export default class MemoryModal extends Component {
             </div>
             <div>Reactions:</div>
               <div>
-                <i className="fa fa-smile-o fa-2x fa-border">2</i>
-                <i className="fa fa-frown-o fa-2x fa-border">3</i>
-                <i className="fa fa-heart fa-2x fa-border"></i>
+
+                { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
+              </div>
+               <div>
+                <div dangerouslySetInnerHTML={ this.fetchReactions(memory.reactions) }/>
+                // <i className='fa fa-smile-o fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'smile', context:this})}></i>
+                // <i className='fa fa-frown-o fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'frown', context:this})}></i>
+                // <i className='fa fa-heart fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'heart', context:this})}></i>
+
               </div>
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
