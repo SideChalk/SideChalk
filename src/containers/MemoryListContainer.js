@@ -17,7 +17,8 @@ export class MemoryListContainer extends React.Component {
     dismissMemoryDetails: React.PropTypes.func,
     toggleLoginModal: React.PropTypes.func,
     memoryModalState: React.PropTypes.object,
-    userUID: React.PropTypes.string
+    userUID: React.PropTypes.string,
+    loading: React.PropTypes.bool
   }
 
   handleClick() {
@@ -32,7 +33,7 @@ export class MemoryListContainer extends React.Component {
   }
 
   render() {
-    const {memories, memoryModalState} = this.props;
+    const {memories, memoryModalState, loading} = this.props;
     const memoryModalActions = {
       showMemoryDetails: this.props.showMemoryDetails,
       dismissMemoryDetails: this.props.dismissMemoryDetails
@@ -54,7 +55,8 @@ export class MemoryListContainer extends React.Component {
             <MemoryList
               memories={memories.toJS()}
               memoryModalState={memoryModalState.toJS()}
-              memoryModalActions={memoryModalActions} />
+              memoryModalActions={memoryModalActions}
+              loading={loading} />
         </Row>
       </Grid>
     );
@@ -64,7 +66,8 @@ export class MemoryListContainer extends React.Component {
 const mapStateToProps = (state) => ({
   memories : state.get('memories'),
   memoryModalState : state.get('memoryModals'),
-  userUID: state.getIn(['auth', 'uid'])
+  userUID: state.getIn(['auth', 'uid']),
+  loading: state.get('loadingMemories')
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleLoginModal : bindActionCreators(toggleLoginModal, dispatch),

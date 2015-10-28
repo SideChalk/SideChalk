@@ -73,7 +73,7 @@ describe('memories reducer', () => {
       location: 'SF',
       distance: 100
     };
-    const startingState = immutable.List.of(memory2, memory1);
+    const startingState = fromJS([memory2, memory1]);
 
     const state = memoriesReducer(startingState, {
       type: REMOVE_MEMORY,
