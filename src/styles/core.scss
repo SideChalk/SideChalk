@@ -1,2 +1,6 @@
 @import 'base';
-@import 'vendor/normalize';
+@import 'variables';
+$icon-font-path: "~/vendor/bootstrap/fonts/bootstrap/";
+@import 'vendor/bootstrap/stylesheets/bootstrap';
+@import 'bootswatch';
+@import 'vendor/bootstrap/stylesheets/bootstrap/theme';
