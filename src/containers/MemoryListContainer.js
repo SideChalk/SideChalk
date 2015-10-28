@@ -1,7 +1,7 @@
 import React                  from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
-import { Button, Grid, Row, ButtonToolbar } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 
 import MemoryList from 'components/MemoryList.js';
 import { sendMemory } from 'actions/memoryActions.js';
@@ -41,15 +41,6 @@ export class MemoryListContainer extends React.Component {
 
     return (
       <Grid>
-        <Row className="show-grid">
-            <ButtonToolbar>
-              <Button style={{float:'none'}}
-                className='btn'
-                onClick={() => this.handleClick()}>
-                Add Memory
-              </Button>
-            </ButtonToolbar>
-        </Row>
         <br />
         <Row className="show-grid">
             <MemoryList

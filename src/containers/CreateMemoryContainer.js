@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import CreateMemoryButton from 'components/CreateMemoryButton.js';
+import { CreateMemoryButton } from 'components/CreateMemoryButton.js';
 import CreateMemoryModal from 'components/CreateMemoryModal.js';
 import { sendMemory } from 'actions/memoryActions.js';
 import { createMemory, dismissCreateMemory } from 'actions/memoryModalActions.js';
@@ -22,25 +22,24 @@ export class CreateMemoryContainer extends React.Component {
   }
 
   render() {
-    // const {memories, memoryModalState} = this.props;
     return (
       <Grid>
         <Row>
-          <Col md={1}>
+          <Col md={2}>
             <CreateMemoryButton
               memType="text"
               createMemory={this.props.createMemory}
               toggleLoginModal={this.props.toggleLoginModal}
               userUID={this.props.userUID} />
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             <CreateMemoryButton
               memType="music"
               createMemory={this.props.createMemory}
               toggleLoginModal={this.props.toggleLoginModal}
               userUID={this.props.userUID} />
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             <CreateMemoryButton
               memType="drawing"
               createMemory={this.props.createMemory}

@@ -26,8 +26,7 @@ export class CreateMemoryButton extends React.Component {
     return (
       <Button
         className='create-memory-button'
-        onClick={() => this.handleClick()}
-        >
+        onClick={() => this.handleClick()} >
         Add { this.props.memType }
       </Button>
     );
