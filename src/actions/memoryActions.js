@@ -74,13 +74,13 @@ function _removeMemory(key) {
   };
 }
 
-export function sendMemory(content) {
+export function sendMemory(content, priv) {
   return (dispatch, getState) => {
   // TODO: Validate input before sending, then take out sampleContent
     const memoryTemplate = {
     // TODO: Convert root state to immutable. Need an npm module to do so
       ownerId: getState().getIn(['auth', 'uid']),
-      private: false,
+      private: priv || false,
       createdAt: FIREBASE_TIMESTAMP,
       content: {
         title:'hello',
