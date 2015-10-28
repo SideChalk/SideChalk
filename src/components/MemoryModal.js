@@ -60,4 +60,3 @@ MemoryModal.propTypes = {
     dismissMemoryDetails: PropTypes.func
   })
 };
-

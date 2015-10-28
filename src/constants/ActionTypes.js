@@ -7,6 +7,12 @@ export default createConstants(
   'INITIALIZE_MEMORIES',
   'LOADED_MEMORIES',
 
+  'CREATE_TEXT_MEMORY',
+  /* Future memory entry types */
+  'CREATE_MUSIC_MEMORY',
+  'CREATE_DRAWING_MEMORY',
+  'DISMISS_CREATE_MEMORY',
+
   'SET_USER_LOCATION',
   'UPDATE_USER_LOCATION',
   'LOCATION_ERROR',
