@@ -26,6 +26,51 @@ export default class CreateMemoryModal extends React.Component {
     priv.checked = false;
   }
 
+  renderContentInput() {
+    if (this.props.modalType === 'text') {
+      return this.renderTextInput();
+    }
+    if (this.props.modalType === 'music') {
+      return this.renderMusicInput();
+    }
+    if (this.props.modalType === 'drawing') {
+      return this.renderDrawingInput();
+    }
+  }
+
+  renderTextInput() {
+    return (
+      <Input
+        type='text'
+        ref='data'
+        placeholder='Memory..'/>
+    );
+  }
+
+  renderMusicInput() {
+    return (
+      <Input
+        type='text'
+        ref='data'
+        placeholder='Search for music..'/>
+    );
+  }
+
+  renderDrawingInput() {
+    return (
+      'DRAWING '
+    );
+  }
+
+  renderTitleInput() {
+    return (
+      <Input
+        type='text'
+        ref='title'
+        placeholder='Title' />
+    );
+  }
+
   render () {
     let showModal = false;
     if (this.props.modalType) {
@@ -42,19 +87,11 @@ export default class CreateMemoryModal extends React.Component {
              onHide={this.props.dismissCreateMemory}>
         <div className="memory-modal">
           <Modal.Header className="memory-modal-title">
-            <Modal.Title>New {this.memoryTypes.text} Memory</Modal.Title>
+            <Modal.Title>New {this.memoryTypes[this.props.modalType]} Memory</Modal.Title>
           </Modal.Header>
           <Modal.Body className="memory-modal-body">
-            <Input
-              className='message-title'
-              type='text'
-              ref='title'
-              placeholder='Title' />
-            <Input
-              className='message-data'
-              type='text'
-              ref='data'
-              placeholder='Memory..'/>
+            { this.renderTitleInput() }
+            { this.renderContentInput() }
             Private:
             <Input
               className='message-private'
