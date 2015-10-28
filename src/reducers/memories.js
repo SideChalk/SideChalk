@@ -23,7 +23,11 @@ function removeMemory(memories, key) {
 }
 
 function initializeMemories(state, memories) {
-  const sortedMemories = memories.sort((a, b)=> a.distance - b.distance);
+  const sortedMemories =
+    memories
+    .filter(memory => !!memory)
+    .sort((a, b) => a.distance - b.distance);
+
   return state.merge(sortedMemories);
 }
 

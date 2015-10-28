@@ -13,7 +13,7 @@ export function initializeMemories(geoQuery) {
           .child(key)
           .once('value', (snapshot) => {
             resolve({...snapshot.val(), key, location, distance});
-          });
+          }, (/* err  */) => resolve() );
         }));
       });
 
