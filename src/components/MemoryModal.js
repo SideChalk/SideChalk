@@ -33,7 +33,8 @@ export default class MemoryModal extends Component {
       // Probably also want to toggle as well
   }
 
-  fetchReactions (input, memoryObj) {
+  fetchReactions (memoryObj) {
+    const reactions = memoryObj.reactions;
     const output = [];
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
@@ -44,7 +45,7 @@ export default class MemoryModal extends Component {
                key:memoryObj.key,
                reactionType: classRef,
                context:this})}>
-               {input ? input[classRef] ? input[classRef] : 0 : 0}
+               {reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0}
            </i>);
     }
     return output;
@@ -87,7 +88,7 @@ export default class MemoryModal extends Component {
             </div>
             <div>Reactions:</div>
                <div>
-               { this.fetchReactions(memory.reactions, memory) }
+               { this.fetchReactions(memory) }
               </div>
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
