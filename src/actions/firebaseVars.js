@@ -12,9 +12,10 @@ export const geoFire = new GeoFire(geoRef);
 
 /* Default radius measured in km */
 
-export const defaultRadius = 10;
+export const defaultRadius = 350;
 
 /* Default center lat/long is currently Moscone Center */
 // const defaultCenter = [37.783530, -122.402482];
 export const defaultCenter = [25, 25];
 
+export const reactionTypes = ['smile', 'heart', 'meh', 'frown'];

@@ -15,6 +15,67 @@ export default class MemoryModal extends Component {
     return distanceString;
   }
 
+  reactionHandler (payload) {
+    const key = payload.key;
+    const reactionType = payload.reactionType;
+    // This should probably be an action to manipulate DB & increment number
+    console.log(key, reactionType);
+    // Need to update display number
+      // Probably also want to toggle as well
+  }
+
+  fetchReactions (input, memoryObj) {
+    // Here we could perhaps query Firebase DB?
+    if (!input) return;
+ 
+    const output = [];
+    for (const reaction in input) {
+      if (reaction === 'smile') {
+        output.push(
+          <i className="fa fa-smile-o fa-border fa-2x"
+            onClick={() =>
+              this.reactionHandler({
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
+            </i>);
+      }else if (reaction === 'frown') {
+        output.push(
+          <i className="fa fa-frown-o fa-border fa-2x"
+            onClick={() =>
+              this.reactionHandler({
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
+            </i>);
+      }else if (reaction === 'heart') {
+        output.push(
+          <i className="fa fa-heart-o fa-border fa-2x"
+            onClick={() =>
+              this.reactionHandler({
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
+            </i>);
+      }else if (reaction === 'meh') {
+        output.push(
+          <i className="fa fa-meh-o fa-border fa-2x"
+            onClick={() =>
+              this.reactionHandler({
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
+            </i>);
+      }
+    }
+    return output;
+  }
+
+
   render () {
     const { memoryModalState, memoryModalActions } = this.props;
     const memory = memoryModalState.memoryInFocus;
@@ -35,10 +96,8 @@ export default class MemoryModal extends Component {
               { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
             </div>
             <div>Reactions:</div>
-              <div>
-                <i className="fa fa-smile-o fa-2x fa-border">2</i>
-                <i className="fa fa-frown-o fa-2x fa-border">3</i>
-                <i className="fa fa-heart fa-2x fa-border"></i>
+               <div>
+               { this.fetchReactions(memory.reactions, memory) }
               </div>
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
