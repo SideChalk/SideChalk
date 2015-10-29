@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button, Image } from 'react-bootstrap';
 import * as moment from 'moment';
+import {reactionTypes} from '../actions/firebaseVars.js';
 
 export default class MemoryModal extends Component {
 
@@ -25,52 +26,18 @@ export default class MemoryModal extends Component {
   }
 
   fetchReactions (input, memoryObj) {
-    // Here we could perhaps query Firebase DB?
-    if (!input) return;
- 
     const output = [];
-    for (const reaction in input) {
-      if (reaction === 'smile') {
-        output.push(
-          <i className="fa fa-smile-o fa-border fa-2x"
-            onClick={() =>
-              this.reactionHandler({
-                key:memoryObj.key,
-                reactionType: reaction,
-                context:this})}>
-                { input[reaction] }
-            </i>);
-      }else if (reaction === 'frown') {
-        output.push(
-          <i className="fa fa-frown-o fa-border fa-2x"
-            onClick={() =>
-              this.reactionHandler({
-                key:memoryObj.key,
-                reactionType: reaction,
-                context:this})}>
-                { input[reaction] }
-            </i>);
-      }else if (reaction === 'heart') {
-        output.push(
-          <i className="fa fa-heart-o fa-border fa-2x"
-            onClick={() =>
-              this.reactionHandler({
-                key:memoryObj.key,
-                reactionType: reaction,
-                context:this})}>
-                { input[reaction] }
-            </i>);
-      }else if (reaction === 'meh') {
-        output.push(
-          <i className="fa fa-meh-o fa-border fa-2x"
-            onClick={() =>
-              this.reactionHandler({
-                key:memoryObj.key,
-                reactionType: reaction,
-                context:this})}>
-                { input[reaction] }
-            </i>);
-      }
+    for (let i = 0; i < reactionTypes.length; i++) {
+      const classRef = reactionTypes[i];
+      output.push(
+         <i className={`fa fa-${classRef}-o fa-border fa-2x`}
+           onClick={() =>
+             this.reactionHandler({
+               key:memoryObj.key,
+               reactionType: classRef,
+               context:this})}>
+               {input[classRef] ? input[classRef] : 0}
+           </i>);
     }
     return output;
   }
