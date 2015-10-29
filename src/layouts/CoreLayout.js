@@ -35,7 +35,7 @@ export class CoreLayout extends React.Component {
         <NavBrand>SideChalk</NavBrand>
         <CollapsibleNav eventKey={0}>
           <Nav navbar>
-            <LinkContainer to="/"><NavItem>List</NavItem></LinkContainer>
+            <LinkContainer to="/list"><NavItem>List</NavItem></LinkContainer>
             <LinkContainer to="/map"><NavItem>Map</NavItem></LinkContainer>
           </Nav>
           <Nav navbar right inverse>
