@@ -50,7 +50,7 @@ export default class MemoryModal extends Component {
                 context:this})}>
                 { input[reaction] }
             </i>);
-      }else if( reaction === 'heart') {
+      }else if (reaction === 'heart') {
         output.push(
           <i className="fa fa-heart-o fa-border fa-2x"
             onClick={() =>
@@ -58,7 +58,17 @@ export default class MemoryModal extends Component {
                 key:memoryObj.key,
                 reactionType: reaction,
                 context:this})}>
-                { input[reaction]}
+                { input[reaction] }
+            </i>);
+      }else if (reaction === 'meh') {
+        output.push(
+          <i className="fa fa-meh-o fa-border fa-2x"
+            onClick={() =>
+              this.reactionHandler({
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
             </i>);
       }
     }
