@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button, Image } from 'react-bootstrap';
-import * as moment from 'moment';
-import {reactionTypes} from '../actions/firebaseVars.js';
+import { Modal, Button, Image }        from 'react-bootstrap';
+import * as moment                     from 'moment';
+import {reactionTypes}                 from '../actions/firebaseVars.js';
+import { connect }                     from 'react-redux';
+
 
 export default class MemoryModal extends Component {
-
+  static propTypes = {
+    userUID: React.PropTypes.string
+  };
   cleanDate (input) {
     const rootDate = moment.default(input).fromNow();
     return rootDate;
@@ -17,6 +21,10 @@ export default class MemoryModal extends Component {
   }
 
   reactionHandler (payload) {
+    if (this.props.userUID === null) {
+      // User not logged in
+      return;
+    }
     const key = payload.key;
     const reactionType = payload.reactionType;
     // This should probably be an action to manipulate DB & increment number
@@ -101,3 +109,10 @@ MemoryModal.propTypes = {
     dismissMemoryDetails: PropTypes.func
   })
 };
+
+const mapStateToProps = (state) => ({
+  userUID: state.getIn(['auth', 'uid'])
+});
+
+export default connect(mapStateToProps)(MemoryModal);
+
