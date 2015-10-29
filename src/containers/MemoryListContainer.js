@@ -8,8 +8,6 @@ import { sendMemory } from 'actions/memoryActions.js';
 import { showMemoryDetails } from 'actions/memoryModalActions.js';
 import { toggleLoginModal } from 'actions/authActions.js';
 
-import { Music } from 'components/Music';
-
 export class MemoryListContainer extends React.Component {
 
   static propTypes = {
@@ -37,9 +35,7 @@ export class MemoryListContainer extends React.Component {
 
     return (
       <Grid>
-        <Row className="music">
-            <Music />
-        </Row>
+        <br />
         <Row className="show-grid">
             <MemoryList
               memories={memories.toJS()}
