@@ -18,10 +18,6 @@ export default class CreateMemoryModal extends React.Component {
     };
     this.closeModal = this.closeModal.bind(this);
     this.submitMemory = this.submitMemory.bind(this);
-    // this.searchForMusic = this.searchForMusic.bind(this);
-    // this.startStreaming = this.startStreaming.bind(this);
-    // this.pause = this.pause.bind(this);
-    // this.play = this.play.bind(this);
   }
 
   memoryTypes = {
@@ -31,9 +27,6 @@ export default class CreateMemoryModal extends React.Component {
   };
 
   closeModal() {
-    // this.refs.title.refs.input.value = '';
-    // this.refs.title.refs.data.value = '';
-    // priv.checked = false;
     this.setState({
       musicOptions: [],
       musicChoice: null
