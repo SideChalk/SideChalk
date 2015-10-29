@@ -36,7 +36,7 @@ export default class MemoryModal extends Component {
                key:memoryObj.key,
                reactionType: classRef,
                context:this})}>
-               {input[classRef] ? input[classRef] : 0}
+               {input ? input[classRef] ? input[classRef] : 0 : 0}
            </i>);
     }
     return output;
