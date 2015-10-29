@@ -38,7 +38,7 @@ export default class MemoryModal extends Component {
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
       output.push(
-         <i className={`fa fa-${classRef}-o fa-border fa-2x`}
+         <i key={i} className={`fa fa-${classRef}-o fa-border fa-2x`}
            onClick={() =>
              this.reactionHandler({
                key:memoryObj.key,
