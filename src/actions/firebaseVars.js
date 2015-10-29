@@ -14,7 +14,6 @@ export const geoFire = new GeoFire(geoRef);
 
 export const defaultRadius = 7;
 
-
 /* Default center lat/long is currently Moscone Center */
 export const defaultCenter = [37.783530, -122.402482];
 // export const defaultCenter = [25, 25];
