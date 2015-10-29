@@ -18,52 +18,51 @@ export default class MemoryModal extends Component {
   reactionHandler (payload) {
     const key = payload.key;
     const reactionType = payload.reactionType;
-
+    // This should probably be an action to manipulate DB & increment number
     console.log(key, reactionType);
+    // Need to update display number
+      // Probably also want to toggle as well
   }
 
-  fetchReactions (input){
-    //Here we could probably query Firebase DB?
+  fetchReactions (input, memoryObj) {
+    // Here we could perhaps query Firebase DB?
     if (!input) return;
  
-    console.log("\n\n\n\n\n\n THIS IS INPUT:", input);
-    
-    return input.map((count, reaction) => {
-      if (reaction === 'smile'){
-        return (
-          <i className="fa fa-smile-o pull-right fa-border fa-2x" 
-            onClick={() => 
+    const output = [];
+    for (const reaction in input) {
+      if (reaction === 'smile') {
+        output.push(
+          <i className="fa fa-smile-o pull-right fa-border fa-2x"
+            onClick={() =>
               this.reactionHandler({
-                key:memory.key, 
-                reactionType: reaction, 
-                context:this})}> 
-                {count}
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
             </i>);
-      }else if( reaction === 'frown'){
-        return (
-          <i className="fa fa-frown-o pull-right fa-border fa-2x" 
-            onClick={() => 
+      }else if (reaction === 'frown') {
+        output.push(
+          <i className="fa fa-frown-o pull-right fa-border fa-2x"
+            onClick={() =>
               this.reactionHandler({
-                key:memory.key, 
-                reactionType: reaction, 
-                context:this})}> 
-                {count}
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction] }
             </i>);
-      }else if( reaction === 'frown'){
-        return (
-          <i className="fa fa-frown-o pull-right fa-border fa-2x" 
-            onClick={() => 
+      }else if( reaction === 'heart') {
+        output.push(
+          <i className="fa fa-heart-o pull-right fa-border fa-2x"
+            onClick={() =>
               this.reactionHandler({
-                key:memory.key, 
-                reactionType: reaction, 
-                context:this})}> 
-                {count}
+                key:memoryObj.key,
+                reactionType: reaction,
+                context:this})}>
+                { input[reaction]}
             </i>);
       }
-
-    });
-    
-
+    }
+    return output;
   }
 
 
@@ -109,11 +108,7 @@ export default class MemoryModal extends Component {
                 { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
               </div>
                <div>
-                <div dangerouslySetInnerHTML={ this.fetchReactions(memory.reactions) }/>
-                // <i className='fa fa-smile-o fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'smile', context:this})}></i>
-                // <i className='fa fa-frown-o fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'frown', context:this})}></i>
-                // <i className='fa fa-heart fa-2x fa-border' onClick={() => this.reactionHandler({key:memory.key, reactionType:'heart', context:this})}></i>
-
+               { this.fetchReactions(memory.reactions, memory) }
               </div>
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
