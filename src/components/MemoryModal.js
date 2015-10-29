@@ -32,7 +32,7 @@ export default class MemoryModal extends Component {
     for (const reaction in input) {
       if (reaction === 'smile') {
         output.push(
-          <i className="fa fa-smile-o pull-right fa-border fa-2x"
+          <i className="fa fa-smile-o fa-border fa-2x"
             onClick={() =>
               this.reactionHandler({
                 key:memoryObj.key,
@@ -42,7 +42,7 @@ export default class MemoryModal extends Component {
             </i>);
       }else if (reaction === 'frown') {
         output.push(
-          <i className="fa fa-frown-o pull-right fa-border fa-2x"
+          <i className="fa fa-frown-o fa-border fa-2x"
             onClick={() =>
               this.reactionHandler({
                 key:memoryObj.key,
@@ -52,7 +52,7 @@ export default class MemoryModal extends Component {
             </i>);
       }else if( reaction === 'heart') {
         output.push(
-          <i className="fa fa-heart-o pull-right fa-border fa-2x"
+          <i className="fa fa-heart-o fa-border fa-2x"
             onClick={() =>
               this.reactionHandler({
                 key:memoryObj.key,
