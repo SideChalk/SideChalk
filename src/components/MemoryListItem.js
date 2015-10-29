@@ -16,13 +16,17 @@ export class MemoryListItem extends React.Component {
     memory: PropTypes.object,
     onClick: PropTypes.func
   }
-  renderIcon(type) {
+  renderIcon(type, secret) {
+    const icons = [];
     if (type === 'text') {
-      return <i className="fa fa-comment-o pull-right fa-2x"></i>;
+      icons.push( <i className="fa fa-comment-o pull-right fa-2x type-icon"></i> );
+    } else if (type === 'music') {
+      icons.push( <i className="fa fa-music pull-right fa-2x type-icon"></i> );
     }
-    if (type === 'music') {
-      return <i className="fa fa-music pull-right fa-2x"></i>;
+    if (secret) {
+      icons.push( <i className="fa fa-user-secret pull-right fa-2x text-info private-icon"></i> );
     }
+    return icons;
   }
   render() {
     const {memory} = this.props;
@@ -30,7 +34,7 @@ export class MemoryListItem extends React.Component {
     return (
         <ListGroupItem onClick={this.props.onClick}
                        style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
-          {this.renderIcon(memory.content.type)}
+          {this.renderIcon(memory.content.type, memory.private)}
           <h4 className="list-group-item-heading">{memory.content.title}</h4>
           <p className="list-group-item-text">REACTIONS</p>
         </ListGroupItem>
