@@ -19,15 +19,42 @@ export class MemoryListItem extends React.Component {
   renderIcon(type, secret) {
     const icons = [];
     if (type === 'text') {
-      icons.push( <i className="fa fa-comment-o pull-right fa-2x type-icon"></i> );
+      icons.push( <i className="fa fa-comment-o pull-right fa-2x type-icon" key="type"></i> );
     } else if (type === 'music') {
-      icons.push( <i className="fa fa-music pull-right fa-2x type-icon"></i> );
+      icons.push( <i className="fa fa-music pull-right fa-2x type-icon" key="type"></i> );
     }
     if (secret) {
-      icons.push( <i className="fa fa-user-secret pull-right fa-2x text-info private-icon"></i> );
+      icons.push( <i className="fa fa-user-secret pull-right fa-2x text-info private-icon" key="private"></i> );
     }
     return icons;
   }
+
+  renderReactions(reactions) {
+    if (!reactions) {
+      return <i className="fa fa-heart pull-left list-reaction-icon" key="heart"> 0</i>;
+    }
+
+    const iconInfo = {
+      heart: 'fa-heart',
+      smile: 'fa-smile-o',
+      frown: 'fa-frown-o'
+    };
+    const icons = [];
+
+    Object.keys(iconInfo).forEach(reaction => {
+      const count = reactions[reaction];
+      if (count) {
+        icons.push((
+          <i className={'fa pull-left list-reaction-icon ' + iconInfo[reaction]}
+            key={reaction}>
+             {' ' + count}
+          </i>
+        ));
+      }
+    });
+    return icons;
+  }
+
   render() {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
@@ -36,7 +63,7 @@ export class MemoryListItem extends React.Component {
                        style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
           {this.renderIcon(memory.content.type, memory.private)}
           <h4 className="list-group-item-heading">{memory.content.title}</h4>
-          <p className="list-group-item-text">REACTIONS</p>
+          {this.renderReactions(memory.reactions)}
         </ListGroupItem>
     );
   }
