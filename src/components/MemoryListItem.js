@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
 
+import { defaultRadius } from '../actions/firebaseVars';
+
 // TODO: Remove this when we validate memories.
 // Using this so app doesnt crash when content isnt fully defined
 const sampleMemory = {
@@ -8,7 +10,7 @@ const sampleMemory = {
 };
 
 // TEMP - TODO: set dynamically?
-const VISIBILITY_LIMIT = 150;
+const VISIBILITY_LIMIT = defaultRadius;
 
 export class MemoryListItem extends React.Component {
 
