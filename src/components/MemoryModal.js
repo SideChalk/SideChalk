@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Image } from 'react-bootstrap';
 import * as moment from 'moment';
 
 export default class MemoryModal extends Component {
@@ -20,6 +20,21 @@ export default class MemoryModal extends Component {
     const memory = memoryModalState.memoryInFocus;
     const dismissMemoryDetails = memoryModalActions.dismissMemoryDetails;
 
+    let memoryBody = null;
+    if (memory.content.type === 'text') {
+      memoryBody = memory.content.data;
+    } else if (memory.content.type === 'music') {
+      const musicData = memory.content.data;
+      memoryBody = (<div>
+        <Image
+          src={musicData.artworkUrl100} rounded
+          style={{marginRight: 5}}/>
+        <h2>{musicData.trackName}</h2>
+        <h4>{musicData.artistName}</h4>
+        <audio src={memory.content.data.previewUrl} autoPlay controls />
+      </div>);
+    }
+
     return (
       <Modal show={memoryModalState.showMemoryModal}
              onHide={dismissMemoryDetails}
@@ -28,7 +43,7 @@ export default class MemoryModal extends Component {
           <Modal.Header className="memory-modal-title">
             <Modal.Title>{memory.content.title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="memory-modal-body">{memory.content.data}</Modal.Body>
+          <Modal.Body className="memory-modal-body">{memoryBody}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
            <div className="text-left">
             <div>
