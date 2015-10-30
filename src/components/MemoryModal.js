@@ -32,13 +32,29 @@ export class MemoryModal extends Component {
     }
     const key = payload.key;
     const reactionType = payload.reactionType;
+    
     // This should probably be an action to manipulate DB & increment number
-    this.props.rateMemory(key, reactionType); 
 
-    //if memory is null 
-    // unrateMemory
-    // Need to update display number
-      // Probably also want to toggle as well
+    // If user has not voted before
+    /*
+      if (USER_HAS_NOT_VOTED){
+        this.props.rateMemory(key, reactionType);
+      } else {
+        this.props.unrateMemory(key, reactionType);
+      }
+
+    */
+
+    this.props.rateMemory(key, reactionType);
+    // Get access to count and increment it
+      // Then "draw" it on the page somehow
+      // We have access to a unique key
+
+    // If user has voted before
+    // this.props.unrateMemory(key, reactionType);
+    // Get access to count and increment it
+      // Then "draw" it on the page somehow
+      // Somehow change the class
   }
 
   fetchReactions (memoryObj) {
@@ -115,13 +131,13 @@ MemoryModal.propTypes = {
   }),
   memoryModalActions: PropTypes.shape({
     showMemoryDetails: PropTypes.func,
-    dismissMemoryDetails: PropTypes.func,
+    dismissMemoryDetails: PropTypes.func
   })
 };
 
 const mapDispatchToProps = (dispatch) => ({
-   rateMemory: bindActionCreators(rateMemory, dispatch),
-   unrateMemory: bindActionCreators(unrateMemory, dispatch),
+  rateMemory: bindActionCreators(rateMemory, dispatch),
+  unrateMemory: bindActionCreators(unrateMemory, dispatch)
 });
 
 
