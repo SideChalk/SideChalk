@@ -2,12 +2,26 @@ import { SHOW_MEMORY_DETAILS, DISMISS_MEMORY_DETAILS,
          CREATE_TEXT_MEMORY, CREATE_MUSIC_MEMORY, CREATE_DRAWING_MEMORY,
          DISMISS_CREATE_MEMORY } from 'constants/ActionTypes.js';
 
-export function showMemoryDetails(key) {
-  return {
-    type: SHOW_MEMORY_DETAILS,
-    payload: key
+import { memoriesRef } from 'actions/firebaseVars.js';
+
+export function showMemoryDetails(oldMemory) {
+  return (dispatch) => {
+    memoriesRef
+      .child(oldMemory.key)
+      .once('value', (snapshot) => {
+        const memory = {...snapshot.val(), key: oldMemory.key, location: oldMemory.location, distance: oldMemory.distance};
+        dispatch(_receiveMemory(memory));
+      });
   };
 }
+
+function _receiveMemory(memory) {
+  return {
+    type: SHOW_MEMORY_DETAILS,
+    payload: memory
+  };
+}
+
 export function dismissMemoryDetails() {
   return {
     type: DISMISS_MEMORY_DETAILS

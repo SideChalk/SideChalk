@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-
 import { createReducer } from 'utils';
 import { SHOW_MEMORY_DETAILS, DISMISS_MEMORY_DETAILS,
          CREATE_TEXT_MEMORY, CREATE_MUSIC_MEMORY, CREATE_DRAWING_MEMORY,
