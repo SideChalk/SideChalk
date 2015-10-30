@@ -3,12 +3,17 @@ import { Modal, Button, Image }        from 'react-bootstrap';
 import * as moment                     from 'moment';
 import {reactionTypes}                 from '../actions/firebaseVars.js';
 import { connect }                     from 'react-redux';
+import { rateMemory, unrateMemory}     from '../actions/memoryActions.js';
+import { bindActionCreators }          from 'redux';
 
 
 export class MemoryModal extends Component {
   static propTypes = {
-    userUID: React.PropTypes.string
+    userUID: React.PropTypes.string,
+    rateMemory: React.PropTypes.func,
+    unrateMemory: React.PropTypes.func
   };
+
   cleanDate (input) {
     const rootDate = moment.default(input).fromNow();
     return rootDate;
@@ -28,7 +33,10 @@ export class MemoryModal extends Component {
     const key = payload.key;
     const reactionType = payload.reactionType;
     // This should probably be an action to manipulate DB & increment number
-    console.log(key, reactionType);
+    this.props.rateMemory(key, reactionType); 
+
+    //if memory is null 
+    // unrateMemory
     // Need to update display number
       // Probably also want to toggle as well
   }
@@ -78,7 +86,7 @@ export class MemoryModal extends Component {
              style={{opacity: 1 - (memory.distance / 3000)}}>
         <div className="memory-modal">
           <Modal.Header className="memory-modal-title">
-            <Modal.Title>{memory.content.title}</Modal.Title>
+            <Modal.Title>{memory.content.title} {memory.key}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="memory-modal-body">{memoryBody}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
@@ -107,13 +115,19 @@ MemoryModal.propTypes = {
   }),
   memoryModalActions: PropTypes.shape({
     showMemoryDetails: PropTypes.func,
-    dismissMemoryDetails: PropTypes.func
+    dismissMemoryDetails: PropTypes.func,
   })
 };
+
+const mapDispatchToProps = (dispatch) => ({
+   rateMemory: bindActionCreators(rateMemory, dispatch),
+   unrateMemory: bindActionCreators(unrateMemory, dispatch),
+});
+
 
 const mapStateToProps = (state) => ({
   userUID: state.getIn(['auth', 'uid'])
 });
 
-export default connect(mapStateToProps)(MemoryModal);
+export default connect(mapStateToProps, mapDispatchToProps)(MemoryModal);
 
