@@ -5,7 +5,7 @@ import {reactionTypes}                 from '../actions/firebaseVars.js';
 import { connect }                     from 'react-redux';
 
 
-export default class MemoryModal extends Component {
+export class MemoryModal extends Component {
   static propTypes = {
     userUID: React.PropTypes.string
   };
