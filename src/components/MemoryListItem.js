@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
 
-import { defaultRadius } from '../actions/firebaseVars';
+import { defaultRadius, reactionTypes } from '../actions/firebaseVars';
 
 // TODO: Remove this when we validate memories.
 // Using this so app doesnt crash when content isnt fully defined
@@ -11,6 +11,10 @@ const sampleMemory = {
 
 // TEMP - TODO: set dynamically?
 const VISIBILITY_LIMIT = defaultRadius;
+const iconInfo = {};
+for (let i = 0; i < reactionTypes.length; i++){
+  iconInfo[reactionTypes[i]] = `fa-${reactionTypes[i]}-o`;
+}
 
 export class MemoryListItem extends React.Component {
 
@@ -36,11 +40,7 @@ export class MemoryListItem extends React.Component {
       return <i className="fa fa-heart pull-left list-reaction-icon" key="heart"> 0</i>;
     }
 
-    const iconInfo = {
-      heart: 'fa-heart',
-      smile: 'fa-smile-o',
-      frown: 'fa-frown-o'
-    };
+
     const icons = [];
 
     Object.keys(iconInfo).forEach(reaction => {
