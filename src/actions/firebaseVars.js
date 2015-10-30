@@ -1,12 +1,13 @@
 import Firebase from 'firebase';
 import GeoFire from 'geofire';
 
-import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH } from 'constants/FirebasePaths.js';
+import { FIREBASE_ROOT, MEMORY_PATH, LOCATION_PATH, REACTIONS_PATH } from 'constants/FirebasePaths.js';
 export const FIREBASE_TIMESTAMP = Firebase.ServerValue.TIMESTAMP;
 
 export const baseRef = new Firebase(FIREBASE_ROOT);
 export const memoriesRef = baseRef.child(MEMORY_PATH);
 export const geoRef = baseRef.child(LOCATION_PATH);
+export const reactionsRef = baseRef.child(REACTIONS_PATH);
 
 export const geoFire = new GeoFire(geoRef);
 
