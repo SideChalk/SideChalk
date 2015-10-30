@@ -13,8 +13,7 @@ const sampleMemory = {
 const VISIBILITY_LIMIT = defaultRadius;
 const iconInfo = {};
 for (let i = 0; i < reactionTypes.length; i++){
-  let iconRef = `fa-${reactionTypes[i]}-o`
-  iconInfo[reactionTypes[i]] = iconRef;
+  iconInfo[reactionTypes[i]] = `fa-${reactionTypes[i]}-o`;
 }
 
 export class MemoryListItem extends React.Component {
