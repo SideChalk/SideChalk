@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button, Image } from 'react-bootstrap';
-import * as moment from 'moment';
+import { Modal, Button, Image }        from 'react-bootstrap';
+import * as moment                     from 'moment';
+import {reactionTypes}                 from '../actions/firebaseVars.js';
+import { connect }                     from 'react-redux';
 
-export default class MemoryModal extends Component {
 
+export class MemoryModal extends Component {
+  static propTypes = {
+    userUID: React.PropTypes.string
+  };
   cleanDate (input) {
     const rootDate = moment.default(input).fromNow();
     return rootDate;
@@ -14,6 +19,38 @@ export default class MemoryModal extends Component {
     const distanceString = input.toFixed(2) + ' ' + units + ' away';
     return distanceString;
   }
+
+  reactionHandler (payload) {
+    if (this.props.userUID === null) {
+      // User not logged in
+      return;
+    }
+    const key = payload.key;
+    const reactionType = payload.reactionType;
+    // This should probably be an action to manipulate DB & increment number
+    console.log(key, reactionType);
+    // Need to update display number
+      // Probably also want to toggle as well
+  }
+
+  fetchReactions (memoryObj) {
+    const reactions = memoryObj.reactions;
+    const output = [];
+    for (let i = 0; i < reactionTypes.length; i++) {
+      const classRef = reactionTypes[i];
+      output.push(
+         <i key={i} className={`fa fa-${classRef}-o fa-border fa-2x`}
+           onClick={() =>
+             this.reactionHandler({
+               key:memoryObj.key,
+               reactionType: classRef,
+               context:this})}>
+               {reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0}
+           </i>);
+    }
+    return output;
+  }
+
 
   render () {
     const { memoryModalState, memoryModalActions } = this.props;
@@ -50,10 +87,8 @@ export default class MemoryModal extends Component {
               { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
             </div>
             <div>Reactions:</div>
-              <div>
-                <i className="fa fa-smile-o fa-2x fa-border">2</i>
-                <i className="fa fa-frown-o fa-2x fa-border">3</i>
-                <i className="fa fa-heart fa-2x fa-border"></i>
+               <div>
+               { this.fetchReactions(memory) }
               </div>
            </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
@@ -75,3 +110,10 @@ MemoryModal.propTypes = {
     dismissMemoryDetails: PropTypes.func
   })
 };
+
+const mapStateToProps = (state) => ({
+  userUID: state.getIn(['auth', 'uid'])
+});
+
+export default connect(mapStateToProps)(MemoryModal);
+
