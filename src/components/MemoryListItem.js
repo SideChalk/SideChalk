@@ -54,7 +54,12 @@ export class MemoryListItem extends React.Component {
         ));
       }
     });
-    return icons;
+
+    if (icons.length === 0) {
+      return <i className="fa fa-heart pull-left list-reaction-icon" key="heart"> 0</i>;
+    } else {
+      return icons;
+    }
   }
 
   render() {
