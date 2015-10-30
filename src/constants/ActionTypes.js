@@ -29,5 +29,7 @@ export default createConstants(
   'LOGOUT_FAIL',
 
   'SHOW_MEMORY_DETAILS',
-  'DISMISS_MEMORY_DETAILS'
+  'DISMISS_MEMORY_DETAILS',
+  'RATE_MEMORY',
+  'UNRATE_MEMORY'
 );
