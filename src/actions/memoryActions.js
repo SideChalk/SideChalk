@@ -1,5 +1,5 @@
-import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES, LOADED_MEMORIES } from 'constants/ActionTypes.js';
-import { memoriesRef, geoFire, FIREBASE_TIMESTAMP } from 'actions/firebaseVars.js';
+import { RECEIVE_MEMORY, REMOVE_MEMORY, SEND_MEMORY, INITIALIZE_MEMORIES, LOADED_MEMORIES, RATE_MEMORY, UNRATE_MEMORY } from 'constants/ActionTypes.js';
+import { memoriesRef, geoFire, reactionsRef, FIREBASE_TIMESTAMP } from 'actions/firebaseVars.js';
 import { syncLocation } from 'actions/locationActions.js';
 
 export function initializeMemories(geoQuery) {
@@ -101,5 +101,63 @@ function _sendMemory(memory) {
   return {
     type: SEND_MEMORY,
     payload: memory
+  };
+}
+
+export function rateMemory(key, reaction) {
+  return (dispatch, getState) => {
+    const userid = getState().getIn(['auth', 'uid']);
+    if (!userid) { return; }
+
+    reactionsRef.child(`${key}/${reaction}/${userid}`).set(true, (err) => {
+      if (err) {
+        console.err(error);
+      } else {
+        memoriesRef.child(`${key}/reactions/${reaction}`).transaction((currentCount) => {
+          const count = currentCount || 0;
+          return count + 1;
+        });
+        dispatch(_rateMemory(key, reaction));
+      }
+    });
+  };
+}
+
+function _rateMemory(key, reaction) {
+  return {
+    type: RATE_MEMORY,
+    payload: {
+      key,
+      reaction
+    }
+  };
+}
+
+export function unrateMemory(key, reaction) {
+  return (dispatch, getState) => {
+    const userid = getState().getIn(['auth', 'uid']);
+    if (!userid) { return; }
+
+    reactionsRef.child(`${key}/${reaction}/${userid}`).set(null, (err) => {
+      if (err) {
+        console.err(error);
+      } else {
+        memoriesRef.child(`${key}/reactions/${reaction}`).transaction((currentCount) => {
+          const count = currentCount || 1;
+          return count - 1;
+        });
+        dispatch(_unrateMemory(key, reaction));
+      }
+    });
+  };
+}
+
+function _unrateMemory(key, reaction) {
+  return {
+    type: UNRATE_MEMORY,
+    payload: {
+      key,
+      reaction
+    }
   };
 }
