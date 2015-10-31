@@ -23,7 +23,7 @@ export class MemoryModal extends Component {
     super(props);
     this.state = {
       counts: props.memoryModalState.memoryInFocus.reactions,
-      initialVotedOn: {frown: true}
+      initialVotedOn: {}
     };
   }
 
