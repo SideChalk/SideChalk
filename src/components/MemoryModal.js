@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button, Image }        from 'react-bootstrap';
 import * as moment                     from 'moment';
-import {reactionTypes}                 from '../actions/firebaseVars.js';
+import {reactionTypes, reactionsRef}                 from '../actions/firebaseVars.js';
 import { connect }                     from 'react-redux';
 import { rateMemory, unrateMemory}     from '../actions/memoryActions.js';
 import { bindActionCreators }          from 'redux';
-
 
 export class MemoryModal extends Component {
   static propTypes = {
@@ -13,7 +12,51 @@ export class MemoryModal extends Component {
     rateMemory: React.PropTypes.func,
     unrateMemory: React.PropTypes.func
   };
+  getInitialState() {
+    return {
+      counts: this.props.memoryModalState.memoryInFocus.reactions,
+      initialVotedOn: {},
 
+    };
+  }
+  componentWillMount() {
+    
+    if (this.props.userUID === null) {
+      console.log("\n\n\n\n\n\n\n WE NEED TO HANDLE LOGGED OUT SITUATION TO FETCH REACTIONS \n\n\n\n\n\n");
+      //votedOn doesn't have anything happen and we have counts to tell us what we need to know
+      // User not logged in
+      return;
+    }
+
+    const memoryKey = this.props.memoryModalState.memoryInFocus.key;
+      console.log("Full memory:", this.props.memoryModalState.memoryInFocus);
+      console.log("Relevant reactions:", this.props.memoryModalState.memoryInFocus.reactions)
+    const reactionsFromServer = reactionsRef.child(memoryKey);
+      console.log("from server:", reactionsFromServer);
+    const currentUser = this.props.userUID;
+
+    reactionsFromServer.once("value", function(snapshot){
+      var result = snapshot.val();
+      console.log("woooo", result)
+      if (snapshot.val() !== null){
+        var reactions = Object.keys(result);
+        for (var reaction in result) {
+          var check = reactionsFromServer.child(reaction).child(userUID);
+          console.log("This is the result:", check)
+          //Query on user id for each
+          //Check if null
+          //If it's not null then pop it on initialVotedOn
+
+        }
+      }
+    });
+
+    // query firebase and initialize state.votedOn
+    // {frown:3, smile:2}
+      // votedOn{frown};
+      // {frown:2, smile2}
+
+  }
   cleanDate (input) {
     const rootDate = moment.default(input).fromNow();
     return rootDate;
@@ -32,20 +75,26 @@ export class MemoryModal extends Component {
     }
     const key = payload.key;
     const reactionType = payload.reactionType;
-    
+    const context = payload.context;
+    const elementKey = payload.elementKey;
+    let reactionCount = payload.reactionCount;
+         console.log("\n\n\n\nWOOO:", React.DOM.i({key: elementKey}));    
     // This should probably be an action to manipulate DB & increment number
 
     // If user has not voted before
-    /*
-      if (USER_HAS_NOT_VOTED){
+      //TODO: Figure out some way to determine if user has voted on it or not
+      //ex. [{root}/reactions/*MemoryKey*/*ReactionType*/*UserID*/ === true]
+      if (true){
         this.props.rateMemory(key, reactionType);
+        reactionCount++;
+        console.log("new", reactionType, ':', reactionCount);
       } else {
         this.props.unrateMemory(key, reactionType);
+        reactionCount--;
+        console.log("new", reactionType, ':', reactionCount);
       }
 
-    */
-
-    this.props.rateMemory(key, reactionType);
+   // this.props.rateMemory(key, reactionType);
     // Get access to count and increment it
       // Then "draw" it on the page somehow
       // We have access to a unique key
@@ -62,14 +111,16 @@ export class MemoryModal extends Component {
     const output = [];
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
+      const reactionCount = reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0;
       output.push(
-         <i key={i} className={`fa fa-${classRef}-o fa-border fa-2x`}
+         <i key={i} ref={reactionCount} className={`fa fa-${classRef}-o fa-border fa-2x`}
            onClick={() =>
              this.reactionHandler({
                key:memoryObj.key,
                reactionType: classRef,
+               reactionCount: reactionCount,
+               elementKey: i,
                context:this})}>
-               {reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0}
            </i>);
     }
     return output;
