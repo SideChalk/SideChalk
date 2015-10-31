@@ -37,6 +37,7 @@ export class CoreLayout extends React.Component {
           <Nav navbar>
             <LinkContainer to="/list"><NavItem>List</NavItem></LinkContainer>
             <LinkContainer to="/map"><NavItem>Map</NavItem></LinkContainer>
+            <LinkContainer to="/about"><NavItem>About</NavItem></LinkContainer>
           </Nav>
           <Nav navbar right inverse>
             {this.props.loggedIn ?
