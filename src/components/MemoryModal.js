@@ -12,13 +12,21 @@ export class MemoryModal extends Component {
     rateMemory: React.PropTypes.func,
     unrateMemory: React.PropTypes.func
   };
-  getInitialState() {
-    return {
-      counts: this.props.memoryModalState.memoryInFocus.reactions,
-      initialVotedOn: {},
+  // getInitialState() {
+  //   return {
+  //     counts: this.props.memoryModalState.memoryInFocus.reactions,
+  //     initialVotedOn: {},
 
+  //   };
+  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      counts: props.memoryModalState.memoryInFocus.reactions,
+      initialVotedOn: {frown: true}
     };
   }
+
   componentWillMount() {
     
     if (this.props.userUID === null) {
@@ -28,6 +36,11 @@ export class MemoryModal extends Component {
       return;
     }
 
+    /*
+    // SET STATE WITH SPREAD OPERATOR
+    this.setState({...this.state, fro});
+    
+    */
     const memoryKey = this.props.memoryModalState.memoryInFocus.key;
       console.log("Full memory:", this.props.memoryModalState.memoryInFocus);
       console.log("Relevant reactions:", this.props.memoryModalState.memoryInFocus.reactions)
@@ -113,7 +126,7 @@ export class MemoryModal extends Component {
       const classRef = reactionTypes[i];
       const reactionCount = reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0;
       output.push(
-         <i key={i} ref={reactionCount} className={`fa fa-${classRef}-o fa-border fa-2x`}
+         <i key={i} ref={reactionCount} className={`fa fa-${classRef}-o fa-border fa-2x ` + this.state.votedOn[reactionTypes[i]] ? 'votedOn' : ''}
            onClick={() =>
              this.reactionHandler({
                key:memoryObj.key,
@@ -121,6 +134,7 @@ export class MemoryModal extends Component {
                reactionCount: reactionCount,
                elementKey: i,
                context:this})}>
+
            </i>);
     }
     return output;
