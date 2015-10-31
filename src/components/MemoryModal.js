@@ -48,19 +48,33 @@ export class MemoryModal extends Component {
       console.log("from server:", reactionsFromServer);
     const currentUser = this.props.userUID;
 
+    var that = this;
     reactionsFromServer.once("value", function(snapshot){
       var result = snapshot.val();
       console.log("woooo", result)
       if (snapshot.val() !== null){
-        var reactions = Object.keys(result);
-        for (var reaction in result) {
-          var check = reactionsFromServer.child(reaction).child(userUID);
-          console.log("This is the result:", check)
-          //Query on user id for each
-          //Check if null
-          //If it's not null then pop it on initialVotedOn
+     
+        if (result[currentUser]){
+          // TODO: Refactor using spread operator
+          var votes = result[currentUser];
+          for (var vote in votes){
+            that.state.initialVotedOn[vote] = votes[vote];
+            console.log(votes[vote], vote, votes)
+          }
+
+        //  this.setState({... that.state, result[currentUser]}); 
+          console.log("state duddeee:", that.state)
 
         }
+//        this.setState({...this.state, });
+        // for (var reaction in result) {
+        //   var check = reactionsFromServer.child(reaction).child(userUID);
+        //   console.log("This is the result:", check)
+        //   //Query on user id for each
+        //   //Check if null
+        //   //If it's not null then pop it on initialVotedOn
+
+        // }
       }
     });
 
