@@ -60,14 +60,21 @@ export class MemoryModal extends Component {
           // TODO: Refactor using spread operator
           var votes = result[currentUser];
           for (var vote in votes){
-            this.state.initialVotedOn[vote] = votes[vote];
-            console.log(votes[vote], vote, votes)
+            //this.state.initialVotedOn[vote] = votes[vote];
+            //console.log(votes[vote], vote, votes)
+            const initialVotedOn = {
+              ...this.state.initialVotedOn,
+              [vote]: votes[vote]
+            };
+            this.setState({...this.state, initialVotedOn});
           }
-
-          console.log("componentWillMount status:", this.state.initialVotedOn);
+          const loading = false;
+          this.setState({...this.state, loading});
+          console.log("we have set state:", this.state.initialVotedOn);
+          //console.log("componentWillMount status:", this.state.initialVotedOn);
 
         //  this.setState({... that.state, result[currentUser]}); 
-          console.log("state duddeee:", this.state)
+          //console.log("state duddeee:", this.state)
 
         }
 //        this.setState({...this.state, });
@@ -80,6 +87,9 @@ export class MemoryModal extends Component {
 
         // }
       }
+    }, () => {
+      console.log("Tragic error", err);
+      this.setState({...this.state, loading});
     });
 
     // query firebase and initialize state.votedOn
@@ -110,31 +120,32 @@ export class MemoryModal extends Component {
     const elementKey = payload.elementKey;
     let reactionCount = payload.reactionCount;
          console.log("\n\n\n\nWOOO:", React.DOM.i({key: elementKey}));    
-    // This should probably be an action to manipulate DB & increment number
 
-    // If user has not voted before
-      //TODO: Figure out some way to determine if user has voted on it or not
-      //ex. [{root}/reactions/*MemoryKey*/*ReactionType*/*UserID*/ === true]
-      if (true){
-        this.props.rateMemory(key, reactionType);
-        reactionCount++;
-        console.log("new", reactionType, ':', reactionCount);
-      } else {
+      if (this.state.initialVotedOn[reactionType]){
+
         this.props.unrateMemory(key, reactionType);
         reactionCount--;
-        console.log("new", reactionType, ':', reactionCount);
+
+        const initialVotedOn = {
+          ...this.state.initialVotedOn,
+          [reactionType]: null
+        };
+        const counts = {...this.state.counts, [reactionType]: reactionCount}
+        this.setState({...this.state, initialVotedOn, counts});
+        
+      } else {
+        this.props.rateMemory(key, reactionType);
+        reactionCount++;
+        const initialVotedOn = {
+          ...this.state.initialVotedOn,
+          [reactionType]: true
+        };
+        const counts = {...this.state.counts, [reactionType]: reactionCount}
+        this.setState({...this.state, initialVotedOn, counts});   
+        
+        console.log("what's in state for", reactionType, ":", this.state.counts[reactionType]);
+        console.log("added", reactionType, ':', reactionCount);
       }
-
-   // this.props.rateMemory(key, reactionType);
-    // Get access to count and increment it
-      // Then "draw" it on the page somehow
-      // We have access to a unique key
-
-    // If user has voted before
-    // this.props.unrateMemory(key, reactionType);
-    // Get access to count and increment it
-      // Then "draw" it on the page somehow
-      // Somehow change the class
   }
 
   fetchReactions (memoryObj) {
@@ -142,20 +153,27 @@ export class MemoryModal extends Component {
     const output = [];
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
-      const reactionCount = reactions ? reactions[classRef] ? reactions[classRef] : 0 : 0;
-      const classnames = `fa fa-${classRef}-o fa-border fa-2x`;
-      const voteFlag = this.state.initialVotedOn;
-      console.log("bango:", voteFlag);
+      const reactionCount = this.state.counts[classRef] || 0;
+
+
+      let classnames = `fa fa-${classRef}-o fa-border fa-2x`;
+      
+          if (this.state.initialVotedOn[classRef]){
+            classnames += ` votedOn`
+          }
+  
       output.push(
-         <i key={i} ref={reactionCount} className={classnames}
+         <i key={i} className={classnames}
            onClick={() =>
+
              this.reactionHandler({
                key:memoryObj.key,
                reactionType: classRef,
                reactionCount: reactionCount,
                elementKey: i,
                context:this})}>
-              {reactionCount}
+              { this.state.counts[classRef] || 0 }
+
            </i>);
     }
     return output;
@@ -163,6 +181,7 @@ export class MemoryModal extends Component {
 
 
   render () {
+    console.log("\n\n\n\n\n\n\n STATE UPDATED, CALLING RENDERING FUNCTION!!!")
     const { memoryModalState, memoryModalActions } = this.props;
     const memory = memoryModalState.memoryInFocus;
     const dismissMemoryDetails = memoryModalActions.dismissMemoryDetails;
