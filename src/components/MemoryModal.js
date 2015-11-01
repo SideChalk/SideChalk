@@ -11,56 +11,34 @@ export class MemoryModal extends Component {
     userUID: React.PropTypes.string,
     rateMemory: React.PropTypes.func,
     unrateMemory: React.PropTypes.func
-  };
-  // getInitialState() {
-  //   return {
-  //     counts: this.props.memoryModalState.memoryInFocus.reactions,
-  //     initialVotedOn: {},
-
-  //   };
-  // }
+  };  // getInitialState() {
+  
   constructor(props) {
     super(props);
     this.state = {
-      counts: props.memoryModalState.memoryInFocus.reactions,
+      counts: props.memoryModalState.memoryInFocus.reactions || {},
       initialVotedOn: {},
       loading:true
     };
   }
 
   componentWillMount() {
-    
     if (this.props.userUID === null) {
-      console.log("\n\n\n\n\n\n\n WE NEED TO HANDLE LOGGED OUT SITUATION TO FETCH REACTIONS \n\n\n\n\n\n");
-      //votedOn doesn't have anything happen and we have counts to tell us what we need to know
       // User not logged in
       return;
     }
-
-    /*
-    // SET STATE WITH SPREAD OPERATOR
-    this.setState({...this.state, fro});
-    
-    */
-   // this.setState({...this.state, {THENEWTHING}})
-   
     const memoryKey = this.props.memoryModalState.memoryInFocus.key;
-      console.log("Full memory:", this.props.memoryModalState.memoryInFocus);
-      console.log("Relevant reactions:", this.props.memoryModalState.memoryInFocus.reactions)
     const reactionsFromServer = reactionsRef.child(memoryKey);
-      console.log("from server:", reactionsFromServer);
     const currentUser = this.props.userUID;
 
-    reactionsFromServer.once("value", (snapshot) => {
-      var result = snapshot.val();
-      if (snapshot.val() !== null){
-     
-        if (result[currentUser]){
+    reactionsFromServer.once('value', (snapshot) => {
+      const result = snapshot.val();
+      if (snapshot.val() !== null) {
+        if (result[currentUser]) {
           // TODO: Refactor using spread operator
-          var votes = result[currentUser];
-          for (var vote in votes){
-            //this.state.initialVotedOn[vote] = votes[vote];
-            //console.log(votes[vote], vote, votes)
+          const votes = result[currentUser];
+          /* eslint guard-for-in: [0] */
+          for (const vote in votes) {
             const initialVotedOn = {
               ...this.state.initialVotedOn,
               [vote]: votes[vote]
@@ -69,33 +47,12 @@ export class MemoryModal extends Component {
           }
           const loading = false;
           this.setState({...this.state, loading});
-          console.log("we have set state:", this.state.initialVotedOn);
-          //console.log("componentWillMount status:", this.state.initialVotedOn);
-
-        //  this.setState({... that.state, result[currentUser]}); 
-          //console.log("state duddeee:", this.state)
-
         }
-//        this.setState({...this.state, });
-        // for (var reaction in result) {
-        //   var check = reactionsFromServer.child(reaction).child(userUID);
-        //   console.log("This is the result:", check)
-        //   //Query on user id for each
-        //   //Check if null
-        //   //If it's not null then pop it on initialVotedOn
-
-        // }
       }
     }, () => {
-      console.log("Tragic error", err);
+      const loading = false;
       this.setState({...this.state, loading});
     });
-
-    // query firebase and initialize state.votedOn
-    // {frown:3, smile:2}
-      // votedOn{frown};
-      // {frown:2, smile2}
-
   }
   cleanDate (input) {
     const rootDate = moment.default(input).fromNow();
@@ -115,56 +72,41 @@ export class MemoryModal extends Component {
     }
     const key = payload.key;
     const reactionType = payload.reactionType;
-    const context = payload.context;
-    const elementKey = payload.elementKey;
     let reactionCount = payload.reactionCount;
-         console.log("\n\n\n\nWOOO:", React.DOM.i({key: elementKey}));    
 
-      if (this.state.initialVotedOn[reactionType]){
-
-        this.props.unrateMemory(key, reactionType);
-        reactionCount--;
-
-        const initialVotedOn = {
-          ...this.state.initialVotedOn,
-          [reactionType]: null
-        };
-        const counts = {...this.state.counts, [reactionType]: reactionCount}
-        this.setState({...this.state, initialVotedOn, counts});
-        
-      } else {
-        this.props.rateMemory(key, reactionType);
-        reactionCount++;
-        const initialVotedOn = {
-          ...this.state.initialVotedOn,
-          [reactionType]: true
-        };
-        const counts = {...this.state.counts, [reactionType]: reactionCount}
-        this.setState({...this.state, initialVotedOn, counts});   
-        
-        // console.log("what's in state for", reactionType, ":", this.state.counts[reactionType]);
-        // console.log("added", reactionType, ':', reactionCount);
-      }
+    if (this.state.initialVotedOn[reactionType]) {
+      this.props.unrateMemory(key, reactionType);
+      reactionCount--;
+      const initialVotedOn = {
+        ...this.state.initialVotedOn,
+        [reactionType]: null
+      };
+      const counts = {...this.state.counts, [reactionType]: reactionCount};
+      this.setState({...this.state, initialVotedOn, counts});
+    } else {
+      this.props.rateMemory(key, reactionType);
+      reactionCount++;
+      const initialVotedOn = {
+        ...this.state.initialVotedOn,
+        [reactionType]: true
+      };
+      const counts = {...this.state.counts, [reactionType]: reactionCount};
+      this.setState({...this.state, initialVotedOn, counts});
+    }
   }
 
   fetchReactions (memoryObj) {
-    const reactions = memoryObj.reactions;
     const output = [];
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
       const reactionCount = this.state.counts[classRef] || 0;
-
-
       let classnames = `fa fa-${classRef}-o fa-border fa-2x`;
-      
-          if (this.state.initialVotedOn[classRef]){
-            classnames += ` votedOn`
-          }
-  
+      if (this.state.initialVotedOn[classRef]) {
+        classnames += ` votedOn`;
+      }
       output.push(
          <i key={i} className={classnames}
            onClick={() =>
-
              this.reactionHandler({
                key:memoryObj.key,
                reactionType: classRef,
@@ -172,15 +114,12 @@ export class MemoryModal extends Component {
                elementKey: i,
                context:this})}>
               { this.state.counts[classRef] || 0 }
-
            </i>);
     }
     return output;
   }
 
-
   render () {
-    console.log("\n\n\n\n\n\n\n STATE UPDATED, CALLING RENDERING FUNCTION!!!")
     const { memoryModalState, memoryModalActions } = this.props;
     const memory = memoryModalState.memoryInFocus;
     const dismissMemoryDetails = memoryModalActions.dismissMemoryDetails;
