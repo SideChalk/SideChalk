@@ -53,7 +53,6 @@ export class MemoryModal extends Component {
 
     reactionsFromServer.once("value", (snapshot) => {
       var result = snapshot.val();
-      console.log("woooo", result)
       if (snapshot.val() !== null){
      
         if (result[currentUser]){
@@ -143,8 +142,8 @@ export class MemoryModal extends Component {
         const counts = {...this.state.counts, [reactionType]: reactionCount}
         this.setState({...this.state, initialVotedOn, counts});   
         
-        console.log("what's in state for", reactionType, ":", this.state.counts[reactionType]);
-        console.log("added", reactionType, ':', reactionCount);
+        // console.log("what's in state for", reactionType, ":", this.state.counts[reactionType]);
+        // console.log("added", reactionType, ':', reactionCount);
       }
   }
 
