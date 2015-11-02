@@ -10,15 +10,17 @@ export class MapContainer extends React.Component {
   static propTypes = {
     memories: React.PropTypes.object,
     showMemoryDetails: React.PropTypes.func,
-    location: React.PropTypes.object
+    location: React.PropTypes.object,
+    memoryInFocus: React.PropTypes.object
   }
 
   render() {
-    const {memories, location} = this.props;
+    const {memories, location, memoryInFocus} = this.props;
 
     return (
       <Map memories={memories.toJS()}
            location={location.toJS()}
+           memoryInFocus={memoryInFocus}
            showMemoryDetails={this.props.showMemoryDetails}/>
     );
   }
@@ -26,7 +28,8 @@ export class MapContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   memories : state.get('memories'),
-  location: state.get('location')
+  location: state.get('location'),
+  memoryInFocus: state.getIn(['memoryModals', 'memoryInFocus'])
 });
 const mapDispatchToProps = (dispatch) => ({
   showMemoryDetails : bindActionCreators(showMemoryDetails, dispatch)
