@@ -109,16 +109,16 @@ export function rateMemory(key, reaction) {
     const userid = getState().getIn(['auth', 'uid']);
     if (!userid) { return; }
 
-    reactionsRef.child(`${key}/${userid}/${reaction}`).set(true, (err) => {
-      if (err) {
+    reactionsRef.child(`${key}/${userid}/${reaction}`).set(true, (error) => {
+      if (error) {
         console.err(error);
       } else {
         memoriesRef.child(`${key}/reactions/${reaction}`).transaction((currentCount) => {
           const count = currentCount || 0;
           return count + 1;
         }, (err) => {
-          if(err) {
-            reactionsRef.child(`${key}/${userid}/${reaction}`).set(null)
+          if (err) {
+            reactionsRef.child(`${key}/${userid}/${reaction}`).set(null);
           } else {
             dispatch(_rateMemory(key, reaction));
           }
@@ -143,16 +143,16 @@ export function unrateMemory(key, reaction) {
     const userid = getState().getIn(['auth', 'uid']);
     if (!userid) { return; }
 
-    reactionsRef.child(`${key}/${userid}/${reaction}`).set(null, (err) => {
-      if (err) {
+    reactionsRef.child(`${key}/${userid}/${reaction}`).set(null, (error) => {
+      if (error) {
         console.err(error);
       } else {
         memoriesRef.child(`${key}/reactions/${reaction}`).transaction((currentCount) => {
           const count = currentCount || 1;
           return count - 1;
-        }, (err) => {
-          if(err) {
-            reactionsRef.child(`${key}/${userid}/${reaction}`).set(true)
+        }, (error) => {
+          if (error) {
+            reactionsRef.child(`${key}/${userid}/${reaction}`).set(true);
           } else {
             dispatch(_unrateMemory(key, reaction));
           }
