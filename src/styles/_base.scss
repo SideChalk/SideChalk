@@ -29,6 +29,7 @@
   text-align: center;
 }
 
+
 .map-wrap {
   height: 100%;
   width: 100%;
@@ -51,4 +52,8 @@
   transform: translateZ(0px);
   background-color: rgb(229, 227, 223);
   height: 100%;
+}
+
+.votedOn {
+  border-color: green;
 }
