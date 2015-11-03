@@ -143,15 +143,15 @@ export function unrateMemory(key, reaction) {
     const userid = getState().getIn(['auth', 'uid']);
     if (!userid) { return; }
 
-    reactionsRef.child(`${key}/${userid}/${reaction}`).set(null, (error) => {
-      if (error) {
-        console.err(error);
+    reactionsRef.child(`${key}/${userid}/${reaction}`).set(null, (setError) => {
+      if (setError) {
+        console.err(setError);
       } else {
         memoriesRef.child(`${key}/reactions/${reaction}`).transaction((currentCount) => {
           const count = currentCount || 1;
           return count - 1;
-        }, (error) => {
-          if (error) {
+        }, (transactionError) => {
+          if (transactionError) {
             reactionsRef.child(`${key}/${userid}/${reaction}`).set(true);
           } else {
             dispatch(_unrateMemory(key, reaction));
