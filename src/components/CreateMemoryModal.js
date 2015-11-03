@@ -3,6 +3,9 @@ import { Modal, Button, Input, ListGroup, ListGroupItem, Image, Label } from 're
 import $ from 'jquery';
 import { Surface, Shape, Path } from 'react-art';
 
+import concreteImage from '../assets/concrete.jpg';
+import wandCursor from '../assets/magic.png';
+
 export default class CreateMemoryModal extends React.Component {
 
   // GENERAL
@@ -259,11 +262,11 @@ export default class CreateMemoryModal extends React.Component {
           id='burrr'
           height={250}
           width={250}
-          style={{backgroundImage: 'url(../assets/concrete.jpg)',
+          style={{backgroundImage: `url(${concreteImage})`,
                 border: '1px solid #444',
                 boxShadow: '2px 2px 3px #222',
                 borderRadius: '6px',
-                cursor: 'url(../assets/magic.png) 2 20, auto'}}>
+                cursor: `url(${wandCursor}) 2 20, auto`}}>
           {pastShapes}
           {currentLine}
         </Surface>
