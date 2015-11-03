@@ -6,6 +6,8 @@ import { connect }                     from 'react-redux';
 import { rateMemory, unrateMemory}     from '../actions/memoryActions.js';
 import { bindActionCreators }          from 'redux';
 
+import concreteImage from '../assets/concrete.jpg';
+
 export class MemoryModal extends Component {
   static propTypes = {
     userUID: React.PropTypes.string,
@@ -143,7 +145,7 @@ export class MemoryModal extends Component {
                     rounded
                     style={{height: '300px',
                             width: '300px',
-                            backgroundImage: 'url(../assets/concrete.jpg)',
+                            backgroundImage: `url(${concreteImage})`,
                             border:'1px solid #444',
                             boxShadow:'2px 2px 3px #222',
                             display: 'block', margin: '0 auto'}} />);
