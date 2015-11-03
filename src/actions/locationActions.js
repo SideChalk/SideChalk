@@ -20,7 +20,7 @@ function _updateLocation(location) {
 }
 
 export function setLocation () {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
