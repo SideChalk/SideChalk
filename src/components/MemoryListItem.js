@@ -12,7 +12,7 @@ const sampleMemory = {
 // TEMP - TODO: set dynamically?
 const VISIBILITY_LIMIT = defaultRadius;
 const iconInfo = {};
-for (let i = 0; i < reactionTypes.length; i++){
+for (let i = 0; i < reactionTypes.length; i++) {
   iconInfo[reactionTypes[i]] = `fa-${reactionTypes[i]}-o`;
 }
 
@@ -28,6 +28,8 @@ export class MemoryListItem extends React.Component {
       icons.push( <i className="fa fa-comment-o pull-right fa-2x type-icon" key="type"></i> );
     } else if (type === 'music') {
       icons.push( <i className="fa fa-music pull-right fa-2x type-icon" key="type"></i> );
+    } else if (type === 'drawing') {
+      icons.push( <i className="fa fa-magic pull-right fa-2x type-icon" key="type"></i> );
     }
     if (secret) {
       icons.push( <i className="fa fa-user-secret pull-right fa-2x text-info private-icon" key="private"></i> );

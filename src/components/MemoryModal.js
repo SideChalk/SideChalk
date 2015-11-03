@@ -12,7 +12,7 @@ export class MemoryModal extends Component {
     rateMemory: React.PropTypes.func,
     unrateMemory: React.PropTypes.func
   };  // getInitialState() {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -137,6 +137,15 @@ export class MemoryModal extends Component {
         <h4>{musicData.artistName}</h4>
         <audio src={memory.content.data.previewUrl} autoPlay controls />
       </div>);
+    } else if (memory.content.type === 'drawing') {
+      memoryBody = (<Image src={memory.content.data}
+                    rounded
+                    style={{height: '300px',
+                            width: '300px',
+                            backgroundImage: 'url(../assets/concrete.jpg)',
+                            border:'1px solid #444',
+                            boxShadow:'2px 2px 3px #222',
+                            display: 'block', margin: '0 auto'}} />);
     }
 
     return (
