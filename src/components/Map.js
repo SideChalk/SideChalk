@@ -41,7 +41,7 @@ export default class Map extends Component {
   }
 
   renderMemoryMarker(memory) {
-    let icon = {
+    const icon = {
       path: null,
       scale: 0.5,
       strokeWeight: 1.5,

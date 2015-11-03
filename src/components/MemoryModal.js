@@ -106,6 +106,7 @@ export class MemoryModal extends Component {
       }
       output.push(
          <i key={i} className={classnames}
+         /* eslint no-loop-func: [0] */
            onClick={() =>
              this.reactionHandler({
                key:memoryObj.key,
@@ -154,7 +155,7 @@ export class MemoryModal extends Component {
              style={{opacity: 1 - (memory.distance / 3000)}}>
         <div className="memory-modal">
           <Modal.Header className="memory-modal-title">
-            <Modal.Title>{memory.content.title} {memory.key}</Modal.Title>
+            <Modal.Title>{memory.content.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="memory-modal-body">{memoryBody}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
