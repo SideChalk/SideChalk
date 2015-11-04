@@ -71,7 +71,7 @@ export default class CreateMemoryModal extends React.Component {
       data = this.refs.surface.getDOMNode().toDataURL();
     }
 
-    this.props.sendMemory({data: data, title: title, type: this.props.modalType}, priv.checked);
+    this.props.sendMemory({data: data, title: title, type: this.props.modalType}, priv);
     this.closeModal();
   }
 
