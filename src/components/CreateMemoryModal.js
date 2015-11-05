@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button, Input, ListGroup, ListGroupItem, Image, Label } from 'react-bootstrap';
 import $ from 'jquery';
 import { Surface, Shape, Path } from 'react-art';
-
+import {emojiObject, loadEmojiDependencies} from 'emojihelper';
 import concreteImage from '../assets/concrete.jpg';
 import wandCursor from '../assets/magic.png';
 
@@ -42,6 +42,22 @@ export default class CreateMemoryModal extends React.Component {
 
   componentDidMount() {
     document.addEventListener('mousemove', (e)=>{this.handleMouseMove(e);}, false);
+  }
+
+  componentDidUpdate() {
+    loadEmojiDependencies();
+    const emojis = $.map(emojiObject, function(value, i) {return {key: value, name:i};});
+    const emojiConfig = {
+      at: ':',
+      data: emojis,
+      displayTpl: '<li>${key}:${name}</li>',
+      insertTpl: '${key}',
+      delay: 400
+    };
+    if (this.refs.data) {
+      $(this.refs.title.refs.input).atwho(emojiConfig);
+      $(this.refs.data.refs.input).atwho(emojiConfig);
+    }
   }
 
   componentWillUnmount() {
