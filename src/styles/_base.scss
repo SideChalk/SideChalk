@@ -1,7 +1,8 @@
 .list-group-item {
   margin: 5px;
 }
-list-group-item-heading {
+
+.list-group-item-heading {
   word-wrap: break-word;
 }
 
@@ -46,8 +47,9 @@ list-group-item-heading {
   background-image: -webkit-radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0) 60%, #111 85%);
   display: block;
   position: absolute;
-  top: 81px;
   pointer-events: none;
+  outline: 3px solid #111;
+  border: 3px solid #111;
 }
 .map {
   position: relative;
@@ -55,6 +57,8 @@ list-group-item-heading {
   transform: translateZ(0px);
   background-color: rgb(229, 227, 223);
   height: 100%;
+  outline: 3px solid #111;
+  border: 3px solid #111;
 }
 
 .votedOn {

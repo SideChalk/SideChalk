@@ -1,8 +1,20 @@
 export const mapStyles = [
   {
-    'featureType': 'all',
+    'stylers': [
+      { 'visibility': 'off' }
+    ]
+  },
+  {
+    'featureType': 'road',
+    'stylers': [
+      { 'visibility': 'on' }
+    ]
+  },
+  {
+    'featureType': 'road',
     'elementType': 'labels.text.fill',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'saturation': 36
       },
@@ -15,7 +27,7 @@ export const mapStyles = [
     ]
   },
   {
-    'featureType': 'all',
+    'featureType': 'road',
     'elementType': 'labels.text.stroke',
     'stylers': [
       {
@@ -42,6 +54,7 @@ export const mapStyles = [
     'featureType': 'administrative',
     'elementType': 'geometry.fill',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -54,6 +67,7 @@ export const mapStyles = [
     'featureType': 'administrative',
     'elementType': 'geometry.stroke',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -69,6 +83,7 @@ export const mapStyles = [
     'featureType': 'landscape',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -81,6 +96,7 @@ export const mapStyles = [
     'featureType': 'poi',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -93,6 +109,7 @@ export const mapStyles = [
     'featureType': 'road.highway',
     'elementType': 'geometry.fill',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -105,6 +122,7 @@ export const mapStyles = [
     'featureType': 'road.highway',
     'elementType': 'geometry.stroke',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -120,6 +138,7 @@ export const mapStyles = [
     'featureType': 'road.arterial',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -132,6 +151,7 @@ export const mapStyles = [
     'featureType': 'road.local',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
@@ -144,6 +164,7 @@ export const mapStyles = [
     'featureType': 'transit',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'off' },
       {
         'color': '#000000'
       },
@@ -156,6 +177,7 @@ export const mapStyles = [
     'featureType': 'water',
     'elementType': 'geometry',
     'stylers': [
+      { 'visibility': 'on' },
       {
         'color': '#000000'
       },
