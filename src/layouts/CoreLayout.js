@@ -4,6 +4,7 @@ import { Navbar, CollapsibleNav, Nav, NavBrand, NavItem, Alert } from 'react-boo
 import { LinkContainer } from 'react-router-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import $ from 'jquery';
 
 import LoginModal from 'components/loginModal.js';
 import { toggleLoginModal, logout } from 'actions/authActions.js';
@@ -27,6 +28,13 @@ export class CoreLayout extends React.Component {
     memoryModalState: PropTypes.object,
     showMemoryDetails: PropTypes.func,
     dismissMemoryDetails: PropTypes.func
+  }
+
+  componentDidMount() {
+    // hacky nonsense to make up for react-bootstrap not re-collapsing the nav-menu when a choice is clicked
+    $('.navbar-collapse').on('click', () => {
+      $('.navbar-toggle').click();
+    });
   }
 
   renderNavbar() {
@@ -81,7 +89,7 @@ export class CoreLayout extends React.Component {
       <div className='page-container'>
         {this.renderNavbar()}
         {this.renderError()}
-        <div className='view-container'>
+        <div className='view-container' id='viewContainer'>
           {this.props.children}
           {this.renderMemoryModal()}
         </div>

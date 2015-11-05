@@ -1,10 +1,13 @@
 import {default as React, Component} from 'react';
 import {GoogleMap, Marker} from 'react-google-maps';
+import $ from 'jquery';
 
 import { mapStyles } from '../styles/mapStyles';
 import { defaultRadius } from '../actions/firebaseVars';
 
 const VISIBILITY_LIMIT = defaultRadius;
+const WIGGLE_ROOM = 1.2;
+const MEMORY_COLOR = '#FC6D24';
 
 export default class Map extends Component {
 
@@ -30,6 +33,36 @@ export default class Map extends Component {
     }
   }
 
+  // some math magic from stackoverflow
+  // to calculate initial google maps zoom level to certain boundaries
+  getBoundsZoomLevel(bounds, mapDim) {
+    const WORLD_DIM = { height: 256, width: 256 };
+    const ZOOM_MAX = 21;
+
+    function latRad(lat) {
+      const sin = Math.sin(lat * Math.PI / 180);
+      const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+      return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+    }
+
+    function zoom(mapPx, worldPx, fraction) {
+      return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+    }
+
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+
+    const latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
+
+    const lngDiff = ne.lng() - sw.lng();
+    const lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+
+    const latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+    const lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+
+    return Math.min(latZoom, lngZoom, ZOOM_MAX);
+  }
+
   updateDimensions() {
     this.render();
   }
@@ -51,7 +84,7 @@ export default class Map extends Component {
       fillOpacity: 1 - (memory.distance / VISIBILITY_LIMIT)
     };
     if (memory.private) {
-      icon.fillColor = '#FC6D24';    // special color to indicate private memories
+      icon.fillColor = MEMORY_COLOR;    // special color to indicate private memories
     }
     // set Icon Paths manually using Font-Awesome path values
     if (memory.content.type === 'text') {
@@ -63,7 +96,6 @@ export default class Map extends Component {
       // icon.path = 'M58.14 -64.439q2.52 0 4.41 1.674t1.89 4.194q0 2.268 -1.62 5.436 -11.952 22.644 -16.74 27.072 -3.492 3.276 -7.848 3.276 -4.536 0 -7.794 -3.33t-3.258 -7.902q0 -4.608 3.312 -7.632l22.968 -20.844q2.124 -1.944 4.68 -1.944zm-32.724 37.224q1.404 2.736 3.834 4.68t5.418 2.736l0.036 2.556q0.144 7.668 -4.662 12.492t-12.546 4.824q-4.428 0 -7.848 -1.674t-5.49 -4.59 -3.114 -6.588 -1.044 -7.92q0.252 0.18 1.476 1.08t2.232 1.602 2.124 1.314 1.656 0.612q1.476 0 1.98 -1.332 0.9 -2.376 2.07 -4.05t2.502 -2.736 3.168 -1.71 3.708 -0.918 4.5 -0.378';
       // icon = '../assets/chalk-icon.png';
     }
-
 
     const marker = {
       position: {
@@ -84,25 +116,39 @@ export default class Map extends Component {
   }
 
   render() {
-    if (this.refs.map) {                    // force map center to update (triggered on window resize)
-      this.refs.map.state.map.setCenter({
-        lat: this.props.location[0],
-        lng: this.props.location[1]
-      });
+    const center = new google.maps.LatLng(this.props.location[0], this.props.location[1]);
+    const neBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 45);
+    const swBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 235);
+    let zoomLevel = 16;
+
+    if (!this.refs.map) {
+      // on first render, set zoom level based on visibility limit
+      const mapDimensions = {
+        height: $('.view-container').height(),
+        width: $('.view-container').width()
+      };
+      const bounds = new google.maps.LatLngBounds(swBound, neBound);
+      zoomLevel = this.getBoundsZoomLevel(bounds, mapDimensions);
+    } else {
+      // otherwise, recenter map and force set map boundaries (e.g. if necessary b/c of resize)
+      const gmap = this.refs.map.state.map;
+      // force map center to update (triggered on window resize)
+      gmap.setCenter(center);
+      // set/lock map bounds based on visibility limit
+      gmap.fitBounds(new google.maps.LatLngBounds(swBound, neBound));
     }
 
     return (
-      // TODO: Fix sizing. Currently setting the map size using abosolute pixel values
-      // This won't look correct on a mobile device
-      <div className='map-wrap'>
-        <div className='map' style={{height: '85vh', width: '85vw'}}>
+      <div className='map-wrap' style={{position: 'relative'}}>
+        <div className='map' style={{
+          height: '85vh',
+          width: '85vw'
+        }}>
           <GoogleMap ref='map'
             containerProps={{
-              style: {
-                height: '100%'
-              }
+              style: { height: '100%' }
             }}
-            defaultZoom={16}
+            defaultZoom={zoomLevel}
             defaultCenter={{
               lat: this.props.location[0],
               lng: this.props.location[1]
@@ -112,13 +158,18 @@ export default class Map extends Component {
               zoomControl: false,
               disableDoubleClickZoom: true,
               scrollwheel: false,
-              styles: mapStyles               // mapStyles imported from separate file
+              styles: mapStyles      // mapStyles imported from separate file
             }}
           >
             {this.props.memories.map((memory) => {return this.renderMemoryMarker(memory);} )}
           </GoogleMap>
         </div>
-        <div className='map-mask' style={{height: '85%', width: '85%'}}></div>
+        <div className='map-mask'
+          style={{
+            height: '85vh',
+            width: '85vw',
+            top: '0px'
+          }}></div>
       </div>
     );
   }
