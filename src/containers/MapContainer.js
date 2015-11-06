@@ -18,6 +18,7 @@ export class MapContainer extends React.Component {
     const {memories, location, memoryInFocus} = this.props;
 
     return (
+      !this.props.location.get(0) ? <i className="fa fa-spinner fa-spin fa-2x" style={{'margin-left': '50%', 'margin-top': '25%'}}></i> :
       <Map memories={memories.toJS()}
            location={location.toJS()}
            memoryInFocus={memoryInFocus}
