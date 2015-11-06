@@ -193,7 +193,6 @@ export default class Map extends Component {
             top: '0px'
           }}></div>
       </div>
-
     );
   }
 
