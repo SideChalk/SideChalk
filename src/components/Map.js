@@ -19,9 +19,26 @@ export default class Map extends Component {
     memoryInFocus: React.PropTypes.object
   }
 
+  componentWillMount() {
+    this.center = new google.maps.LatLng(this.props.location[0], this.props.location[1]);
+    this.neBound = google.maps.geometry.spherical.computeOffset(this.center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 45);
+    this.swBound = google.maps.geometry.spherical.computeOffset(this.center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 235);
+    this.bounds = new google.maps.LatLngBounds(this.swBound, this.neBound);
+  }
+
   componentDidMount() {
     // listen for window resizing and force rerender (to recenter map)
-    window.addEventListener('resize', () => this.updateDimensions() );
+    window.addEventListener('resize', () => this.recenter() );
+    // set listener to catch if user pans outside allowed bounds and force them to recenter
+    window.setTimeout(() => {  // let async initializing of google map (from render) finish before accessing
+      const gmap = this.refs.map.state.map;
+      window.google.maps.event.addListener(gmap, 'dragend', () => {
+        const newBounds = gmap.getBounds();
+        if (!this.bounds.contains(newBounds.getNorthEast()) || !this.bounds.contains(newBounds.getSouthWest())) {
+          this.recenter();
+        }
+      });
+    }, 10);
   }
 
   componentWillUpdate() {
@@ -64,7 +81,7 @@ export default class Map extends Component {
     return Math.min(latZoom, lngZoom, ZOOM_MAX);
   }
 
-  updateDimensions() {
+  recenter() {
     this.render();
   }
 
@@ -124,9 +141,9 @@ export default class Map extends Component {
   }
 
   render() {
-    const center = new google.maps.LatLng(this.props.location[0], this.props.location[1]);
-    const neBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 45);
-    const swBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 235);
+    // const center = new google.maps.LatLng(this.props.location[0], this.props.location[1]);
+    // const neBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 45);
+    // const swBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 235);
     let zoomLevel = 16;
 
     if (!this.refs.map) {
@@ -135,19 +152,18 @@ export default class Map extends Component {
         height: $('.view-container').height(),
         width: $('.view-container').width()
       };
-      const bounds = new google.maps.LatLngBounds(swBound, neBound);
-      zoomLevel = this.getBoundsZoomLevel(bounds, mapDimensions);
+      zoomLevel = this.getBoundsZoomLevel(this.bounds, mapDimensions);
     } else {
-      // otherwise, recenter map and force set map boundaries (e.g. if necessary b/c of resize)
+      // otherwise, recenter map and force set map boundaries (e.g. if rerendering b/c of resize)
       const gmap = this.refs.map.state.map;
       // force map center to update (triggered on window resize)
-      gmap.setCenter(center);
+      gmap.panTo(this.center);
       // set/lock map bounds based on visibility limit
-      gmap.fitBounds(new google.maps.LatLngBounds(swBound, neBound));
+      gmap.fitBounds(new google.maps.LatLngBounds(this.swBound, this.neBound));
     }
 
     return (
-      <div className='map-wrap' style={{position: 'relative'}}>
+      <div className='map-wrap' style={{position: 'relative', width: '85%', margin: '0px auto'}}>
         <div className='map' style={{
           height: '85vh',
           width: '85vw'
@@ -157,15 +173,13 @@ export default class Map extends Component {
               style: { height: '100%' }
             }}
             defaultZoom={zoomLevel}
-            defaultCenter={{
-              lat: this.props.location[0],
-              lng: this.props.location[1]
-            }}
+            defaultCenter={this.center}
             defaultOptions={{
-              draggable: false,
-              zoomControl: false,
-              disableDoubleClickZoom: true,
-              scrollwheel: false,
+              // draggable: false,
+              // zoomControl: false,
+              // disableDoubleClickZoom: true,
+              // scrollwheel: false,
+              minZoom: zoomLevel,
               styles: mapStyles      // mapStyles imported from separate file
             }}
           >
