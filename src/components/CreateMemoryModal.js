@@ -160,7 +160,7 @@ export default class CreateMemoryModal extends React.Component {
   }
 
   undoStroke() {
-    let strokes = this.state.savedShapes.slice(0);
+    const strokes = this.state.savedShapes.slice(0);
     strokes.pop();
     this.setState({
       savedShapes: strokes

@@ -58,10 +58,10 @@ body {
 }
 
 .map-mask {
-  background-image: radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0) 60%, #111 85%);
+  background-image: radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0) 50%, #111 85%);
   background-image: -ms-radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0), #111 85%);
-  background-image: -webkit-gradient(radial, center center, 0, center center, 200, from(rgba(225, 225, 225, 0)), to(#111), color-stop(60%, rgba(225, 225, 225, 0)), color-stop(85%, #111));
-  background-image: -webkit-radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0) 60%, #111 85%);
+  background-image: -webkit-gradient(radial, center center, 0, center center, 200, from(rgba(225, 225, 225, 0)), to(#111), color-stop(50%, rgba(225, 225, 225, 0)), color-stop(85%, #111));
+  background-image: -webkit-radial-gradient(center center, circle closest-side, rgba(225, 225, 225, 0) 50%, #111 85%);
   display: block;
   position: absolute;
   pointer-events: none;

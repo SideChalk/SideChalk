@@ -108,22 +108,24 @@ export class MemoryModal extends Component {
       if (this.state.initialVotedOn[classRef]) {
         classnames += ` votedOn`;
       }
-      let reaction = {};
+      const reaction = {};
       reaction[reactionTypes[i]] = reactionCount;
       const rgbString = getColorFromReactions(reaction);
       output.push(
-         <i key={i} className={classnames}
-           style={{color: rgbString,
-                   borderColor: rgbString}}
-           onClick={() =>
-             this.reactionHandler({
-               key:memoryObj.key,
-               reactionType: classRef,
-               reactionCount: reactionCount,
-               elementKey: i,
-               context:this})}>
-              { this.state.counts[classRef] || 0 }
-           </i>);
+        <i key={i}
+          className={classnames}
+          style={{color: rgbString,
+            borderColor: rgbString}}
+          onClick={/* eslint no-loop-func: [0] */
+            () => this.reactionHandler({
+              key:memoryObj.key,
+              reactionType: classRef,
+              reactionCount: reactionCount,
+              elementKey: i,
+              context:this
+            })}>
+          { this.state.counts[classRef] || 0 }
+        </i>);
     }
     return output;
   }
