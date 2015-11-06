@@ -97,11 +97,11 @@ export default class CreateMemoryModal extends React.Component {
     this.dragging = true;
     // get relative location of cursor
     this.bR = this.refs.drawingWrapper.getBoundingClientRect();
-    const pageX = e.pageX || e.nativeEvent.touches[0].pageX;
-    const pageY = e.pageY || e.nativeEvent.touches[0].pageY;
+    const clientX = e.clientX || e.nativeEvent.touches[0].clientX;
+    const clientY = e.clientY || e.nativeEvent.touches[0].clientY;
     const relativeLoc = {
-      x: pageX - this.bR.left,
-      y: pageY - this.bR.top
+      x: clientX - this.bR.left,
+      y: clientY - this.bR.top
     };
     this.lastPoint = relativeLoc;
     this.points.push(relativeLoc);
@@ -132,11 +132,11 @@ export default class CreateMemoryModal extends React.Component {
   handleMouseMove(e) {
     if (this.props.modalType === 'drawing' && this.dragging) {
       e.preventDefault();
-      const pageX = e.pageX || e.nativeEvent.touches[0].pageX;
-      const pageY = e.pageY || e.nativeEvent.touches[0].pageY;
+      const clientX = e.clientX || e.nativeEvent.touches[0].clientX;
+      const clientY = e.clientY || e.nativeEvent.touches[0].clientY;
       const relativeLoc = {
-        x: pageX - this.bR.left,
-        y: pageY - this.bR.top
+        x: clientX - this.bR.left,
+        y: clientY - this.bR.top
       };
       // store points in path for proper storage later
       this.points.push(relativeLoc);
