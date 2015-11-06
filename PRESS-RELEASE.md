@@ -17,28 +17,26 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > SideChalk
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > A place to share thoughts, moods, and memories with people around you. 
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > SideChalk enables you to annonymously deposit your memories at a specific location that others can see. You can share a thought by typing, a feeling with music, or an idea with a drawing.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > We spend too much time online and become detached from a sense of place. SideChalk is here to change that. 
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > SideChalk reminds us that there can a healthy balance between using technology and reconnecting with the world. SideChalk encourages you to get outside and explore.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "This is cyberspace with a sense of place" -Ben, Product Owner
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Simply turn your phone onto SideChalkapp.com and you'll be up and running in no time!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "Discover new stuff just by walking down the street? I'm in!" -Ben
 
-## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
