@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
+import Radium from 'radium';
 
 import { defaultRadius, reactionTypes } from '../actions/firebaseVars';
+import { getColorFromReactions } from '../utils/colorUtils';
 
 // TODO: Remove this when we validate memories.
 // Using this so app doesnt crash when content isnt fully defined
@@ -16,6 +18,7 @@ for (let i = 0; i < reactionTypes.length; i++) {
   iconInfo[reactionTypes[i]] = `fa-${reactionTypes[i]}-o`;
 }
 
+@Radium
 export class MemoryListItem extends React.Component {
 
   static propTypes = {
@@ -25,14 +28,14 @@ export class MemoryListItem extends React.Component {
   renderIcon(type, secret) {
     const icons = [];
     if (type === 'text') {
-      icons.push( <i className="fa fa-comment-o pull-right fa-2x type-icon" key="type"></i> );
+      icons.push( <i className="fa fa-comment-o pull-right type-icon" key="type"></i> );
     } else if (type === 'music') {
-      icons.push( <i className="fa fa-music pull-right fa-2x type-icon" key="type"></i> );
+      icons.push( <i className="fa fa-music pull-right type-icon" key="type"></i> );
     } else if (type === 'drawing') {
-      icons.push( <i className="fa fa-magic pull-right fa-2x type-icon" key="type"></i> );
+      icons.push( <i className="fa fa-magic pull-right type-icon" key="type"></i> );
     }
     if (secret) {
-      icons.push( <i className="fa fa-user-secret pull-right fa-2x text-info private-icon" key="private"></i> );
+      icons.push( <i className="fa fa-user-secret pull-right text-info private-icon" key="private"></i> );
     }
     return icons;
   }
@@ -41,7 +44,6 @@ export class MemoryListItem extends React.Component {
     if (!reactions) {
       return <i className="fa fa-heart pull-left list-reaction-icon" key="heart"> 0</i>;
     }
-
 
     const icons = [];
 
@@ -67,13 +69,37 @@ export class MemoryListItem extends React.Component {
   render() {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
+    const rgbString = memory.reactions ? getColorFromReactions(memory.reactions) : 'white';
     return (
-        <ListGroupItem onClick={this.props.onClick}
-                       style={{opacity: 1 - (memory.distance / VISIBILITY_LIMIT)}} >
-          {this.renderIcon(memory.content.type, memory.private)}
+      <div style={[
+        {
+          opacity: 1 - (memory.distance / VISIBILITY_LIMIT),
+          margin: '3px 0px',
+          borderRadius: '4px',
+          ':hover': {
+            boxShadow: '0px 0px 10px ' + rgbString,
+            textShadow: '1px 1px 5px ' + rgbString
+          },
+          ':focus': {
+            boxShadow: '0px 0px 10px ' + rgbString,
+            textShadow: '1px 1px 5px ' + rgbString
+          },
+          ':active': {
+            boxShadow: '0px 0px 10px ' + rgbString,
+            textShadow: '1px 1px 5px ' + rgbString
+          },
+          verticalAlign: 'middle'
+        }
+      ]} >
+        <ListGroupItem style={{margin: 0, textShadow: 'inherit'}} onClick={this.props.onClick}>
+          <div style={{color: rgbString,
+                       textShadow: '1px 1px 5px ' + rgbString}}>
+            {this.renderIcon(memory.content.type, memory.private)}
+          </div>
           <h4 className="list-group-item-heading">{memory.content.title}</h4>
           {this.renderReactions(memory.reactions)}
         </ListGroupItem>
+      </div>
     );
   }
 }

@@ -45,7 +45,8 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Lato:400,700,400italic"
 // Buttons ====================================================================
 
 .btn {
-  border-width: 2px;
+  border-width: 1px;
+  border-color: $gray;
 }
 
 .btn:active {
@@ -303,6 +304,7 @@ a.list-group-item {
   &.active:hover,
   &.active:focus {
     border-color: $list-group-border;
+    outline: 0
   }
 
   &-success {
@@ -313,6 +315,7 @@ a.list-group-item {
     &.active:hover,
     &.active:focus {
       background-color: darken($state-success-bg, 5%);
+      outline: 0
     }
   }
 
