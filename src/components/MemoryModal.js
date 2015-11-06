@@ -7,6 +7,7 @@ import { rateMemory, unrateMemory}     from '../actions/memoryActions.js';
 import { bindActionCreators }          from 'redux';
 
 import concreteImage from '../assets/concrete.jpg';
+import { getColorFromReactions } from '../utils/colorUtils';
 
 export class MemoryModal extends Component {
   static propTypes = {
@@ -22,6 +23,7 @@ export class MemoryModal extends Component {
       initialVotedOn: {},
       loading:true
     };
+    this.combinedRGB = {r:255, g:255, b:255};
   }
 
   componentWillMount() {
@@ -102,13 +104,17 @@ export class MemoryModal extends Component {
     for (let i = 0; i < reactionTypes.length; i++) {
       const classRef = reactionTypes[i];
       const reactionCount = this.state.counts[classRef] || 0;
-      let classnames = `fa fa-${classRef}-o fa-border fa-2x`;
+      let classnames = `fa fa-${classRef}-o fa-border`;
       if (this.state.initialVotedOn[classRef]) {
         classnames += ` votedOn`;
       }
+      let reaction = {};
+      reaction[reactionTypes[i]] = reactionCount;
+      const rgbString = getColorFromReactions(reaction);
       output.push(
          <i key={i} className={classnames}
-         /* eslint no-loop-func: [0] */
+           style={{color: rgbString,
+                   borderColor: rgbString}}
            onClick={() =>
              this.reactionHandler({
                key:memoryObj.key,
@@ -161,15 +167,10 @@ export class MemoryModal extends Component {
           </Modal.Header>
           <Modal.Body className="memory-modal-body">{memoryBody}</Modal.Body>
           <Modal.Footer className="memory-modal-footer">
-           <div className="text-left">
-            <div>
-              { this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })
+            <div className="text-left">
+              <div>{ this.cleanDate(memory.createdAt) } ({ this.cleanDistance(memory.distance) })</div>
+              <div>{ this.fetchReactions(memory) }</div>
             </div>
-            <div>Reactions:</div>
-               <div>
-               { this.fetchReactions(memory) }
-              </div>
-           </div>
             <Button onClick={dismissMemoryDetails}>Close</Button>
           </Modal.Footer>
         </div>
