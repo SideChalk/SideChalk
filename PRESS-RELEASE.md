@@ -32,11 +32,15 @@ Once the project moves into development, the press release can be used as a touc
   > SideChalk reminds us that there can a healthy balance between using technology and reconnecting with the world. SideChalk encourages you to get outside and explore.
 
 ## Quote from You ##
-  > "This is cyberspace with a sense of place" -Ben, Product Owner
+  > "What we've built here is cyberspace with a sense of place" -Ben, Product Owner
 
 ## How to Get Started ##
   > Simply turn your phone onto SideChalkapp.com and you'll be up and running in no time!
 
 ## Customer Quote ##
   > "Discover new stuff just by walking down the street? I'm in!" -Ben
+
+## Get Going ##
+
+Simply point your phone to http://www.sidechalkapp.com
 
