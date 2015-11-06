@@ -1,3 +1,20 @@
+body {
+  font-weight: 300;
+}
+
+.list-group-item:focus, {
+  outline: none !important;
+  box-shadow:none;
+}
+
+.navbar-brand {
+  font-family: "Amatic SC";
+}
+
+.nav, .btn {
+  font-family: "Amatic SC";
+}
+
 .list-group-item {
   margin: 5px;
 }

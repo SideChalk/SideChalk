@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 import { mapStyles } from '../styles/mapStyles';
 import { defaultRadius } from '../actions/firebaseVars';
+import { getColorFromReactions } from '../utils/colorUtils';
 
 const VISIBILITY_LIMIT = defaultRadius;
 const WIGGLE_ROOM = 1.2;
@@ -86,6 +87,11 @@ export default class Map extends Component {
     if (memory.private) {
       icon.fillColor = MEMORY_COLOR;    // special color to indicate private memories
     }
+
+    // style experiment: set stroke to dynamic color based on reactions
+    const rgbString = memory.reactions ? getColorFromReactions(memory.reactions) : 'white';
+    icon.strokeColor = rgbString;
+
     // set Icon Paths manually using Font-Awesome path values
     if (memory.content.type === 'text') {
       icon.path = 'M64.512 -32.183q0 6.264 -4.32 11.574t-11.736 8.388 -16.2 3.078q-2.52 0 -5.22 -0.288 -7.128 6.3 -16.56 8.712 -1.764 0.504 -4.104 0.792 -0.612 0.072 -1.098 -0.324t-0.63 -1.044v-0.036q-0.108 -0.144 -0.018 -0.432t0.072 -0.36 0.162 -0.342l0.216 -0.324 0.252 -0.306 0.288 -0.324q0.252 -0.288 1.116 -1.242t1.242 -1.368 1.116 -1.422 1.17 -1.836 0.972 -2.124 0.936 -2.736q-5.652 -3.204 -8.91 -7.92t-3.258 -10.116q0 -4.68 2.556 -8.946t6.876 -7.362 10.296 -4.914 12.528 -1.818q8.784 0 16.2 3.078t11.736 8.388 4.32 11.574z';
@@ -106,6 +112,8 @@ export default class Map extends Component {
       defaultAnimation: 2,
       icon: icon
     };
+
+
     return (
       <Marker
         className='markers'
