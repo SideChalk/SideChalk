@@ -147,7 +147,7 @@ export default class Map extends Component {
     }
 
     return (
-      <div className='map-wrap' style={{position: 'relative'}}>
+      <div className='map-wrap' style={{position: 'relative', width: '85%', margin: '0px auto'}}>
         <div className='map' style={{
           height: '85vh',
           width: '85vw'
