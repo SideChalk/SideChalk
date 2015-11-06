@@ -40,24 +40,29 @@ describe('(Component) MemoryListItem', () => {
     expect(component).to.be.ok;
   });
 
-  it('Should render an <ListGroupItem> element', () => {
-    expect(TestUtils.findRenderedDOMComponentWithClass(component, 'list-group-item')).to.be.ok;
-    expect(ReactDOM.findDOMNode(component).nodeName).to.equal('SPAN');
+  it('Should render a styled <div> wrapper', () => {
+    expect(ReactDOM.findDOMNode(component).nodeName).to.equal('DIV');
   });
 
-  it('Should contain 3 child elements', () => {
-    let rendered = ReactDOM.findDOMNode(component);
+  it('Should contain an <ListGroupItem> element', () => {
+    let listGroupItem = ReactDOM.findDOMNode(component).children[0];
+    expect(listGroupItem.nodeName).to.equal('SPAN');
+  });
+
+  it('That ListGroupItem should contain 3 child elements', () => {
+    let rendered = ReactDOM.findDOMNode(component).children[0];
     expect(rendered.children.length).to.equal(3);
   });
 
-  it('First element should be a <i> child element with type icon', () => {
-    let rendered = ReactDOM.findDOMNode(component)
-    expect(rendered.children[0].nodeName).to.equal('I');
-    expect(rendered.children[0].className).to.equal('fa fa-comment-o pull-right fa-2x type-icon');
+  it('First element should be a <div> containing an <i> child element with type icon', () => {
+    let rendered = ReactDOM.findDOMNode(component).children[0];
+    expect(rendered.children[0].nodeName).to.equal('DIV');
+    expect(rendered.children[0].children[0].nodeName).to.equal('I');
+    expect(rendered.children[0].children[0].className).to.equal('fa fa-comment-o pull-right type-icon');
   });
 
   it('Second element should be a <h4> child element with title info', () => {
-    let rendered = ReactDOM.findDOMNode(component)
+    let rendered = ReactDOM.findDOMNode(component).children[0];
     expect(rendered.children[1].nodeName).to.equal('H4');
     expect(rendered.children[1].textContent).to.equal('My Title');
     expect(rendered.children[1].className).to.equal('list-group-item-heading');
