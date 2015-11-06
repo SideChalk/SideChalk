@@ -159,6 +159,14 @@ export default class CreateMemoryModal extends React.Component {
     }
   }
 
+  undoStroke() {
+    let strokes = this.state.savedShapes.slice(0);
+    strokes.pop();
+    this.setState({
+      savedShapes: strokes
+    });
+  }
+
   // MUSIC ACTIONS
   searchForMusic() {
     $.ajax({
@@ -313,6 +321,7 @@ export default class CreateMemoryModal extends React.Component {
         <Button style={{background: 'purple', margin: '1px'}}
                 onClick={() => this.chalkColor = 'purple'} />
       </div>
+      <Button onClick={() => this.undoStroke()}>Undo</Button>
     </div>);
   }
 

@@ -149,8 +149,8 @@ export class MemoryModal extends Component {
     } else if (memory.content.type === 'drawing') {
       memoryBody = (<Image src={memory.content.data}
                     rounded
-                    style={{height: '300px',
-                            width: '300px',
+                    style={{height: '250px',
+                            width: '250px',
                             backgroundImage: `url(${concreteImage})`,
                             border:'1px solid #444',
                             boxShadow:'2px 2px 3px #222',
