@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
 import Radium from 'radium';
 
-import { defaultRadius, reactionTypes } from '../actions/firebaseVars';
-import { getColorFromReactions } from '../utils/colorUtils';
+import { reactionTypes } from '../actions/firebaseVars';
+import { getColorFromReactions, getOpacity } from '../utils/colorUtils';
 
 // TODO: Remove this when we validate memories.
 // Using this so app doesnt crash when content isnt fully defined
@@ -12,7 +12,7 @@ const sampleMemory = {
 };
 
 // TEMP - TODO: set dynamically?
-const VISIBILITY_LIMIT = defaultRadius;
+// const VISIBILITY_LIMIT = defaultRadius;
 const iconInfo = {};
 for (let i = 0; i < reactionTypes.length; i++) {
   iconInfo[reactionTypes[i]] = `fa-${reactionTypes[i]}-o`;
@@ -69,11 +69,17 @@ export class MemoryListItem extends React.Component {
   render() {
     const {memory} = this.props;
     memory.content = { ...sampleMemory.content, ...memory.content };
+
+    const signalStrength = getOpacity(memory);
+    // if (signalStrength === 0) {
+    //   return null;
+    // }
+
     const rgbString = memory.reactions ? getColorFromReactions(memory.reactions) : 'white';
     return (
       <div style={[
         {
-          opacity: 1 - (memory.distance / VISIBILITY_LIMIT),
+          opacity: signalStrength,
           margin: '3px 0px',
           borderRadius: '4px',
           ':hover': {
