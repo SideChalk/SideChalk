@@ -4,10 +4,12 @@ import $ from 'jquery';
 
 import { mapStyles } from '../styles/mapStyles';
 import { defaultRadius } from '../actions/firebaseVars';
-import { getColorFromReactions } from '../utils/colorUtils';
+import { getColorFromReactions, getOpacity } from '../utils/colorUtils';
 
 const VISIBILITY_LIMIT = defaultRadius;
-const WIGGLE_ROOM = 1.2;
+// const TIME_LIMIT_DAYS = 20;
+// const TIME_LIMIT = TIME_LIMIT_DAYS * 24 * 60 * 60 * 1000;
+const WIGGLE_ROOM = 2.8;
 const MEMORY_COLOR = '#FC6D24';
 
 export default class Map extends Component {
@@ -38,7 +40,7 @@ export default class Map extends Component {
           this.recenter();
         }
       });
-    }, 10);
+    }, 100);
   }
 
   componentWillUpdate() {
@@ -82,6 +84,12 @@ export default class Map extends Component {
   }
 
   recenter() {
+    // otherwise, recenter map and force set map boundaries (e.g. if rerendering b/c of resize)
+    const gmap = this.refs.map.state.map;
+    // force map center to update (triggered on window resize)
+    gmap.panTo(this.center);
+    // set/lock map bounds based on visibility limit
+    gmap.fitBounds(new google.maps.LatLngBounds(this.swBound, this.neBound));
     this.render();
   }
 
@@ -92,14 +100,19 @@ export default class Map extends Component {
   }
 
   renderMemoryMarker(memory) {
+    const signalStrength = getOpacity(memory);
+    // if (signalStrength === 0) {
+    //   return null;
+    // }
+
     const icon = {
       path: null,
       scale: 0.5,
       strokeWeight: 1.5,
       strokeColor: '#cecece',
-      strokeOpacity: 1 - (memory.distance / VISIBILITY_LIMIT),
+      strokeOpacity: signalStrength,
       fillColor: '#b4b4b4',
-      fillOpacity: 1 - (memory.distance / VISIBILITY_LIMIT)
+      fillOpacity: signalStrength
     };
     if (memory.private) {
       icon.fillColor = MEMORY_COLOR;    // special color to indicate private memories
@@ -130,7 +143,6 @@ export default class Map extends Component {
       icon: icon
     };
 
-
     return (
       <Marker
         className='markers'
@@ -141,9 +153,6 @@ export default class Map extends Component {
   }
 
   render() {
-    // const center = new google.maps.LatLng(this.props.location[0], this.props.location[1]);
-    // const neBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 45);
-    // const swBound = google.maps.geometry.spherical.computeOffset(center, 1000 * VISIBILITY_LIMIT * WIGGLE_ROOM, 235);
     let zoomLevel = 16;
 
     if (!this.refs.map) {
@@ -153,13 +162,6 @@ export default class Map extends Component {
         width: $('.view-container').width()
       };
       zoomLevel = this.getBoundsZoomLevel(this.bounds, mapDimensions);
-    } else {
-      // otherwise, recenter map and force set map boundaries (e.g. if rerendering b/c of resize)
-      const gmap = this.refs.map.state.map;
-      // force map center to update (triggered on window resize)
-      gmap.panTo(this.center);
-      // set/lock map bounds based on visibility limit
-      gmap.fitBounds(new google.maps.LatLngBounds(this.swBound, this.neBound));
     }
 
     return (
