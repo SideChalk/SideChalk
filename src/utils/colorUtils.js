@@ -1,3 +1,21 @@
+import { defaultRadius } from '../actions/firebaseVars';
+
+const VISIBILITY_LIMIT = defaultRadius;
+// const TIME_LIMIT_DAYS = 15;
+// const TIME_LIMIT = TIME_LIMIT_DAYS * 24 * 60 * 60 * 1000;
+
+export function getOpacity(memory) {
+  // const now = (new Date()).valueOf();
+  // const timeDecayFactor = 0.5 * (now - memory.createdAt) / TIME_LIMIT;
+  const distanceFactor = memory.distance / VISIBILITY_LIMIT;
+  // let opacity = 1 - (timeDecayFactor + distanceFactor);
+  let opacity = 1 - distanceFactor;
+  if (opacity < 0) {
+    opacity = 0.02;
+  }
+  return opacity;
+}
+
 export function getColorFromReactions(reactions) {
   let rgb = {r:255, g:255, b:255};
   const EMOTIONS = {

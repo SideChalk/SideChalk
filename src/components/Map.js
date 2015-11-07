@@ -101,9 +101,9 @@ export default class Map extends Component {
 
   renderMemoryMarker(memory) {
     const signalStrength = getOpacity(memory);
-    if (signalStrength === 0) {
-      return null;
-    }
+    // if (signalStrength === 0) {
+    //   return null;
+    // }
 
     const icon = {
       path: null,
