@@ -22,8 +22,10 @@ export default class About extends React.Component {
                 </h2>
                 <p>
                   SideChalk is a realtime memory experience. All you need to is open up your phone and you’ll see a list of memories located nearby.
+
                 </p>
                    Who wrote them? Unless they tell you, you’ll never know. <p>SideChalk is not a social network. SideChalk is a throwback to the good old days when all you had to do was grab some chalk and share some a thought or an idea on the sidewalk. To get started just login with Twitter/Facebook/Google (we won't ever email you or post on your behalf) and start sharing memories.</p>
+
               </div>
             </div>
             <div className="row">
