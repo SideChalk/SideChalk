@@ -22,9 +22,8 @@ export default class About extends React.Component {
                 </h2>
                 <p>
                   SideChalk is a realtime memory experience. All you need to is open up your phone and you’ll see a list of memories located nearby.
-
-                   Who wrote them? Unless they tell you, you’ll never know. <p>SideChalk is not a social network. SideChalk is a throwback to the good old days when all you had to do was grab some chalk and share some a thought or an idea on the sidewalk. To get started just login with Twitter/Facebook/Google (we won't ever email you or post on your behalf) and start sharing memories.</p>
                 </p>
+                   Who wrote them? Unless they tell you, you’ll never know. <p>SideChalk is not a social network. SideChalk is a throwback to the good old days when all you had to do was grab some chalk and share some a thought or an idea on the sidewalk. To get started just login with Twitter/Facebook/Google (we won't ever email you or post on your behalf) and start sharing memories.</p>
               </div>
             </div>
             <div className="row">
@@ -33,7 +32,8 @@ export default class About extends React.Component {
               </div>
               <div className="col-md-6">
                 <p>
-                  SideChalk makes it easy for you to annonymously leave behind memories all over the world. No matter where you are you can leave behind a memory and see the memories of others. You write or draw or even leave behind a clip of music to capture the mood of a time and place.</p>
+                  SideChalk makes it easy for you to annonymously leave behind memories all over the world. No matter where you are you can leave behind a memory and see the memories of others. You write or draw or even leave behind a clip of music to capture the mood of a time and place.
+                </p>
 
                 <p>
                 What should you post? Whatever you want. Happy, sad, funny, existential angst, whatever is on your mind you can leave behind a memory. (If there's a memory you want to keep for yourself at a particular location-- like the name of your barista--  we added the option for you to mark memories as private.)
