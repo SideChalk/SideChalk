@@ -1,15 +1,9 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import hero1 from '../assets/hero1.png';
 import hero2 from '../assets/hero2.png';
 
 export default class About extends React.Component {
-
-
   render () {
-    const _bgDiscover = {};
-  
     return (
 
       <div className="container-fluid">
@@ -24,7 +18,7 @@ export default class About extends React.Component {
                   SideChalk is a realtime memory experience. All you need to is open up your phone and you’ll see a list of memories located nearby.
 
                 </p>
-                   Who wrote them? Unless they tell you, you’ll never know. <p>SideChalk is not a social network. SideChalk is a throwback to the good old days when all you had to do was grab some chalk and share some a thought or an idea on the sidewalk. To get started just login with Twitter/Facebook/Google (we won't ever email you or post on your behalf) and start sharing memories.</p>
+                   Who wrote them? Unless they tell you, you’ll never know. <p>SideChalk is not a social network. SideChalk is a throwback to the good old days when all you had to do was grab some chalk and share some a thought or an idea on the sidewalk. To get started just login with Twitter, Facebook, or Google (we won't ever email you or post on your behalf) and start sharing memories.</p>
 
               </div>
             </div>
