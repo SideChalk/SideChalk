@@ -237,10 +237,13 @@ export default class CreateMemoryModal extends React.Component {
           type='text'
           ref='musicQuery'
           placeholder='Stuck in your head?' />
-        <Button onClick={()=>this.searchForMusic()}>Find Matches</Button>
-        <div style={{width: '50%', float: 'right'}}>
+        <div style={{verticalAlign: 'top', display: 'inline-block', margin: '0px 10px'}}>
+          <Button onClick={()=>this.searchForMusic()}>Find Matches</Button>
+        </div>
+        <div style={{display: 'inline-block', margin: '0px 10px'}}>
           <h5>Current Selection:</h5>
           <em>{artistName} -- {trackName}</em>
+          <br />
           <audio src={previewUrl} autoPlay controls label='Selection Preview'/>
         </div>
         <ListGroup>

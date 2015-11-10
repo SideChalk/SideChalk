@@ -22,7 +22,10 @@ body {
 .list-group-item-heading {
   word-wrap: break-word;
 }
-
+.btn-social>:first-child {
+  line-height: 1.6em;
+  width: 1em;
+}
 .type-icon {
   margin-top: 3px;
 }
