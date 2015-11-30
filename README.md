@@ -1,11 +1,10 @@
 
-# Codename Filibustering Panda
-[![Build Status](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA.svg?branch=master)](https://travis-ci.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
-[![Dependencies Status](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA.svg)](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
-[![Dev Dependencies Status](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA/dev-status.svg)](https://david-dm.org/FILIBUSTERING-PANDA/FILIBUSTERING-PANDA)
+# SideChalk
+[![Build Status](https://travis-ci.org/SideChalk/SideChalk.svg?branch=master)](https://travis-ci.org/SideChalk/SideChalk)
+[![Dependencies Status](https://david-dm.org/SideChalk/SideChalk.svg)](https://david-dm.org/SideChalk/SideChalk)
+[![Dev Dependencies Status](https://david-dm.org/SideChalk/SideChalk/dev-status.svg)](https://david-dm.org/SideChalk/SideChalk)
 
-
-SideChalk is a location-­based mobile application that allows you to deposit memories anywhere in the world. 
+[SideChalk](http://sidechalkapp.com/) is a location-­based mobile application that allows you to deposit memories anywhere in the world. 
 
 
 ## Team
